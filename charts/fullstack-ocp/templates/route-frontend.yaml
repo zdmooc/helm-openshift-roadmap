@@ -1,0 +1,16 @@
+{{- if and .Values.frontend.enabled .Values.frontend.route.enabled -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  host: {{ .Values.frontend.route.host | quote }}
+  to:
+    kind: Service
+    name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  port:
+    targetPort: http
+{{- end }}

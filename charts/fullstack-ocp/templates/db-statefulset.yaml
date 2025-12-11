@@ -1,0 +1,66 @@
+{{- if .Values.database.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-database
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: database
+spec:
+  serviceName: {{ include "fullstack-ocp.fullname" . }}-database
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: database
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: database
+    spec:
+      containers:
+      - name: database
+        image: "{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: postgres
+          containerPort: {{ .Values.database.service.port }}
+          protocol: TCP
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - pg_isready -U postgres
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - pg_isready -U postgres
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          {{- toYaml .Values.database.resources | nindent 12 }}
+        {{- if .Values.database.persistence.enabled }}
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+        {{- end }}
+  {{- if .Values.database.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.database.persistence.size }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: myapp-ocp
+description: Chart Helm simple pour une application web sur OpenShift
+type: application
+version: 0.1.0
+appVersion: "1.0"
+keywords:
+  - openshift
+  - helm
+  - web-app
+maintainers:
+  - name: Manus AI
+    email: support@manus.im
+home: https://github.com/zdmooc/helm-openshift-roadmap
+sources:
+  - https://github.com/zdmooc/helm-openshift-roadmap

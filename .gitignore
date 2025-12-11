@@ -1,0 +1,23 @@
+# Fichiers générés par Helm
+*.tgz
+*.tar.gz
+charts/*/Chart.lock
+
+# Fichiers de dépendances Helm
+charts/*/charts/
+
+# Fichiers de l'IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Fichiers de build
+dist/
+build/
+
+# Fichiers temporaires
+*.tmp
+*.log

@@ -1,0 +1,50 @@
+{{- if .Values.hpa.enabled -}}
+{{- if .Values.frontend.enabled -}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend-hpa
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+{{- end }}
+
+{{- if .Values.backend.enabled -}}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-backend-hpa
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "fullstack-ocp.fullname" . }}-backend
+  minReplicas: {{ .Values.hpa.minReplicas }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.hpa.targetCPUUtilizationPercentage }}
+{{- end }}
+{{- end }}

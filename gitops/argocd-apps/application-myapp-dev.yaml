@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-dev
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/zdmooc/helm-openshift-roadmap
+    targetRevision: HEAD
+    path: charts/myapp-ocp
+    helm:
+      values: |
+        replicaCount: 1
+        image:
+          repository: nginx
+          tag: "1.21.0"
+        service:
+          type: ClusterIP
+          port: 80
+        route:
+          enabled: true
+          host: myapp-dev.apps.crc.testing
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

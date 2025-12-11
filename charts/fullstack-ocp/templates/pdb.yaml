@@ -1,0 +1,34 @@
+{{- if .Values.pdb.enabled -}}
+{{- if .Values.frontend.enabled -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend-pdb
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+{{- end }}
+
+{{- if .Values.backend.enabled -}}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-backend-pdb
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: backend
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: backend
+{{- end }}
+{{- end }}

@@ -1,0 +1,15 @@
+{{- if .Values.route.enabled -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}
+  labels:
+    {{- include "myapp-ocp.labels" . | nindent 4 }}
+spec:
+  host: {{ .Values.route.host | quote }}
+  to:
+    kind: Service
+    name: {{ include "myapp-ocp.fullname" . }}
+  port:
+    targetPort: http
+{{- end }}

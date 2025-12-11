@@ -1,0 +1,17 @@
+apiVersion: v2
+name: fullstack-ocp
+description: Chart Helm pour une application full-stack (frontend, backend, DB) sur OpenShift
+type: application
+version: 0.2.0
+appVersion: "1.0"
+keywords:
+  - openshift
+  - helm
+  - full-stack
+  - multi-tier
+maintainers:
+  - name: Manus AI
+    email: support@manus.im
+home: https://github.com/zdmooc/helm-openshift-roadmap
+sources:
+  - https://github.com/zdmooc/helm-openshift-roadmap

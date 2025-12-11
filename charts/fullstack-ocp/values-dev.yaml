@@ -1,0 +1,61 @@
+frontend:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: "1.21.0"
+  service:
+    port: 80
+  route:
+    enabled: true
+    host: frontend-dev.apps.crc.testing
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+backend:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: python
+    tag: "3.9-slim"
+  service:
+    port: 5000
+  resources:
+    limits:
+      cpu: 150m
+      memory: 256Mi
+    requests:
+      cpu: 75m
+      memory: 128Mi
+
+database:
+  enabled: true
+  type: postgresql
+  image:
+    repository: postgres
+    tag: "13-alpine"
+  service:
+    port: 5432
+  persistence:
+    enabled: false
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+hpa:
+  enabled: false
+
+networkPolicy:
+  enabled: false
+
+pdb:
+  enabled: false

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.21.0"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+route:
+  enabled: true
+  host: myapp.apps.crc.testing
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+securityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
