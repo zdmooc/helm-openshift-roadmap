@@ -5,6 +5,7 @@ frontend:
     repository: nginx
     tag: "1.21.0"
   service:
+    type: ClusterIP
     port: 80
   route:
     enabled: true
@@ -24,6 +25,7 @@ backend:
     repository: python
     tag: "3.9-slim"
   service:
+    type: ClusterIP
     port: 5000
   resources:
     limits:
@@ -34,7 +36,7 @@ backend:
       memory: 256Mi
 
 database:
-  enabled: true
+  enabled: false
   type: postgresql
   image:
     repository: postgres
@@ -44,6 +46,25 @@ database:
   persistence:
     enabled: true
     size: 1Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+
+# PostgreSQL Bitnami - Dépendance Helm
+postgresql:
+  enabled: false
+  auth:
+    username: appuser
+    password: changeme
+    database: appdb
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
   resources:
     limits:
       cpu: 500m

@@ -1,0 +1,20 @@
+{{- if and .Values.database.enabled (not .Values.postgresql.enabled) -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-database
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: database
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: {{ .Values.database.service.port }}
+      targetPort: postgres
+      protocol: TCP
+      name: postgres
+  selector:
+    {{- include "fullstack-ocp.selectorLabels" . | nindent 4 }}
+    component: database
+{{- end }}

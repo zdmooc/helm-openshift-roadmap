@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fullstack-dev
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/zdmooc/helm-openshift-roadmap
+    targetRevision: HEAD
+    path: charts/fullstack-ocp
+    helm:
+      values: |
+        frontend:
+          enabled: true
+          replicaCount: 1
+          image:
+            repository: nginx
+            tag: "1.21.0"
+          route:
+            enabled: true
+            host: fullstack-frontend-dev.apps.crc.testing
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+        backend:
+          enabled: true
+          replicaCount: 1
+          image:
+            repository: python
+            tag: "3.9-slim"
+          resources:
+            limits:
+              cpu: 150m
+              memory: 256Mi
+            requests:
+              cpu: 75m
+              memory: 128Mi
+        postgresql:
+          enabled: false
+        database:
+          enabled: true
+          persistence:
+            enabled: false
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+        hpa:
+          enabled: false
+        networkPolicy:
+          enabled: false
+        pdb:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fullstack-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

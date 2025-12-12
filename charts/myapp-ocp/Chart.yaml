@@ -9,6 +9,8 @@ keywords:
   - helm
   - web-app
 maintainers:
+  - name: Zidane Djamal
+    email: zidane@zdmooc.dev
   - name: Manus AI
     email: support@manus.im
 home: https://github.com/zdmooc/helm-openshift-roadmap

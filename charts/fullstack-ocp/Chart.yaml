@@ -1,17 +1,25 @@
 apiVersion: v2
 name: fullstack-ocp
-description: Chart Helm pour une application full-stack (frontend, backend, DB) sur OpenShift
+description: Chart Helm pour une application full-stack (frontend, backend, DB) sur OpenShift avec dépendances
 type: application
-version: 0.2.0
+version: 0.3.0
 appVersion: "1.0"
 keywords:
   - openshift
   - helm
   - full-stack
   - multi-tier
+  - postgresql
 maintainers:
+  - name: Zidane Djamal
+    email: zidane@zdmooc.dev
   - name: Manus AI
     email: support@manus.im
 home: https://github.com/zdmooc/helm-openshift-roadmap
 sources:
   - https://github.com/zdmooc/helm-openshift-roadmap
+dependencies:
+  - name: postgresql
+    version: "13.x.x"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
