@@ -1,0 +1,19 @@
+NAME: myapp
+LAST DEPLOYED: Sat Dec 13 21:37:09 2025
+NAMESPACE: myapp-dev
+STATUS: deployed
+REVISION: 11
+TEST SUITE:     myapp-myapp-ocp-test
+Last Started:   Sat Dec 13 21:51:06 2025
+Last Completed: Sat Dec 13 21:51:08 2025
+Phase:          Succeeded
+
+POD LOGS: myapp-myapp-ocp-test
+Testing service HTTP...
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+OK
+
