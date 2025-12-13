@@ -1,0 +1,3 @@
+NAME                               POD-SELECTOR                                                        AGE
+myapp-myapp-ocp-allow-ingress      app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp   67s
+myapp-myapp-ocp-deny-all-ingress   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp   67s

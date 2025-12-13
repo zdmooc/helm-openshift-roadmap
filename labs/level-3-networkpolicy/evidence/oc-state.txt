@@ -1,0 +1,8 @@
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES         SELECTOR
+deployment.apps/myapp-myapp-ocp   2/2     2            2           7h36m   myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp
+
+NAME                      TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/myapp-myapp-ocp   ClusterIP   10.217.4.153   <none>        80/TCP    7h36m   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp
+
+NAME                                       HOST/PORT                PATH   SERVICES          PORT   TERMINATION   WILDCARD
+route.route.openshift.io/myapp-myapp-ocp   myapp.apps.crc.testing          myapp-myapp-ocp   http                 None

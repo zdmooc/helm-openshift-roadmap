@@ -1,0 +1,51 @@
+{{- if .Values.networkPolicy.enabled }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}-deny-all-ingress
+  labels:
+    {{- include "myapp-ocp.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "myapp-ocp.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}-allow-ingress
+  labels:
+    {{- include "myapp-ocp.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "myapp-ocp.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+  ingress:
+    # 1) Autoriser le trafic depuis les routers OpenShift
+    - from:
+        {{- range .Values.networkPolicy.allowedNamespaces }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+        {{- end }}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.service.targetPort }}
+
+    # 2) Autoriser le trafic depuis le même release (helm test pod)
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/instance: {{ .Release.Name | quote }}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.service.targetPort }}
+
+{{- end }}
