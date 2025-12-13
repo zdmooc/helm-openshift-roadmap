@@ -1,0 +1,22 @@
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES         SELECTOR
+deployment.apps/myapp-myapp-ocp   2/2     2            2           7h    myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp
+
+NAME                                         DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES         SELECTOR
+replicaset.apps/myapp-myapp-ocp-6848d559b4   0         0         0       4h24m   myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=6848d559b4
+replicaset.apps/myapp-myapp-ocp-69f56654fc   0         0         0       7h      myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=69f56654fc
+replicaset.apps/myapp-myapp-ocp-75cd4fb49c   0         0         0       92m     myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=75cd4fb49c
+replicaset.apps/myapp-myapp-ocp-77c69d99b9   0         0         0       4h3m    myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=77c69d99b9
+replicaset.apps/myapp-myapp-ocp-78746cddc9   2         2         2       86m     myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=78746cddc9
+replicaset.apps/myapp-myapp-ocp-7b68b487d8   0         0         0       130m    myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=7b68b487d8
+replicaset.apps/myapp-myapp-ocp-8747d4c7b    0         0         0       127m    myapp-ocp    nginx:1.21.0   app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp,pod-template-hash=8747d4c7b
+
+NAME                                   READY   STATUS      RESTARTS   AGE   IP            NODE   NOMINATED NODE   READINESS GATES
+pod/myapp-myapp-ocp-78746cddc9-6r6kc   1/1     Running     0          86m   10.217.1.24   crc    <none>           <none>
+pod/myapp-myapp-ocp-78746cddc9-wjrzv   1/1     Running     0          86m   10.217.1.25   crc    <none>           <none>
+pod/myapp-myapp-ocp-test               0/1     Completed   0          3s    10.217.1.64   crc    <none>           <none>
+
+NAME                      TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/myapp-myapp-ocp   ClusterIP   10.217.4.153   <none>        80/TCP    7h    app.kubernetes.io/instance=myapp,app.kubernetes.io/name=myapp-ocp
+
+NAME                                       HOST/PORT                PATH   SERVICES          PORT   TERMINATION   WILDCARD
+route.route.openshift.io/myapp-myapp-ocp   myapp.apps.crc.testing          myapp-myapp-ocp   http                 None

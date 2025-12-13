@@ -1358,3 +1358,16 @@ No resources found in myapp-dev namespace.
 
 HP 17 G3 Win 11 23H2@HP17G3 MINGW64 /c/workspaces/openshift2026/helm-openshift-roadmap (master)
 $
+## Evidence (2025-12-13)
+
+### Helm test (Service HTTP)
+- Commande: `helm test myapp -n myapp-dev --logs`
+- Résultat: **Succeeded**
+- Log: `labs/level-2-template-dev/evidence/helm-test.log`
+
+### État OpenShift (déploy/rs/pods/svc/route)
+- Commande: `oc get deploy,rs,pod,svc,route -n myapp-dev -o wide`
+- Déployment: `myapp-myapp-ocp` **2/2**
+- Pods: **2 Running** + `myapp-myapp-ocp-test` **Completed**
+- Route: `myapp.apps.crc.testing`
+- Fichier: `labs/level-2-template-dev/evidence/oc-state.txt`
