@@ -22,7 +22,4 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-securityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+securityContext: {}

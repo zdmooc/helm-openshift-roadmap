@@ -1,0 +1,584 @@
+  180  git push origin main
+  181  git status
+  182  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  183  git status
+  184  git add docs/portfolio-architect.md
+  185  git commit -m "Add OpenShift architect portfolio summary"
+  186  git push origin main
+  187  git status
+  188  git status
+  189  git add platform/gitops/cluster-config/namespaces/namespaces-ex-labs.yaml
+  190  git commit -m "Add GitOps namespaces definition for EX labs and sandbox"
+  191  git push origin main
+  192  git status
+  193  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  194  mkdir -p platform/gitops/argocd-apps
+  195  git status
+  196  git add platform/gitops/argocd-apps/application-platform-namespaces.yaml
+  197  git commit -m "Add Argo CD Application for platform namespaces GitOps"
+  198  git push origin main
+  199  git status
+  200  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  201  mkdir -p platform/gitops/cluster-config/quotas
+  202  git status
+  203  git add platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  204  git commit -m "Add ResourceQuota and LimitRange for EX labs and sandbox namespaces"
+  205  git push origin main
+  206  git status
+  207  ls platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  208  ls
+  209  ls platform/gitops/
+  210  git status
+  211  git add platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  212  git commit -m "Add ResourceQuota and LimitRange for EX labs and sandbox namespaces"
+  213  git push origin main
+  214  git status
+  215  ls platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  216  ls platform/gitops/cluster-config/quotas/
+  217  ls platform/gitops/cluster-config/quotas/quotas-ex-labs-yaml
+  218  git add platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  219  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  220  mv platform/gitops/cluster-config/quotas/quotas-ex-labs-yaml    platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml
+  221  ls platform/gitops/cluster-config/quotas
+  222  git status
+  223  git add platform/gitops/cluster-config/quotas/quotas-ex-labs.yaml         platform/StrategieGlobaleduDepot.md
+  224  git commit -m "Add quotas/limits GitOps for EX labs and document repo global strategy"
+  225  git push origin main
+  226  git status
+  227  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  228  mkdir -p platform/gitops/cluster-config/rbac
+  229  git status
+  230  git add platform/gitops/cluster-config/rbac/lab-rbac-ex-labs.yaml
+  231  git commit -m "Add lab RBAC (ClusterRoles and RoleBindings) for EX labs and sandbox"
+  232  git push origin main
+  233  git status
+  234  ls platform/gitops/cluster-config/rbac/l
+  235  ls platform/gitops/cluster-config/rbac/
+  236  git status
+  237  git add platform/gitops/cluster-config/rbac/lab-rbac-ex-labs.yaml
+  238  git commit -m "Add lab RBAC (ClusterRoles and RoleBindings) for EX labs and sandbox"
+  239  git push origin main
+  240  git status
+  241  mkdir -p platform/gitops/argocd-apps
+  242  git status
+  243  git add platform/gitops/argocd-apps/application-platform-rbac.yaml
+  244  git commit -m "Add Argo CD Application for lab RBAC GitOps"
+  245  git push origin main
+  246  git status
+  247  git status
+  248  git add platform/gitops/argocd-apps/application-platform-quotas.yaml
+  249  git commit -m "Add Argo CD Application for lab quotas GitOps"
+  250  git push origin main
+  251  git status
+  252  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  253  mkdir -p platform/gitops/cluster-config/networkpolicies
+  254  git status
+  255  git add platform/gitops/cluster-config/networkpolicies/networkpolicies-ex-labs.yaml
+  256  git commit -m "Add NetworkPolicies (deny-all, same-namespace, egress DNS/HTTP) for EX labs and sandbox"
+  257  git push origin main
+  258  git status
+  259  git status
+  260  git add platform/gitops/argocd-apps/application-platform-network.yaml
+  261  git commit -m "Add Argo CD Application for lab NetworkPolicies GitOps"
+  262  git push origin main
+  263  git status
+  264  git status
+  265  git add platform/gitops/argocd-apps/application-platform-network.yaml
+  266  git commit -m "Add Argo CD Application for lab NetworkPolicies GitOps"
+  267  git push origin main
+  268  git status
+  269  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  270  mkdir -p platform/observability/servicemonitors
+  271  git status
+  272  git add platform/observability/servicemonitors/servicemonitor-ex280-demo-metrics.yaml
+  273  git commit -m "Add ServiceMonitor for ex280 demo metrics service"
+  274  git push origin main
+  275  git status
+  276  git status
+  277  git add platform/gitops/argocd-apps/application-platform-observability.yaml
+  278  git commit -m "Add Argo CD Application for observability ServiceMonitors"
+  279  git push origin main
+  280  git status
+  281  git init
+  282  git add .
+  283  git commit -m "Bootstrap kafka-complete-masterclass (skeleton)"
+  284  git branch -M main
+  285  git remote add origin https://github.com/zdmooc/kafka-complete-masterclass.git
+  286  git push -u origin main
+  287  git init
+  288  git add .
+  289  git commit -m "Bootstrap kafka-complete-masterclass (skeleton)"
+  290  git branch -M main
+  291  git remote add origin https://github.com/zdmooc/kafka-complete-masterclass.git
+  292  git push -u origin main
+  293  git init
+  294  git add .
+  295  git commit -m "Bootstrap openshift-platform-bootstrap (skeleton)"
+  296  git branch -M main
+  297  git remote add origin https://github.com/zdmooc/openshift-platform-bootstrap.git
+  298  git push -u origin main
+  299  git init
+  300  git add .
+  301  git commit -m "Bootstrap openshift-gitops-standard-6files (standard 6 files)"
+  302  git branch -M main
+  303  git remote add origin https://github.com/zdmooc/openshift-gitops-standard-6files.git
+  304  git push -u origin main
+  305  ./scripts/bootstrap-root-app.sh https://github.com/zdmooc/openshift-gitops-standard-6files.git
+  306  ./scripts/new-product.sh my-product https://github.com/zdmooc/openshift-gitops-standard-6files.git
+  307  ./scripts/validate-standard.sh
+  308  git init
+  309  git add .
+  310  git commit -m "Bootstrap openshift-security-policy-pack (skeleton)"
+  311  git branch -M main
+  312  git remote add origin https://github.com/zdmooc/openshift-security-policy-pack.git
+  313  git push -u origin main
+  314  which node
+  315  which npm
+  316  node -v
+  317  npm -v
+  318  cd C:\workspaces\openshift2026\1\ex280-book-v1
+  319  cd \ex280-book-v1
+  320  npm init -y
+  321  $bad = @(
+  322    "manuscript\02-f1-essentials-objects.md",
+  323    "manuscript\03-f2-network.md",
+  324    "manuscript\05-f4-security-rbac-scc.md"
+  325  )
+  326  foreach ($f in $bad) {
+  327    $raw = Get-Content -Raw -Encoding Default $f
+  328    $raw | Set-Content -Encoding utf8 $f
+  329  }
+  330  (Get-Content -Encoding utf8 -Raw sources\ex_280_s_5_s_6_open_shift_lab_guide.md) |   Set-Content -Encoding utf8 sources\ex_280_s_5_s_6_open_shift_lab_guide.md
+  331  node .\scripts\build-preview.js
+  332  Select-String -Path .\preview.html -Pattern '<h1[^>]*>.*Semaine 1|<h1[^>]*>.*Semaine 7|<h1[^>]*>.*Semaine 8' | Select-Object -First 30
+  333  node .\scripts\build-preview.js
+  334  Start-Process .\preview.html
+  335  Select-String -Path manuscript\*.md -Pattern 'Ã|â€™|â€œ|â€|â€“|â€”' |   Select-Object Path,LineNumber,Line
+  336  cd ..
+  337  cd ..
+  338  git clone https://github.com/zdmooc/rh-openshift-architect-lab.git
+  339  cd rh-openshift-architect-lab
+  340  mkdir -p books/
+  341  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  342  # Retirer du suivi Git, sans supprimer les fichiers sur le disque
+  343  git rm -r --cached books/ex280-book-v1/node_modules
+  344  git rm -r --cached books/ex280-book-v1/Book
+  345  git add .gitignore
+  346  git commit -m "Ajout .gitignore pour le livre EX280"
+  347  git status
+  348  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  349  git add books
+  350  git status
+  351  git commit -m "Ajout livre EX280 v1 (sources) dans books/"
+  352  git push origin main
+  353  git ls-files books/ex280-book-v1 | grep -E "node_modules|Book" || echo "OK: rien de suivi"
+  354  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  355  git rm --cached books/ex280-book-v1/Book.txt
+  356  git add .gitignore
+  357  git commit -m "Ignore Book.txt du livre EX280"
+  358  git push origin main
+  359  git ls-files books/ex280-book-v1 | grep -E "node_modules|Book" || echo "OK: rien de suivi"
+  360  tree
+  361  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  362  git status           # tu dois voir books/ex370-odf-book-v1 en "untracked"
+  363  git add books/ex370-odf-book-v1
+  364  git commit -m "Ajout livre EX370 ODF (meta, book, labs, scripts)"
+  365  git push origin main
+  366  git ls-files books/ex370-odf-book-v1
+  367  git status           # tu dois voir books/ex370-odf-book-v1 en "untracked"
+  368  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  369  ls books
+  370  tree -L 2 books       # si tree est installé
+  371  git add README.md
+  372  git commit -m "Documente les books EX280 et EX370 dans le README"
+  373  git push origin main
+  374  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  375  git status              # tu dois voir books/ex380-openshift-automation-book-v1 en untracked
+  376  git add books/ex380-openshift-automation-book-v1
+  377  git commit -m "Ajout book EX380 OpenShift Automation v1"
+  378  git push origin main
+  379  git add README.md
+  380  git commit -m "Ajout référence book EX380 dans le README"
+  381  git push origin main
+  382  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  383  mkdir -p books/ex288-appdev-book-v1
+  384  cd books/ex288-appdev-book-v1
+  385  ls -latr
+  386  ls -altr
+  387  cd /c/workspaces/openshift2026/rh-openshift-architect-lab
+  388  git status
+  389  git add books/ex288-appdev-book-v1
+  390  git commit -m "Ajout contenu EX288 (apps, labs, scripts, cheatsheets) dans books/"
+  391  git push origin main
+  392  git ls-files books/ex288-appdev-book-v1
+  393  git add README.md
+  394  git commit -m "Ajout référence book EX288 dans le README"
+  395  git push origin main
+  396  rm -rf /c/workspaces/openshift2026/openshift-ex288
+  397  ls
+  398  oc version
+  399  oc whoami
+  400  oc get co
+  401  oc version
+  402  oc whoami
+  403  oc get co
+  404  # 1) Voir les fichiers EX280 disponibles
+  405  find ex280-admin -maxdepth 3 -type f \( -name "*.md" -o -name "README*" \) -print | sort
+  406  # 2) Voir les labs du book EX280 (si c’est là que tu les ranges)
+  407  find books/ex280-book-v1 -maxdepth 4 -type f \( -name "*.md" -o -name "README*" \) -print | sort
+  408  find books/ex280-book-v1 -maxdepth 6 -type f \( -name "*.md" -o -name "README*" \)   -not -path "*/node_modules/*" -print | sort
+  409  ls -la ex280-admin/labs
+  410  ls ex280-admin/labs
+  411  ls books/ex280-book-v1/sources | grep -i 'ex_280_semaine_3' || echo "PAS TROUVÉ dans sources"
+  412  ls books/DOCS/archive
+  413  git status
+  414  it init
+  415  git add .
+  416  git commit -m "Bootstrap argocd-complete-masterclass (skeleton)"
+  417  git branch -M main
+  418  git remote add origin https://github.com/zdmooc/argocd-complete-masterclass.git
+  419  git init
+  420  git add .
+  421  git commit -m "Bootstrap argocd-complete-masterclass (skeleton)"
+  422  git branch -M main
+  423  git remote add origin https://github.com/zdmooc/argocd-complete-masterclass.git
+  424  git push -u origin main
+  425  git remote -v
+  426  git remote set-url origin https://github.com/zdmooc/argocd-complete-masterclass.git
+  427  git push -u origin main
+  428  git ls-remote https://github.com/zdmooc/argocd-complete-masterclass.git
+  429  git push -u origin main
+  430  git init
+  431  git add .
+  432  git commit -m "Bootstrap openshift-networking-blueprints (skeleton)"
+  433  git branch -M main
+  434  git remote add origin https://github.com/zdmooc/openshift-networking-blueprints.git
+  435  git push -u origin main
+  436  git push -u origin main
+  437  git init
+  438  git add .
+  439  git commit -m "Bootstrap openshift-cicd-blueprints (skeleton)"
+  440  git branch -M main
+  441  git remote add origin https://github.com/zdmooc/openshift-cicd-blueprints.git
+  442  git push -u origin main
+  443  git init
+  444  git add .
+  445  git commit -m "Bootstrap openshift-sre-runbook (skeleton)"
+  446  git branch -M main
+  447  git remote add origin https://github.com/zdmooc/openshift-sre-runbook.git
+  448  git push -u origin main
+  449  git push -u origin mai
+  450  n
+  451  git init
+  452  git add .
+  453  git commit -m "Bootstrap openshift-sso-keycloak-patterns (skeleton)"
+  454  git branch -M main
+  455  git remote add origin https://github.com/zdmooc/openshift-sso-keycloak-patterns.git
+  456  git push -u origin main
+  457  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  458  # Voir la structure réelle
+  459  tree -L 3
+  460  # Vérifier les charts
+  461  ls charts/myapp-ocp
+  462  ls charts/fullstack-ocp
+  463  helm lint charts/myapp-ocp
+  464  helm lint charts/fullstack-ocp
+  465  # Vérifier la présence des labs
+  466  ls labs
+  467  ls labs/level-1-helm-user
+  468  ls labs/level-2-template-dev
+  469  # Vérifier GitOps
+  470  ls gitops/argocd-apps
+  471  cat gitops/argocd-apps/application-helm-roadmap.yaml
+  472  cd ..
+  473  ls
+  474  git clone https://github.com/zdmooc/helm-openshift-roadmap.git
+  475  git clone https://github.com/zdmooc/helm-masterclass.git
+  476  dfsd
+  477  oc version
+  478  oc whoami --show-server
+  479  oc get nodes
+  480  helm version
+  481  test -d helm-openshift-roadmap && cd helm-openshift-roadmap || (git clone https://github.com/zdmooc/helm-openshift-roadmap.git && cd helm-openshift-roadmap)
+  482  oc whoami
+  483  oc project
+  484  oc get project helm-labs >/dev/null 2>&1 || oc new-project helm-labs --display-name="Helm Labs" --description="Roadmap Helm OpenShift"
+  485  oc project helm-labs
+  486  oc get ns helm-labs
+  487  oc project helm-labs
+  488  oc auth can-i create deployments
+  489  oc auth can-i create routes
+  490  oc get sc
+  491  oc get sc -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.annotations.storageclass\.kubernetes\.io/is-default-class}{"\n"}{end}'
+  492  ls -1 labs/level-1-helm-user
+  493  ls -1 charts
+  494  sed -n '1,120p' labs/level-1-helm-user/lab10*.md
+  495  oc new-project helm-demo
+  496  helm repo add bitnami https://charts.bitnami.com/bitnami
+  497  helm repo update
+  498  helm install my-nginx bitnami/nginx -n helm-demo
+  499  helm list -n helm-demo
+  500  oc get pods -n helm-demo
+  501  oc wait --for=condition=Available deploy/my-nginx -n helm-demo --timeout=180s
+  502  oc expose svc/my-nginx -n helm-demo --name=my-nginx-route
+  503  oc get route my-nginx-route -n helm-demo --template='{{.spec.host}}{{"\n"}}'
+  504  curl -I "http://$(oc get route my-nginx-route -n helm-demo --template='{{.spec.host}}')"
+  505  oc get route my-nginx-route -n helm-demo --template='{{.spec.host}}{{"\n"}}'
+  506  curl -I "http://$(oc get route my-nginx-route -n helm-demo --template='{{.spec.host}}')"
+  507  sed -n '1,200p' labs/level-1-helm-user/lab11-upgrade-rollback-release.md
+  508  helm history my-nginx -n helm-demo
+  509  helm get values my-nginx -n helm-demo -o yaml
+  510  helm upgrade my-nginx bitnami/nginx -n helm-demo --set image.tag=1.23.3-debian-11-r0 --set replicaCount=2
+  511  oc rollout status deploy/my-nginx -n helm-demo --timeout=180s
+  512  helm history my-nginx -n helm-demo
+  513  oc get pods -n helm-demo
+  514  oc get pods -n helm-demo -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[0].image}{"\n"}{end}'
+  515  oc describe pod my-nginx-68cb5696b6-r8r89 -n helm-demo | sed -n '/Init Containers:/,/Events:/p'
+  516  oc describe pod my-nginx-68cb5696b6-r8r89 -n helm-demo | sed -n '/Events:/,$p'
+  517  oc get pod my-nginx-68cb5696b6-r8r89 -n helm-demo -o jsonpath='{.spec.initContainers[*].name}{" => "}{.spec.initContainers[*].image}{"\n"}{.spec.containers[*].name}{" => "}{.spec.containers[*].image}{"\n"}'
+  518  helm rollback my-nginx 1 -n helm-demo
+  519  oc rollout status deploy/my-nginx -n helm-demo --timeout=180s
+  520  helm history my-nginx -n helm-demo
+  521  oc get pods -n helm-demo
+  522  helm upgrade my-nginx bitnami/nginx -n helm-demo --reuse-values --set replicaCount=2
+  523  oc rollout status deploy/my-nginx -n helm-demo --timeout=180s
+  524  oc get pods -n helm-demo
+  525  helm history my-nginx -n helm-demo
+  526  ls -1 labs/level-2-template-dev
+  527  sed -n '1,220p' labs/level-2-template-dev/lab20*.md
+  528  ls -1 charts/myapp-ocp
+  529  oc new-project myapp-dev
+  530  ls -1 charts/myapp-ocp/templates
+  531  sed -n '1,200p' charts/myapp-ocp/values.yaml
+  532  helm lint charts/myapp-ocp
+  533  helm install myapp charts/myapp-ocp -n myapp-dev
+  534  oc get all,route -n myapp-dev
+  535  oc get pods -n myapp-dev -o wide
+  536  oc get events -n myapp-dev --sort-by=.lastTimestamp | tail -n 40
+  537  oc get ns myapp-dev -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}{"\n"}{.metadata.annotations.openshift\.io/sa\.scc\.supplemental-groups}{"\n"}'
+  538  sed -n '1,220p' charts/myapp-ocp/templates/deployment.yaml
+  539  sed -n '1,120p' charts/myapp-ocp/values.yaml
+  540  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  541  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  542  oc get pods -n myapp-dev -o wide
+  543  oc describe pod myapp-myapp-ocp-6848d559b4-lv7zj -n myapp-dev | sed -n '/Events:/,$p'
+  544  oc get pod myapp-myapp-ocp-6848d559b4-lv7zj -n myapp-dev -o jsonpath='{.spec.containers[0].image}{"\n"}{.status.containerStatuses[0].state}{"\n"}'
+  545  oc get events -n myapp-dev --sort-by=.lastTimestamp | tail -n 40
+  546  oc get co network
+  547  oc get pods -n openshift-multus -o wide
+  548  oc get pods -n openshift-ovn-kubernetes -o wide | head
+  549  oc get ds -n openshift-multus
+  550  oc -n openshift-multus rollout restart ds/multus
+  551  oc -n openshift-multus rollout status ds/multus --timeout=180s
+  552  oc delete pod -n myapp-dev -l app.kubernetes.io/instance=myapp
+  553  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  554  oc get pods -n myapp-dev -o wide
+  555  oc logs pod/myapp-myapp-ocp-6848d559b4-bsnfs -n myapp-dev -c myapp-ocp --previous --tail=120
+  556  oc logs pod/myapp-myapp-ocp-6848d559b4-bsnfs -n myapp-dev -c myapp-ocp --tail=60
+  557  oc describe pod myapp-myapp-ocp-6848d559b4-bsnfs -n myapp-dev | sed -n '/Events:/,$p'
+  558  cat > charts/myapp-ocp/templates/configmap.yaml <<'EOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}-nginx-conf
+  labels:
+    {{- include "myapp-ocp.labels" . | nindent 4 }}
+data:
+  default.conf: |
+    server {
+      listen {{ .Values.service.targetPort }};
+      listen [::]:{{ .Values.service.targetPort }};
+      server_name _;
+      location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+      }
+    }
+EOF
+
+  559  cat > charts/myapp-ocp/templates/deployment.yaml <<'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}
+  labels:
+    {{- include "myapp-ocp.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "myapp-ocp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "myapp-ocp.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "myapp-ocp.fullname" . }}-nginx-conf
+EOF
+
+  560  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  561  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  562  oc get pods -n myapp-dev -o wide
+  563  oc get all,route -n myapp-dev
+  564  oc get route myapp-myapp-ocp -n myapp-dev --template='{{.spec.host}}{{"\n"}}'
+  565  curl -I "http://$(oc get route myapp-myapp-ocp -n myapp-dev --template='{{.spec.host}}')"
+  566  oc logs deploy/myapp-myapp-ocp -n myapp-dev --tail=40
+  567  curl -I "http://$(oc get route myapp-myapp-ocp -n myapp-dev --template='{{.spec.host}}')"
+  568  # PowerShell en admin
+  569  crc ip
+  570   curl -I "http://$(oc get route myapp-myapp-ocp -n myapp-dev --template='{{.spec.host}}')"
+  571  ping myapp.apps.crc.testing
+  572  curl -I http://myapp.apps.crc.testing
+  573  helm upgrade myapp charts/myapp-ocp -n myapp-dev --set replicaCount=2
+  574  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  575  oc get pods -n myapp-dev -o wide
+  576  # 1) Vérif “zéro warning” côté namespace
+  577  oc get events -n myapp-dev --sort-by=.lastTimestamp | tail -n 40
+  578  # 2) Vérifier que le Pod tourne bien en UID random OpenShift (pas 0, pas 1001 fixé)
+  579  POD=$(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[0].metadata.name}')
+  580  oc exec -n myapp-dev "$POD" -- id
+  581  # 3) Vérifier que les securityContext “restricted” sont bien présents sur le conteneur
+  582  oc get pod -n myapp-dev "$POD" -o jsonpath='{.spec.securityContext.seccompProfile.type}{"\n"}{.spec.containers[0].securityContext}{"\n"}'
+  583  # 4) Vérifier accès Route (depuis Windows)
+  584  curl -I http://myapp.apps.crc.testing
+  585  oc get events -n myapp-dev --field-selector type=Warning --sort-by=.lastTimestamp | tail -n 30
+  586  oc delete event -n myapp-dev --all || true
+  587  oc delete events.events.k8s.io -n myapp-dev --all || true
+  588  script -f session-gitbash.log   # puis exit à la fin
+  589  oc get events -n myapp-dev --field-selector type=Warning --sort-by=.lastTimestamp | tail -n 30
+  590  LOG=session-gitbash.log
+  591  exec > >(tee -a "$LOG") 2>&1
+  592  export PS4='+ $(date "+%F %T") '
+  593  set -x
+  594  # ...tes commandes oc/helm...
+  595  set +x
+  596  ls
+  597  history > commandes-gitbash.txt
+  598  oc get pods -n myapp-dev -o wide |& tee -a session-gitbash.log
+  599  helm list -n myapp-dev |& tee -a session-gitbash.log
+  600  oc get all,route -n myapp-dev -o wide |& tee -a session-gitbash.log
+  601  oc get route myapp-myapp-ocp -n myapp-dev -o jsonpath='{.spec.host}{"\n"}' |& tee -a session-gitbash.log
+  602* curl -I http://myapp.apps.crc.testing |& tee -a session-gi
+  603  helm history myapp -n myapp-dev |& tee -a session-gitbash.log
+  604  helm get values myapp -n myapp-dev |& tee -a session-gitbash.log
+  605  helm get manifest myapp -n myapp-dev |& tee -a session-gitbash.log
+  606  git status
+  607  git add .
+  608  git status
+  609  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  610  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  611  POD=$(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[0].metadata.name}')
+  612  oc exec -n myapp-dev "$POD" -- sh -c 'id; ls -ld /var/run /var/run/secrets/kubernetes.io/serviceaccount || true'
+  613  oc exec -n myapp-dev "$POD" -- sh -c 'touch /tmp/ok && touch /var/cache/nginx/ok && (touch /etc/nginx/nginx.conf || echo "rootfs RO OK")'
+  614  curl -I http://myapp.apps.crc.testing
+  615  oc get deploy,rs,pod,svc,route -n myapp-dev -o wide |& tee -a session-gitbash.log
+  616  oc get events -n myapp-dev --field-selector type=Warning --sort-by=.lastTimestamp
+  617  oc exec -n myapp-dev "$POD" -- sh -c 'id; nginx -t'
+  618  curl -I http://myapp.apps.crc.testing
+  619  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  620  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  621  oc exec -n myapp-dev "$POD" -- nginx -t
+  622  # 0) Vérifie que le template n’a plus "spec.template.spec.volumeMounts"
+  623  helm template myapp charts/myapp-ocp -n myapp-dev | grep -n "spec:\|volumeMounts:" -n
+  624  # 1) Upgrade + rollout
+  625  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  626  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  627  # 2) Recalculer POD (important, car les pods changent)
+  628  POD=$(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[0].metadata.name}')
+  629  # 3) Test NGINX
+  630  oc exec -n myapp-dev "$POD" -- nginx -t
+  631  for p in $(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o name); do   oc exec -n myapp-dev "$p" -- nginx -t; done
+  632  # 1) Si "spec.template.spec.volumeMounts" existe, tu verras quelque chose.
+  633  # Normalement ça ne renvoie rien (ou une ligne vide).
+  634  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath='{.spec.template.spec.volumeMounts}{"\n"}'
+  635  # 2) Vérifie qu’on a bien "containers[0].volumeMounts"
+  636  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath='{.spec.template.spec.containers[0].volumeMounts}{"\n"}'
+  637  helm template myapp charts/myapp-ocp -n myapp-dev | sed -n '120,170p'
+  638  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath=$'podSpec.volumeMounts={.spec.template.spec.volumeMounts}{"\n"}container.volumeMounts={.spec.template.spec.containers[0].volumeMounts}{"\n"}'
+  639  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  640  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  641  for p in $(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o name); do   oc exec -n myapp-dev "$p" -- nginx -t; done
+  642  curl -I http://myapp.apps.crc.testing
+  643  # Version simple (2 commandes)
+  644  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath='{.spec.template.spec.volumeMounts}{"\n"}'
+  645  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath='{.spec.template.spec.containers[0].volumeMounts}{"\n"}'
+  646  # Version en une commande (avec libellés)
+  647  oc get deploy myapp-myapp-ocp -n myapp-dev -o jsonpath='podSpec.volumeMounts={.spec.template.spec.volumeMounts}{"\n"}container.volumeMounts={.spec.template.spec.containers[0].volumeMounts}{"\n"}'
+  648  helm upgrade myapp charts/myapp-ocp -n myapp-dev --dry-run --debug 2>&1 | grep -i warning || echo "NO WARNINGS"
+  649  # 1) Pod UID random + securityContext
+  650  POD=$(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[0].metadata.name}')
+  651  oc exec -n myapp-dev "$POD" -- sh -c 'id; echo "---"; cat /proc/1/status | grep -E "Uid|Gid"'
+  652  # 2) Root filesystem en lecture seule (doit échouer) + écritures OK sur emptyDir
+  653  oc exec -n myapp-dev "$POD" -- sh -c 'touch /tmp/ok && touch /var/cache/nginx/ok && (touch /etc/nginx/nginx.conf || echo "rootfs RO OK")'
+  654  # 3) Probes OK (readiness/liveness) + route OK
+  655  oc describe pod -n myapp-dev "$POD" | sed -n '/Conditions:/,/Volumes:/p'
+  656  curl -I http://myapp.apps.crc.testing
+  657  helm upgrade myapp charts/myapp-ocp -n myapp-dev
+  658  oc rollout status deploy/myapp-myapp-ocp -n myapp-dev --timeout=180s
+  659  POD=$(oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[0].metadata.name}')
+  660  oc exec -n myapp-dev "$POD" -- sh -c 'touch /tmp/ok && echo "TMP OK"'
+  661  oc exec -n myapp-dev "$POD" -- nginx -t
+  662  oc get events -n myapp-dev --field-selector type=Warning --sort-by=.lastTimestamp
+  663  curl -I http://myapp.apps.crc.testing
+  664  oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[*].spec.securityContext.seccompProfile.type}{"\n"}'
+  665  oc get pod -n myapp-dev -l app.kubernetes.io/instance=myapp -o jsonpath='{.items[*].spec.containers[0].securityContext}{"\n"}'
+  666  git status
+  667  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  668  # 1) On annule uniquement le staging (on garde les modifs)
+  669  git restore --staged .
+  670  # 2) Vérifier
+  671  git status
+  672  git status
+  673  # Vérif rendu YAML + lint
+  674  helm lint charts/myapp-ocp
+  675  helm template myapp charts/myapp-ocp -n myapp-dev >/tmp/rendered.yaml || true
+  676  grep -n "volumeMounts:" /tmp/rendered.yaml | head
+  677  ls
+  678  history | grep history
+  679  history > commandes-gitbash.txt
