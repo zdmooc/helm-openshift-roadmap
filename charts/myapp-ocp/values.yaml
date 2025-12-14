@@ -23,3 +23,6 @@ resources:
     memory: 128Mi
 
 securityContext: {}
+
+networkPolicy:
+  enabled: false
