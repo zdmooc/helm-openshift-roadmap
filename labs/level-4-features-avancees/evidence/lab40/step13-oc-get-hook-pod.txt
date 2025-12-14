@@ -1,0 +1,2 @@
+NAME                                    READY   STATUS              RESTARTS   AGE    IP       NODE   NOMINATED NODE   READINESS GATES
+fullstack-fullstack-ocp-migrate-jw2nr   0/1     ContainerCreating   0          3m3s   <none>   crc    <none>           <none>
