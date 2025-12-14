@@ -1,0 +1,8 @@
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "my-charts" chart repository
+...Successfully got an update from the "apache-airflow" chart repository
+...Successfully got an update from the "ibm-helm-repo" chart repository
+...Successfully got an update from the "ibm-helm" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈

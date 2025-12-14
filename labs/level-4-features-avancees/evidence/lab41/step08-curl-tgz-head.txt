@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Length: 3270
+Server: GitHub.com
+Content-Type: application/octet-stream
+Last-Modified: Sun, 14 Dec 2025 18:16:01 GMT
+Access-Control-Allow-Origin: *
+ETag: "693efee1-cc6"
+expires: Sun, 14 Dec 2025 18:27:04 GMT
+Cache-Control: max-age=600
+x-proxy-cache: MISS
+X-GitHub-Request-Id: A726:1D6916:9F8181:A3B121:693EFF1F
+Accept-Ranges: bytes
+Date: Sun, 14 Dec 2025 18:22:15 GMT
+Via: 1.1 varnish
+Age: 311
+X-Served-By: cache-lon4270-LON
+X-Cache: HIT
+X-Cache-Hits: 1
+X-Timer: S1765736535.371547,VS0,VE2
+Vary: Accept-Encoding
+X-Fastly-Request-ID: 0b7cef137cb9aed59ab5014de75ed1ca8e54bfc7
+
