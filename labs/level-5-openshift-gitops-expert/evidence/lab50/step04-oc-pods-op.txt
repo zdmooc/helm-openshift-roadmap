@@ -1,0 +1,2 @@
+NAME                                                            READY   STATUS             RESTARTS   AGE   IP            NODE   NOMINATED NODE   READINESS GATES
+openshift-gitops-operator-controller-manager-8464d778d4-2rnnx   1/2     ImagePullBackOff   0          19m   10.217.1.65   crc    <none>           <none>
