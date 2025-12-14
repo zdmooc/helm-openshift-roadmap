@@ -1,0 +1,4 @@
+==> Linting charts/myapp-ocp
+[INFO] Chart.yaml: icon is recommended
+[ERROR] templates/: template: myapp-ocp/templates/networkpolicy.yaml:1:14: executing "myapp-ocp/templates/networkpolicy.yaml" at <.Values.networkPolicy.enabled>: nil pointer evaluating interface {}.enabled
+

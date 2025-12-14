@@ -1,0 +1,518 @@
+---
+# Source: fullstack-ocp/charts/postgresql/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fullstack-postgresql
+  namespace: "fullstack-dev"
+  labels:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/version: 16.1.0
+    helm.sh/chart: postgresql-13.4.4
+automountServiceAccountToken: false
+---
+# Source: fullstack-ocp/charts/postgresql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fullstack-postgresql
+  namespace: "fullstack-dev"
+  labels:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/version: 16.1.0
+    helm.sh/chart: postgresql-13.4.4
+type: Opaque
+data:
+  postgres-password: "UTNWSXZuMExWOA=="
+  password: "Y2hhbmdlbWU="
+  # We don't auto-generate LDAP password when it's not provided as we do for other passwords
+---
+# Source: fullstack-ocp/templates/frontend-nginx-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fullstack-fullstack-ocp-frontend-nginx
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: frontend
+data:
+  default.conf: |
+    server {
+      listen 8080;
+      server_name _;
+
+      location = /health {
+        return 200 "OK\n";
+        add_header Content-Type text/plain;
+      }
+
+      location / {
+        return 200 "FRONTEND OK\n";
+        add_header Content-Type text/plain;
+      }
+    }
+---
+# Source: fullstack-ocp/charts/postgresql/templates/primary/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullstack-postgresql-hl
+  namespace: "fullstack-dev"
+  labels:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/version: 16.1.0
+    helm.sh/chart: postgresql-13.4.4
+    app.kubernetes.io/component: primary
+  annotations:
+    # Use this annotation in addition to the actual publishNotReadyAddresses
+    # field below because the annotation will stop being respected soon but the
+    # field is broken in some versions of Kubernetes:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  # We want all pods in the StatefulSet to have their addresses published for
+  # the sake of the other Postgresql pods even before they're ready, since they
+  # have to be able to talk to each other in order to become ready.
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/component: primary
+---
+# Source: fullstack-ocp/charts/postgresql/templates/primary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullstack-postgresql
+  namespace: "fullstack-dev"
+  labels:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/version: 16.1.0
+    helm.sh/chart: postgresql-13.4.4
+    app.kubernetes.io/component: primary
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+      nodePort: null
+  selector:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/component: primary
+---
+# Source: fullstack-ocp/templates/backend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullstack-fullstack-ocp-backend
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    component: backend
+---
+# Source: fullstack-ocp/templates/frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullstack-fullstack-ocp-frontend
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: frontend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    component: frontend
+---
+# Source: fullstack-ocp/templates/backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullstack-fullstack-ocp-backend
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fullstack-ocp
+      app.kubernetes.io/instance: fullstack
+      component: backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fullstack-ocp
+        app.kubernetes.io/instance: fullstack
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: "python:3.9-slim"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          command: ["python","-c"]
+          args:
+            - |
+              import http.server, socketserver
+              class H(http.server.BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ("/health","/"):
+                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+                      else:
+                          self.send_response(404); self.end_headers()
+                  def log_message(self, fmt, *args): pass
+              with socketserver.TCPServer(("", 5000), H) as httpd:
+                  httpd.serve_forever()
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: 150m
+              memory: 256Mi
+            requests:
+              cpu: 75m
+              memory: 128Mi
+---
+# Source: fullstack-ocp/templates/frontend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullstack-fullstack-ocp-frontend
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fullstack-ocp
+      app.kubernetes.io/instance: fullstack
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fullstack-ocp
+        app.kubernetes.io/instance: fullstack
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "nginx:1.21.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: fullstack-fullstack-ocp-frontend-nginx
+            items:
+              - key: default.conf
+                path: default.conf
+---
+# Source: fullstack-ocp/charts/postgresql/templates/primary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: fullstack-postgresql
+  namespace: "fullstack-dev"
+  labels:
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/version: 16.1.0
+    helm.sh/chart: postgresql-13.4.4
+    app.kubernetes.io/component: primary
+spec:
+  replicas: 1
+  serviceName: fullstack-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fullstack
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/component: primary
+  template:
+    metadata:
+      name: fullstack-postgresql
+      labels:
+        app.kubernetes.io/instance: fullstack
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/version: 16.1.0
+        helm.sh/chart: postgresql-13.4.4
+        app.kubernetes.io/component: primary
+    spec:
+      serviceAccountName: fullstack-postgresql
+      
+      automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: fullstack
+                    app.kubernetes.io/name: postgresql
+                    app.kubernetes.io/component: primary
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1000710000
+        fsGroupChangePolicy: Always
+        supplementalGroups: []
+        sysctls: []
+      hostNetwork: false
+      hostIPC: false
+      containers:
+        - name: postgresql
+          image: docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000710000
+            seccompProfile:
+              type: RuntimeDefault
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            # Authentication
+            - name: POSTGRES_USER
+              value: "appuser"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fullstack-postgresql
+                  key: password
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fullstack-postgresql
+                  key: postgres-password
+            - name: POSTGRES_DATABASE
+              value: "appdb"
+            # Replication
+            # Initdb
+            # Standby
+            # LDAP
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            # TLS
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            # Audit
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            # Others
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "appuser" -d "dbname=appdb" -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "appuser" -d "dbname=appdb" -h 127.0.0.1 -p 5432
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "1Gi"
+---
+# Source: fullstack-ocp/templates/route-frontend.yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: fullstack-fullstack-ocp-frontend
+  labels:
+    helm.sh/chart: fullstack-ocp-0.3.0
+    app.kubernetes.io/name: fullstack-ocp
+    app.kubernetes.io/instance: fullstack
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Helm
+    component: frontend
+spec:
+  host: "frontend-dev.apps.crc.testing"
+  to:
+    kind: Service
+    name: fullstack-fullstack-ocp-frontend
+  port:
+    targetPort: http
+

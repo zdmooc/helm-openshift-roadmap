@@ -1,0 +1,6 @@
+CRC VM:          Running
+OpenShift:       Running (v4.19.3)
+RAM Usage:       11.59GB of 16.76GB
+Disk Usage:      68.78GB of 85.29GB (Inside the CRC VM)
+Cache Usage:     63.67GB
+Cache Directory: C:\Users\HP 17 G3 Win 11 23H2\.crc\cache

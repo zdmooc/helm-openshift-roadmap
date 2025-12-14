@@ -1,0 +1,2 @@
+NAME     	NAMESPACE    	REVISION	UPDATED                              	STATUS  	CHART              	APP VERSION
+fullstack	fullstack-dev	2       	2025-12-14 11:57:08.5699723 +0100 CET	deployed	fullstack-ocp-0.3.0	1.0        

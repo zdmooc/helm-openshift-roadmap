@@ -1,0 +1,2 @@
+./charts/fullstack-ocp/Chart.yaml
+./charts/myapp-ocp/Chart.yaml

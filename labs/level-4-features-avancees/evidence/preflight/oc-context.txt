@@ -1,0 +1,1 @@
+fullstack-dev/api-crc-testing:6443/kubeadmin

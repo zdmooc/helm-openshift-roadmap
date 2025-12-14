@@ -1,0 +1,19 @@
+apiVersion: v2
+appVersion: "1.0"
+description: Chart Helm simple pour une application web sur OpenShift
+home: https://github.com/zdmooc/helm-openshift-roadmap
+keywords:
+- openshift
+- helm
+- web-app
+maintainers:
+- email: zidane@zdmooc.dev
+  name: Zidane Djamal
+- email: support@manus.im
+  name: Manus AI
+name: myapp-ocp
+sources:
+- https://github.com/zdmooc/helm-openshift-roadmap
+type: application
+version: 0.1.0
+

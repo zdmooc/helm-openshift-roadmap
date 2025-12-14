@@ -1,0 +1,7 @@
+Release "fullstack" has been upgraded. Happy Helming!
+NAME: fullstack
+LAST DEPLOYED: Sun Dec 14 18:18:43 2025
+NAMESPACE: fullstack-dev
+STATUS: deployed
+REVISION: 4
+TEST SUITE: None

@@ -85,3 +85,10 @@ networkPolicy:
 pdb:
   enabled: false
   minAvailable: 1
+
+hooks:
+  migrate:
+    enabled: false
+    image: "registry.access.redhat.com/ubi9/ubi-minimal:latest"
+    command: ["/bin/sh","-c"]
+    args: ["echo MIGRATE START; sleep 3; echo MIGRATE DONE"]

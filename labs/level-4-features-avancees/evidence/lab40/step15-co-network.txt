@@ -1,0 +1,2 @@
+NAME      VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE   MESSAGE
+network   4.19.3    True        False         False      157d    

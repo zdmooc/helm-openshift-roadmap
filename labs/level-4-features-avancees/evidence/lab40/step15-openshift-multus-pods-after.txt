@@ -1,0 +1,5 @@
+NAME                                           READY   STATUS    RESTARTS   AGE     IP               NODE   NOMINATED NODE   READINESS GATES
+multus-additional-cni-plugins-d4v4f            1/1     Running   0          7d22h   192.168.126.11   crc    <none>           <none>
+multus-admission-controller-57c559948b-5q76l   2/2     Running   0          8m52s   10.217.1.3       crc    <none>           <none>
+multus-m8ggl                                   1/1     Running   0          8m54s   192.168.126.11   crc    <none>           <none>
+network-metrics-daemon-szq44                   2/2     Running   0          7d22h   10.217.0.3       crc    <none>           <none>

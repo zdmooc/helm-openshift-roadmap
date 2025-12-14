@@ -1,0 +1,2 @@
+NAME   STATUS   ROLES                         AGE    VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE                                                KERNEL-VERSION                 CONTAINER-RUNTIME
+crc    Ready    control-plane,master,worker   157d   v1.32.5   192.168.126.11   <none>        Red Hat Enterprise Linux CoreOS 9.6.20250701-0 (Plow)   5.14.0-570.25.1.el9_6.x86_64   cri-o://1.32.6-2.rhaos4.19.git8e1af22.el9

@@ -1,0 +1,47 @@
+Name:             fullstack-fullstack-ocp-migrate
+Namespace:        fullstack-dev
+Selector:         batch.kubernetes.io/controller-uid=17f04391-b617-471e-8b58-4bc8d712ab48
+Labels:           app.kubernetes.io/instance=fullstack
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=fullstack-ocp
+                  app.kubernetes.io/version=1.0
+                  helm.sh/chart=fullstack-ocp-0.3.0
+Annotations:      helm.sh/hook: pre-install,pre-upgrade
+                  helm.sh/hook-delete-policy: before-hook-creation
+                  helm.sh/hook-weight: -5
+Parallelism:      1
+Completions:      1
+Completion Mode:  NonIndexed
+Suspend:          false
+Backoff Limit:    0
+Start Time:       Sun, 14 Dec 2025 17:53:49 +0100
+Pods Statuses:    1 Active (0 Ready) / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app.kubernetes.io/instance=fullstack
+           app.kubernetes.io/managed-by=Helm
+           app.kubernetes.io/name=fullstack-ocp
+           app.kubernetes.io/version=1.0
+           batch.kubernetes.io/controller-uid=17f04391-b617-471e-8b58-4bc8d712ab48
+           batch.kubernetes.io/job-name=fullstack-fullstack-ocp-migrate
+           controller-uid=17f04391-b617-471e-8b58-4bc8d712ab48
+           helm.sh/chart=fullstack-ocp-0.3.0
+           job-name=fullstack-fullstack-ocp-migrate
+  Containers:
+   migrate:
+    Image:      registry.access.redhat.com/ubi9/ubi-minimal:latest
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /bin/sh
+      -c
+    Args:
+      echo MIGRATE START; sleep 3; echo MIGRATE DONE
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+  Type    Reason            Age   From            Message
+  ----    ------            ----  ----            -------
+  Normal  SuccessfulCreate  3m6s  job-controller  Created pod: fullstack-fullstack-ocp-migrate-jw2nr

@@ -1,0 +1,33 @@
+{{- if .Values.hooks.migrate.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-migrate
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      containers:
+        - name: migrate
+          image: {{ .Values.hooks.migrate.image | quote }}
+          imagePullPolicy: IfNotPresent
+          command: {{ toJson .Values.hooks.migrate.command }}
+          args: {{ toJson .Values.hooks.migrate.args }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+{{- end }}

@@ -1,0 +1,4 @@
+==> Linting charts/myapp-ocp
+[INFO] Chart.yaml: icon is recommended
+[ERROR] templates/: template: myapp-ocp/templates/networkpolicy.yaml:1:8: executing "myapp-ocp/templates/networkpolicy.yaml" at <dig "networkPolicy" "enabled" false .Values>: error calling dig: interface conversion: interface {} is chartutil.Values, not map[string]interface {}
+

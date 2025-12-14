@@ -1,0 +1,6 @@
+configmap/myapp-ocp-nginx-main-conf created (server dry run)
+configmap/myapp-ocp-nginx-conf created (server dry run)
+service/myapp-ocp created (server dry run)
+deployment.apps/myapp-ocp created (server dry run)
+route.route.openshift.io/myapp-ocp created (server dry run)
+pod/myapp-ocp-test created (server dry run)
