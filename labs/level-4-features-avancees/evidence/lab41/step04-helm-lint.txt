@@ -1,0 +1,4 @@
+==> Linting charts/myapp-ocp
+[INFO] Chart.yaml: icon is recommended
+[ERROR] templates/: parse error at (myapp-ocp/templates/networkpolicy.yaml:1): unexpected ":=" in command
+

@@ -1,6 +1,3 @@
-replicaCount: 1
-
-image:
   repository: nginx
   pullPolicy: IfNotPresent
   tag: "1.21.0"
@@ -26,5 +23,3 @@ securityContext: {}
 
 networkPolicy:
   enabled: false
-  allowedNamespaces:
-    - openshift-ingress

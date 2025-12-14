@@ -1,0 +1,6 @@
+total 28
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 14 18:44 ./
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 14 18:44 ../
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 3263 Dec 14 18:26 myapp-ocp-0.1.0.tgz
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 3286 Dec 14 18:31 myapp-ocp-0.1.1.tgz
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 3316 Dec 14 18:44 myapp-ocp-0.1.2.tgz

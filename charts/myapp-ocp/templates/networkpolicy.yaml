@@ -1,4 +1,5 @@
-{{- if (dig "networkPolicy" "enabled" false .Values) -}}
+{{-  := (index .Values "networkPolicy") | default (dict) -}}
+{{- if (index  "enabled" | default false) -}}
 
 ---
 apiVersion: networking.k8s.io/v1

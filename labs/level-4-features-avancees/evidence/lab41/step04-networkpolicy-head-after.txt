@@ -1,0 +1,8 @@
+{{-  := (index .Values "networkPolicy") | default (dict) -}}
+{{- if (index  "enabled" | default false) -}}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "myapp-ocp.fullname" . }}-deny-all-ingress
