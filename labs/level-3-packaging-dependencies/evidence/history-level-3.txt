@@ -1,0 +1,1198 @@
+  125  BEGIN{
+  126    in=0; qsN=0; depN=0;
+  127    name=cat=status=purpose="";
+  128  }
+  129  # start of a repo item
+  130  /^[[:space:]]*-[[:space:]]name:[[:space:]]*/{
+  131    # flush previous
+  132    if(in==1){
+  133      repo="[" name "](https://github.com/zdmooc/" name ")"
+  134      qs=join(qsArr, qsN, "<br>")
+  135      deps=join(depArr, depN, "<br>")
+  136      gsub(/\|/,"\\|",purpose)
+  137      printf("| %s | %s | %s | %s | %s | %s |\n", repo, cat, status, purpose, qs, deps)
+  138    }
+  139    in=1
+  140    name=trim($0); sub(/.*name:[[:space:]]*/,"",name)
+  141    cat=status=purpose=""
+  142    qsN=0; depN=0
+  143    next
+  144  }
+  145  in==1 && /^[[:space:]]*category:[[:space:]]*/{
+  146    cat=trim($0); sub(/.*category:[[:space:]]*/,"",cat); next
+  147  }
+  148  in==1 && /^[[:space:]]*status:[[:space:]]*/{
+  149    status=trim($0); sub(/.*status:[[:space:]]*/,"",status); next
+  150  }
+  151  in==1 && /^[[:space:]]*purpose:[[:space:]]*/{
+  152    purpose=$0
+  153    sub(/.*purpose:[[:space:]]*/,"",purpose)
+  154    purpose=trim(purpose)
+  155    gsub(/^"/,"",purpose); gsub(/"$/,"",purpose)
+  156    next
+  157  }
+  158  in==1 && /^[[:space:]]*quickstart:[[:space:]]*$/{
+  159    mode="quick"; next
+  160  }
+  161  in==1 && /^[[:space:]]*depends_on:[[:space:]]*$/{
+  162    mode="deps"; next
+  163  }
+  164  in==1 && /^[[:space:]]*-[[:space:]]*"/{
+  165    line=trim($0); sub(/^-+[[:space:]]*/,"",line)
+  166    gsub(/^"/,"",line); gsub(/"$/,"",line)
+  167    if(mode=="quick"){ qsArr[++qsN]=line }
+  168    else if(mode=="deps"){ depArr[++depN]=line }
+  169    next
+  170  }
+  171  END{
+  172    if(in==1){
+  173      repo="[" name "](https://github.com/zdmooc/" name ")"
+  174      qs=join(qsArr, qsN, "<br>")
+  175      deps=join(depArr, depN, "<br>")
+  176      gsub(/\|/,"\\|",purpose)
+  177      printf("| %s | %s | %s | %s | %s | %s |\n", repo, cat, status, purpose, qs, deps)
+  178    }
+  179  }
+  180  ' "$CATALOG"
+  181  EOF
+  182  chmod +x scripts/render-catalog.sh
+  183  ./scripts/render-catalog.sh > docs/20-repo-catalog.md
+  184  rm -f scripts/render-catalog.sh
+  185  cat > scripts/render-catalog.sh <<'EOF'
+  186  #
+  187  !/usr/bin/env bash
+  188  set -euo pipefail
+  189  CATALOG="catalog/repos.yaml"
+  190  #echo "
+  191   Catalogue des repos"
+  192  echo
+  193  echo "Source:catalog/repos.yaml"
+  194  echo
+  195  echo " Repo  Catgorie  Statut  Objectif  Quickstart  Dpendances "
+  196  echo "------------------"
+  197  awk '
+  198  function trim(s) sub(/^tsub(/t
+  199  function strip_quotes(s) s=trim(s); gsub(/^"/,"",s); gsub(/"$/,"",s); return s 
+  200  function flush()
+  201    if(inItem==1)
+  202      repo="ame "/,"",purpose)
+  203      printf(" %s  %s  %s  %s  %s  %sn", repo, category, status, purpose, quickstart, deps)
+  204    
+  205  BEGIN
+  206    inItem=0; mode="";
+  207    name=""; category=""; status=""; purpose="";
+  208    quickstart=""; deps="";
+  209  #
+  210   start of repo item
+  211  /^[:space:*-[:space:name:[:space:*/
+  212    flush()
+  213    inItem=1; mode=""
+  214    line=$0; sub(/.*name:[[:space:]]*/,"",line); name=trim(line)
+  215    category=""; status=""; purpose=""; quickstart=""; deps=""
+  216    next
+  217  }
+  218  inItem==1 && /^[[:space:]]*category:[[:space:]]*/{
+  219    line=$0; sub(/.*category:[[:space:]]*/,"",line); category=trim(line); next
+  220  }
+  221  inItem==1 && /^[[:space:]]*status:[[:space:]]*/{
+  222    line=$0; sub(/.*status:[[:space:]]*/,"",line); status=trim(line); next
+  223  }
+  224  inItem==1 && /^[[:space:]]*purpose:[[:space:]]*/{
+  225    line=$0; sub(/.*purpose:[[:space:]]*/,"",line); purpose=strip_quotes(line); next
+  226  }
+  227  inItem==1 && /^[[:space:]]*quickstart:[[:space:]]*$/ { mode="quick"; next }
+  228  inItem==1 && /^[[:space:]]*depends_on:[[:space:]]*$/ { mode="deps"; next }
+  229  # list item (quoted or not), only when in quick/deps mode
+  230  inItem==1 && (mode=="quick" || mode=="deps") && /^[[:space:]]*-[[:space:]]*/{
+  231    line=$0
+  232    sub(/^[[:space:]]*-[[:space:]]*/,"",line)
+  233    line=strip_quotes(line)
+  234    if(mode=="quick"){
+  235      quickstart = (quickstart=="" ? line : quickstart "<br>" line)
+  236    } else {
+  237      deps = (deps=="" ? line : deps "<br>" line)
+  238    }
+  239    next
+  240  }
+  241  END{ flush() }
+  242  ' "$CATALOG"
+  243  EOF
+  244  chmod +x scripts/render-catalog.sh
+  245  rm -f scripts/render-catalog.sh
+  246  cat > scripts/render-catalog.sh <<'EOF'
+  247  #!/usr/bin/env bash
+  248  set -euo pipefail
+  249  CATALOG="catalog/repos.yaml"
+  250  echo "# Catalogue des repos"
+  251  echo
+  252  echo "Source: \`catalog/repos.yaml\`"
+  253  echo
+  254  echo "| Repo | Catégorie | Statut | Objectif | Quickstart | Dépendances |"
+  255  echo "|---|---|---|---|---|---|"
+  256  awk '
+  257  function trim(s){ sub(/^[ \t]+/,"",s); sub(/[ \t]+$/,"",s); return s }
+  258  function strip_quotes(s){ s=trim(s); gsub(/^"/,"",s); gsub(/"$/,"",s); return s }
+  259  function flush(){
+  260    if(inItem==1){
+  261      repo="[" name "](https://github.com/zdmooc/" name ")"
+  262      gsub(/\|/,"\\|",purpose)
+  263      printf("| %s | %s | %s | %s | %s | %s |\n", repo, category, status, purpose, quickstart, deps)
+  264    }
+  265  }
+  266  BEGIN{
+  267    inItem=0; mode="";
+  268    name=""; category=""; status=""; purpose="";
+  269    quickstart=""; deps="";
+  270  }
+  271  # start of repo item
+  272  /^[[:space:]]*-[[:space:]]name:[[:space:]]*/{
+  273    flush()
+  274    inItem=1; mode=""
+  275    line=$0; sub(/.*name:[[:space:]]*/,"",line); name=trim(line)
+  276    category=""; status=""; purpose=""; quickstart=""; deps=""
+  277    next
+  278  }
+  279  inItem==1 && /^[[:space:]]*category:[[:space:]]*/{
+  280    line=$0; sub(/.*category:[[:space:]]*/,"",line); category=trim(line); next
+  281  }
+  282  inItem==1 && /^[[:space:]]*status:[[:space:]]*/{
+  283    line=$0; sub(/.*status:[[:space:]]*/,"",line); status=trim(line); next
+  284  }
+  285  inItem==1 && /^[[:space:]]*purpose:[[:space:]]*/{
+  286    line=$0; sub(/.*purpose:[[:space:]]*/,"",line); purpose=strip_quotes(line); next
+  287  }
+  288  inItem==1 && /^[[:space:]]*quickstart:[[:space:]]*$/ { mode="quick"; next }
+  289  inItem==1 && /^[[:space:]]*depends_on:[[:space:]]*$/ { mode="deps"; next }
+  290  # list item (quoted or not), only when in quick/deps mode
+  291  inItem==1 && (mode=="quick" || mode=="deps") && /^[[:space:]]*-[[:space:]]*/{
+  292    line=$0
+  293    sub(/^[[:space:]]*-[[:space:]]*/,"",line)
+  294    line=strip_quotes(line)
+  295    if(mode=="quick"){
+  296      quickstart = (quickstart=="" ? line : quickstart "<br>" line)
+  297    } else {
+  298      deps = (deps=="" ? line : deps "<br>" line)
+  299    }
+  300    next
+  301  }
+  302  END{ flush() }
+  303  ' "$CATALOG"
+  304  EOF
+  305  chmod +x scripts/render-catalog.sh
+  306  ./scripts/render-catalog.sh > docs/20-repo-catalog.md
+  307  git add scripts/render-catalog.sh docs/20-repo-catalog.md
+  308  git commit -m "Add bash catalog renderer (no python/docker required)"
+  309  git push
+  310  head -n 30 docs/20-repo-catalog.md
+  311  grep -n "chmod +x" -n scripts/render-catalog.sh || echo "OK: no stray chmod"
+  312  grep -n "start" scripts/render-catalog.sh | head
+  313  cat > scripts/render-catalog.sh <<'EOF'
+  314  #!/usr/bin/env bash
+  315  set -euo pipefail
+  316  CATALOG="catalog/repos.yaml"
+  317  echo "# Catalogue des repos"
+  318  echo
+  319  echo "Source: \`catalog/repos.yaml\`"
+  320  echo
+  321  echo "| Repo | Catégorie | Statut | Objectif | Quickstart | Dépendances |"
+  322  echo "|---|---|---|---|---|---|"
+  323  awk '
+  324  function trim(s){ sub(/^[ \t]+/,"",s); sub(/[ \t]+$/,"",s); return s }
+  325  function strip_quotes(s){ s=trim(s); gsub(/^"/,"",s); gsub(/"$/,"",s); return s }
+  326  function flush(){
+  327    if(inItem==1){
+  328      repo="[" name "](https://github.com/zdmooc/" name ")"
+  329      gsub(/\|/,"\\|",purpose)
+  330      printf("| %s | %s | %s | %s | %s | %s |\n", repo, category, status, purpose, quickstart, deps)
+  331    }
+  332  }
+  333  BEGIN{
+  334    inItem=0; mode="";
+  335    name=""; category=""; status=""; purpose="";
+  336    quickstart=""; deps="";
+  337  }
+  338  /^[[:space:]]*-[[:space:]]name:[[:space:]]*/{
+  339    flush()
+  340    inItem=1; mode=""
+  341    line=$0; sub(/.*name:[[:space:]]*/,"",line); name=trim(line)
+  342    category=""; status=""; purpose=""; quickstart=""; deps=""
+  343    next
+  344  }
+  345  inItem==1 && /^[[:space:]]*category:[[:space:]]*/{
+  346    line=$0; sub(/.*category:[[:space:]]*/,"",line); category=trim(line); next
+  347  }
+  348  inItem==1 && /^[[:space:]]*status:[[:space:]]*/{
+  349    line=$0; sub(/.*status:[[:space:]]*/,"",line); status=trim(line); next
+  350  }
+  351  inItem==1 && /^[[:space:]]*purpose:[[:space:]]*/{
+  352    line=$0; sub(/.*purpose:[[:space:]]*/,"",line); purpose=strip_quotes(line); next
+  353  }
+  354  inItem==1 && /^[[:space:]]*quickstart:[[:space:]]*$/ { mode="quick"; next }
+  355  inItem==1 && /^[[:space:]]*depends_on:[[:space:]]*$/ { mode="deps"; next }
+  356  inItem==1 && (mode=="quick" || mode=="deps") && /^[[:space:]]*-[[:space:]]*/{
+  357    line=$0
+  358    sub(/^[[:space:]]*-[[:space:]]*/,"",line)
+  359    line=strip_quotes(line)
+  360    if(mode=="quick"){
+  361      quickstart = (quickstart=="" ? line : quickstart "<br>" line)
+  362    } else {
+  363      deps = (deps=="" ? line : deps "<br>" line)
+  364    }
+  365    next
+  366  }
+  367  END{ flush() }
+  368  ' "$CATALOG"
+  369  EOF
+  370  chmod +x scripts/render-catalog.sh
+  371  cat > scripts/render-catalog.sh <<'EOF'
+  372  #!/usr/bin/env bash
+  373  set -euo pipefail
+  374  CATALOG="catalog/repos.yaml"
+  375  echo "# Catalogue des repos"
+  376  echo
+  377  echo "Source: \`catalog/repos.yaml\`"
+  378  echo
+  379  echo "| Repo | Catégorie | Statut | Objectif | Quickstart | Dépendances |"
+  380  echo "|---|---|---|---|---|---|"
+  381  awk '
+  382  function trim(s){ sub(/^[ \t]+/,"",s); sub(/[ \t]+$/,"",s); return s }
+  383  function strip_quotes(s){ s=trim(s); gsub(/^"/,"",s); gsub(/"$/,"",s); return s }
+  384  function flush(){
+  385    if(inItem==1){
+  386      repo="[" name "](https://github.com/zdmooc/" name ")"
+  387      gsub(/\|/,"\\|",purpose)
+  388      printf("| %s | %s | %s | %s | %s | %s |\n", repo, category, status, purpose, quickstart, deps)
+  389    }
+  390  }
+  391  BEGIN{
+  392    inItem=0; mode="";
+  393    name=""; category=""; status=""; purpose="";
+  394    quickstart=""; deps="";
+  395  }
+  396  /^[[:space:]]*-[[:space:]]name:[[:space:]]*/{
+  397    flush()
+  398    inItem=1; mode=""
+  399    line=$0; sub(/.*name:[[:space:]]*/,"",line); name=trim(line)
+  400    category=""; status=""; purpose=""; quickstart=""; deps=""
+  401    next
+  402  }
+  403  inItem==1 && /^[[:space:]]*category:[[:space:]]*/{
+  404    line=$0; sub(/.*category:[[:space:]]*/,"",line); category=trim(line); next
+  405  }
+  406  inItem==1 && /^[[:space:]]*status:[[:space:]]*/{
+  407    line=$0; sub(/.*status:[[:space:]]*/,"",line); status=trim(line); next
+  408  }
+  409  inItem==1 && /^[[:space:]]*purpose:[[:space:]]*/{
+  410    line=$0; sub(/.*purpose:[[:space:]]*/,"",line); purpose=strip_quotes(line); next
+  411  }
+  412  inItem==1 && /^[[:space:]]*quickstart:[[:space:]]*$/ { mode="quick"; next }
+  413  inItem==1 && /^[[:space:]]*depends_on:[[:space:]]*$/ { mode="deps"; next }
+  414  inItem==1 && (mode=="quick" || mode=="deps") && /^[[:space:]]*-[[:space:]]*/{
+  415    line=$0
+  416    sub(/^[[:space:]]*-[[:space:]]*/,"",line)
+  417    line=strip_quotes(line)
+  418    if(mode=="quick"){
+  419      quickstart = (quickstart=="" ? line : quickstart "<br>" line)
+  420    } else {
+  421      deps = (deps=="" ? line : deps "<br>" line)
+  422    }
+  423    next
+  424  }
+  425  END{ flush() }
+  426  ' "$CATALOG"
+  427  EOF
+  428  chmod +x scripts/render-catalog.sh
+  429  ./scripts/render-catalog.sh > docs/20-repo-catalog.md
+  430  git add scripts/render-catalog.sh docs/20-repo-catalog.md
+  431  git commit -m "Fix render-catalog.sh (clean)"
+  432  git push
+  433  sed -n '1,120p' scripts/render-catalog.sh
+  434  tail -n 20 scripts/render-catalog.sh
+  435  perl -0777 -i -pe 's/^render:\n(?:\t.*\n)+/render:\n\t.\/scripts\/render-catalog.sh > docs\/20-repo-catalog.md\n\t@echo "Generated docs\/20-repo-catalog.md"\n/m' Makefile
+  436  grep -n "^render:" -A3 Makefile
+  437  git add Makefile
+  438  git commit -m "Use bash renderer in Makefile"
+  439  git push
+  440  make render
+  441  ./scripts/render-catalog.sh > docs/20-repo-catalog.md
+  442  pacman -S --needed make
+  443  # 1) Statut Helm (pour savoir si c’est deployed / failed / pending)
+  444  helm status fullstack -n fullstack-dev
+  445  helm history fullstack -n fullstack-dev
+  446  # 2) Pods (on veut voir si PostgreSQL pull bien l'image legacy)
+  447  oc get po -n fullstack-dev -o wide
+  448  # 3) Warnings (commande manquante chez toi)
+  449  oc get events -n fullstack-dev --field-selector type=Warning --sort-by=.lastTimestamp | tail -n 30
+  450  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  451  mkdir -p labs/level-3-packaging-dependencies/evidence
+  452  FRONT=$(oc -n fullstack-dev get po -l component=frontend -o jsonpath='{.items[0].metadata.name}')
+  453  BACK=$(oc -n fullstack-dev get po -l component=backend  -o jsonpath='{.items[0].metadata.name}')
+  454  printf "FRONT=%s\nBACK=%s\n" "$FRONT" "$BACK"   | tee labs/level-3-packaging-dependencies/evidence/pods-crashloop.txt
+  455  oc -n fullstack-dev describe pod "$FRONT" |& tee labs/level-3-packaging-dependencies/evidence/describe-frontend.txt
+  456  oc -n fullstack-dev logs "$FRONT" -c frontend --previous |& tee labs/level-3-packaging-dependencies/evidence/logs-frontend-previous.txt || true
+  457  oc -n fullstack-dev logs "$FRONT" -c frontend |& tee labs/level-3-packaging-dependencies/evidence/logs-frontend.txt || true
+  458  oc -n fullstack-dev describe pod "$BACK" |& tee labs/level-3-packaging-dependencies/evidence/describe-backend.txt
+  459  oc -n fullstack-dev logs "$BACK" -c backend --previous |& tee labs/level-3-packaging-dependencies/evidence/logs-backend-previous.txt || true
+  460  oc -n fullstack-dev logs "$BACK" -c backend |& tee labs/level-3-packaging-dependencies/evidence/logs-backend.txt || true
+  461  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   --set postgresql.enabled=true   > /tmp/fullstack-fixed.yaml
+  462  echo "== check nginx mounts =="
+  463  grep -nE 'mountPath: /var/cache/nginx|mountPath: /var/run' /tmp/fullstack-fixed.yaml | head -n 20
+  464  echo "== check backend command =="
+  465  grep -nE 'name: fullstack-fullstack-ocp-backend|command: \["python","-c"\]|/health' /tmp/fullstack-fixed.yaml | head -n 40
+  466  nl -ba charts/fullstack-ocp/templates/backend-deployment.yaml | sed -n '25,60p'
+  467  python - <<'PY'
+from pathlib import Path
+import re
+
+p = Path("charts/fullstack-ocp/templates/backend-deployment.yaml")
+s = p.read_text()
+
+new = """          command: ["python","-c"]
+          args:
+            - |
+              import http.server, socketserver
+              class H(http.server.BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ("/health","/"):
+                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+                      else:
+                          self.send_response(404); self.end_headers()
+                  def log_message(self, fmt, *args): pass
+              with socketserver.TCPServer(("", 5000), H) as httpd:
+                  httpd.serve_forever()
+"""
+
+pattern = r'^\s*command:\s*\["python","-c"\]\n(?:.*\n)*?^\s*livenessProbe:'
+s2, n = re.subn(pattern, new + "          livenessProbe:", s, flags=re.M)
+if n != 1:
+    raise SystemExit(f"Expected to replace 1 block, replaced {n}")
+
+p.write_text(s2)
+print("OK: backend command/args block fixed")
+PY
+
+  468  cat > /tmp/fix-backend.pl <<'PL'
+use strict; use warnings;
+
+my $file = "charts/fullstack-ocp/templates/backend-deployment.yaml";
+local $/;
+
+open my $fh, "<", $file or die "read $file: $!";
+my $s = <$fh>;
+close $fh;
+
+my $replacement = <<'YAML';
+          command: ["python","-c"]
+          args:
+            - |
+              import http.server, socketserver
+              class H(http.server.BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ("/health","/"):
+                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+                      else:
+                          self.send_response(404); self.end_headers()
+                  def log_message(self, fmt, *args): pass
+              with socketserver.TCPServer(("", 5000), H) as httpd:
+                  httpd.serve_forever()
+          livenessProbe:
+YAML
+
+my $n = ($s =~ s/^\s*command:\s*\["python","-c"\]\n(?:.*\n)*?^\s*livenessProbe:/$replacement/ms);
+die "Expected 1 replacement, got $n\n" unless $n == 1;
+
+open my $oh, ">", $file or die "write $file: $!";
+print $oh $s;
+close $oh;
+
+print "OK: backend-deployment.yaml fixed\n";
+PL
+
+  469  perl /tmp/fix-backend.pl
+  470  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  471  mkdir -p labs/level-3-packaging-dependencies/evidence
+  472  # Step 1 — vérifier que le chart rend bien (plus d’erreur YAML) après le fix backend
+  473  helm lint charts/fullstack-ocp |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-after-backend-fix.log
+  474  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   --set postgresql.enabled=true   --debug > /tmp/fullstack-fixed.yaml
+  475  echo "RENDER_OK" | tee labs/level-3-packaging-dependencies/evidence/render-ok.txt
+  476  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  477  nl -ba charts/fullstack-ocp/templates/backend-deployment.yaml | sed -n '1,120p'   |& tee labs/level-3-packaging-dependencies/evidence/backend-deployment-nl-1-120.txt
+  478  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  479  mkdir -p labs/level-3-packaging-dependencies/evidence
+  480  # Backup (evidence)
+  481  cp -f charts/fullstack-ocp/templates/backend-deployment.yaml   labs/level-3-packaging-dependencies/evidence/backend-deployment.before.yaml
+  482  # Fix complet : indentation YAML + backend qui reste vivant (mini HTTP server)
+  483  cat > charts/fullstack-ocp/templates/backend-deployment.yaml <<'EOF'
+{{- if .Values.backend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-backend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: backend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          command: ["python","-c"]
+          args:
+            - |
+              import http.server, socketserver
+              class H(http.server.BaseHTTPRequestHandler):
+                  def do_GET(self):
+                      if self.path in ("/health","/"):
+                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+                      else:
+                          self.send_response(404); self.end_headers()
+                  def log_message(self, fmt, *args): pass
+              with socketserver.TCPServer(("", 5000), H) as httpd:
+                  httpd.serve_forever()
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+{{- end }}
+EOF
+
+  484  # Evidence + vérif rapide
+  485  nl -ba charts/fullstack-ocp/templates/backend-deployment.yaml | sed -n '20,95p'   |& tee labs/level-3-packaging-dependencies/evidence/backend-deployment.after-nl-20-95.txt
+  486  helm lint charts/fullstack-ocp   |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-after-backend-indent-fix.log
+  487  helm lint charts/fullstack-ocp   |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-after-backend-indent-fix.log
+  488  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  489  mkdir -p labs/level-3-packaging-dependencies/evidence
+  490  # Step 2 — rendre le chart (avec overrides OCP) + sanity check ressources
+  491  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   --set postgresql.enabled=true   --debug > /tmp/fullstack-fixed.yaml
+  492  # Evidence: Services uniques + objets clés
+  493  echo "== Services =="   |& tee labs/level-3-packaging-dependencies/evidence/render-services.txt
+  494  awk '
+  $1=="kind:"{kind=$2; want=(kind=="Service"); meta=0}
+  want && $1=="metadata:"{meta=1}
+  want && meta && $1=="name:"{print kind, $2; want=0; meta=0}
+' /tmp/fullstack-fixed.yaml | sort | uniq -c   |& tee -a labs/level-3-packaging-dependencies/evidence/render-services.txt
+  495  grep -nE 'kind: (Deployment|StatefulSet|Service|Route|PersistentVolumeClaim)' /tmp/fullstack-fixed.yaml   |& tee labs/level-3-packaging-dependencies/evidence/render-kinds-after-fix.txt
+  496  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  497  mkdir -p labs/level-3-packaging-dependencies/evidence
+  498  # Step 3 — inspect template frontend (pour corriger CrashLoop nginx OpenShift)
+  499  nl -ba charts/fullstack-ocp/templates/frontend-deployment.yaml   | sed -n '1,220p'   |& tee labs/level-3-packaging-dependencies/evidence/frontend-deployment-nl-1-220.txt
+  500  # (optionnel mais utile) voir service + route frontend pour gérer le port (80 vs 8080)
+  501  ls -1 charts/fullstack-ocp/templates   |& tee labs/level-3-packaging-dependencies/evidence/templates-list.txt
+  502  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  503  mkdir -p labs/level-3-packaging-dependencies/evidence
+  504  # Action 4 — ré-appliquer le chart (on veut que tes fixes backend/frontend soient réellement déployés)
+  505  # 0) Evidence: diff local (utile pour tracer les fixes)
+  506  git diff -- charts/fullstack-ocp/templates/backend-deployment.yaml charts/fullstack-ocp/templates/frontend-deployment.yaml   |& tee labs/level-3-packaging-dependencies/evidence/git-diff-yaml-fixes.patch
+  507  # 1) Cleanup release + ressources (car helm est en pending-install)
+  508  helm uninstall fullstack -n fullstack-dev --ignore-not-found   |& tee labs/level-3-packaging-dependencies/evidence/helm-uninstall-before-reinstall.log
+  509  oc delete deploy,sts,po,svc,route,pvc,cm,secret,sa,role,rolebinding   -n fullstack-dev -l app.kubernetes.io/instance=fullstack   --ignore-not-found=true   |& tee labs/level-3-packaging-dependencies/evidence/oc-cleanup-before-reinstall.log
+  510  # 2) Re-install (avec overrides OpenShift + image legacy PostgreSQL)
+  511  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   --set postgresql.enabled=true   --wait --timeout 10m   |& tee labs/level-3-packaging-dependencies/evidence/helm-install-after-fixes.log
+  512  # 3) Evidence: état + warnings
+  513  oc get deploy,sts,po,svc,route,pvc -n fullstack-dev -o wide   |& tee labs/level-3-packaging-dependencies/evidence/oc-state-after-reinstall.txt
+  514  oc get events -n fullstack-dev --field-selector type=Warning --sort-by=.lastTimestamp | tail -n 30   |& tee labs/level-3-packaging-dependencies/evidence/oc-warnings-after-reinstall.txt
+  515  # Step 5 — vérifier si l’install Helm a terminé (deployed/failed/pending)
+  516  helm status fullstack -n fullstack-dev
+  517  # Step 6 — récupérer la raison exacte du "failed" côté Helm
+  518  helm get manifest fullstack -n fullstack-dev > /tmp/fullstack-manifest.yaml || true
+  519  helm get notes fullstack -n fullstack-dev |& tee labs/level-3-packaging-dependencies/evidence/helm-notes.txt
+  520  helm get all fullstack -n fullstack-dev |& tee labs/level-3-packaging-dependencies/evidence/helm-get-all.txt
+  521  # Step 6b — voir l'état réel côté cluster (pods + events)
+  522  oc get deploy,sts,po,svc,route,pvc -n fullstack-dev -o wide   |& tee labs/level-3-packaging-dependencies/evidence/oc-state-after-reinstall-v2.txt
+  523  oc get events -n fullstack-dev --sort-by=.lastTimestamp   | tail -n 80   |& tee labs/level-3-packaging-dependencies/evidence/oc-events-after-reinstall-v2.txt
+  524  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  525  mkdir -p labs/level-3-packaging-dependencies/evidence
+  526  # UID autorisé par SCC dans le namespace
+  527  UID_BASE=$(oc get ns fullstack-dev -o jsonpath='{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}' | cut -d/ -f1)
+  528  echo "UID_BASE=$UID_BASE" | tee labs/level-3-packaging-dependencies/evidence/uid-base-v2.txt
+  529  # Values: UID base injecté dans Helm
+  530  cat > labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml <<EOF
+openshift:
+  uidBase: ${UID_BASE}
+EOF
+
+  531  # Patch frontend template (fsGroup + runAsUser)
+  532  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      {{- if .Values.openshift.uidBase }}
+      securityContext:
+        fsGroup: {{ .Values.openshift.uidBase }}
+      {{- end }}
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            {{- if .Values.openshift.uidBase }}
+            runAsUser: {{ .Values.openshift.uidBase }}
+            {{- end }}
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+{{- end }}
+EOF
+
+  533  # Evidence: lint OK
+  534  helm lint charts/fullstack-ocp |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-after-frontend-fsgroup.log
+  535  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  536  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+{{- $uid := (dig "openshift" "uidBase" "" .Values) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      {{- if $uid }}
+      securityContext:
+        fsGroup: {{ $uid }}
+      {{- end }}
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            {{- if $uid }}
+            runAsUser: {{ $uid }}
+            {{- end }}
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+{{- end }}
+EOF
+
+  537  # ajoute à la fin du fichier si absent
+  538  grep -q '^openshift:' charts/fullstack-ocp/values.yaml || cat >> charts/fullstack-ocp/values.yaml <<'EOF'
+
+openshift:
+  uidBase: ""
+EOF
+
+  539  mkdir -p labs/level-3-packaging-dependencies/evidence
+  540  helm lint charts/fullstack-ocp   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-with-values.log
+  541  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   > /tmp/fullstack-fixed.yaml
+  542  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   --wait --timeout 10m   |& tee labs/level-3-packaging-dependencies/evidence/helm-upgrade-after-frontend-fix.log
+  543  helm status fullstack -n fullstack-dev |& tee labs/level-3-packaging-dependencies/evidence/helm-status-after-frontend-fix.txt
+  544  oc get po -n fullstack-dev -o wide |& tee labs/level-3-packaging-dependencies/evidence/oc-pods-after-frontend-fix.txt
+  545  oc get events -n fullstack-dev --field-selector type=Warning --sort-by=.lastTimestamp | tail -n 40   |& tee labs/level-3-packaging-dependencies/evidence/oc-warnings-after-frontend-fix.txt
+  546  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  547  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+{{- $openshift := (index .Values "openshift" | default (dict)) -}}
+{{- $uid := (index $openshift "uidBase" | default "") -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      {{- if $uid }}
+      securityContext:
+        fsGroup: {{ $uid }}
+      {{- end }}
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            {{- if $uid }}
+            runAsUser: {{ $uid }}
+            {{- end }}
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+{{- end }}
+EOF
+
+  548  grep -q '^openshift:' charts/fullstack-ocp/values.yaml || cat >> charts/fullstack-ocp/values.yaml <<'EOF'
+
+openshift:
+  uidBase: ""
+EOF
+
+  549  mkdir -p labs/level-3-packaging-dependencies/evidence
+  550  helm lint charts/fullstack-ocp   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-with-values.log
+  551  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   > /tmp/fullstack-fixed.yaml
+  552  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   --reset-values   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   --wait --timeout 10m   |& tee labs/level-3-packaging-dependencies/evidence/helm-upgrade-after-frontend-fix.log
+  553  helm status fullstack -n fullstack-dev
+  554  oc get po -n fullstack-dev -o wide
+  555  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  556  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+{{- $openshift := (index .Values "openshift" | default (dict)) -}}
+{{- $uid := (index $openshift "uidBase" | default "") -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      {{- if $uid }}
+      securityContext:
+        fsGroup: {{ $uid }}
+      {{- end }}
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            {{- if $uid }}
+            runAsUser: {{ $uid }}
+            {{- end }}
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+{{- end }}
+EOF
+
+  557  grep -q '^openshift:' charts/fullstack-ocp/values.yaml || cat >> charts/fullstack-ocp/values.yaml <<'EOF'
+
+openshift:
+  uidBase: ""
+EOF
+
+  558  mkdir -p labs/level-3-packaging-dependencies/evidence
+  559  helm lint charts/fullstack-ocp   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   |& tee labs/level-3-packaging-dependencies/evidence/helm-lint-with-values.log
+  560  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   > /tmp/fullstack-fixed.yaml
+  561  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   --reset-values   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml   --set postgresql.enabled=true   --wait --timeout 10m   |& tee labs/level-3-packaging-dependencies/evidence/helm-upgrade-after-frontend-fix.log
+  562  helm status fullstack -n fullstack-dev
+  563  oc get po -n fullstack-dev -o wide
+  564  FRONT=$(oc -n fullstack-dev get po -l component=frontend -o jsonpath='{.items[0].metadata.name}')
+  565  oc -n fullstack-dev logs "$FRONT" -c frontend --previous | tail -n 120
+  566  oc -n fullstack-dev describe pod "$FRONT" | tail -n 120
+  567  cat > charts/fullstack-ocp/templates/frontend-nginx-configmap.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+data:
+  default.conf: |
+    server {
+      listen {{ default 8080 .Values.frontend.containerPort }};
+      server_name _;
+
+      location = /health {
+        return 200 "OK\n";
+        add_header Content-Type text/plain;
+      }
+
+      location / {
+        return 200 "FRONTEND OK\n";
+        add_header Content-Type text/plain;
+      }
+    }
+{{- end }}
+EOF
+
+  568  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ default 8080 .Values.frontend.containerPort }}
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+            items:
+              - key: default.conf
+                path: default.conf
+{{- end }}
+EOF
+
+  569  cat > labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml <<'EOF'
+frontend:
+  containerPort: 8080
+EOF
+
+  570  helm uninstall fullstack -n fullstack-dev --ignore-not-found
+  571  oc delete deploy,sts,po,svc,route,cm,secret,sa,role,rolebinding   -n fullstack-dev -l app.kubernetes.io/instance=fullstack --ignore-not-found=true
+  572  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   --reset-values   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml   --set postgresql.enabled=true   --wait --timeout 10m
+  573  oc get po -n fullstack-dev -o wide
+  574  oc logs -n fullstack-dev -l component=frontend --tail=80
+  575  oc get route -n fullstack-dev
+  576  # Route frontend (sur CRC c’est souvent en HTTP)
+  577  curl -sS http://frontend-dev.apps.crc.testing/health
+  578  curl -sS http://frontend-dev.apps.crc.testing/
+  579  # Test backend depuis le cluster (DNS service)
+  580  oc -n fullstack-dev exec deploy/fullstack-fullstack-ocp-frontend --   sh -c 'curl -sS http://fullstack-fullstack-ocp-backend:5000/health && echo'
+  581  # Route frontend (sur CRC c’est souvent en HTTP)
+  582  curl -sS http://frontend-dev.apps.crc.testing/health
+  583  curl -sS http://frontend-dev.apps.crc.testing/
+  584  # Test backend depuis le cluster (DNS service)
+  585  oc -n fullstack-dev exec deploy/fullstack-fullstack-ocp-frontend --   sh -c 'curl -sS http://fullstack-fullstack-ocp-backend:5000/health && echo'
+  586  cat > charts/fullstack-ocp/templates/frontend-nginx-configmap.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+data:
+  default.conf: |
+    server {
+      listen {{ default 8080 .Values.frontend.containerPort }};
+      server_name _;
+
+      location = /health {
+        return 200 "OK\n";
+        add_header Content-Type text/plain;
+      }
+
+      location / {
+        return 200 "FRONTEND OK\n";
+        add_header Content-Type text/plain;
+      }
+    }
+{{- end }}
+EOF
+
+  587  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ default 8080 .Values.frontend.containerPort }}
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+            items:
+              - key: default.conf
+                path: default.conf
+{{- end }}
+EOF
+
+  588  helm lint charts/fullstack-ocp   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml
+  589  helm template fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml   --set postgresql.enabled=true > /tmp/fullstack-render.yaml
+  590  mkdir -p labs/level-3-packaging-dependencies/evidence
+  591  helm status fullstack -n fullstack-dev   |& tee labs/level-3-packaging-dependencies/evidence/helm-status-deployed.txt
+  592  oc get deploy,sts,po,svc,route,pvc -n fullstack-dev -o wide   |& tee labs/level-3-packaging-dependencies/evidence/oc-state-deployed.txt
+  593  git add charts/fullstack-ocp/templates/frontend-deployment.yaml         charts/fullstack-ocp/templates/frontend-nginx-configmap.yaml         labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml
+  594  git commit -m "Fix frontend for OpenShift restricted SCC: nginx listens on 8080 + ConfigMap"
+  595  cat > charts/fullstack-ocp/templates/frontend-deployment.yaml <<'EOF'
+{{- if .Values.frontend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+      component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ default 8080 .Values.frontend.containerPort }}
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+            items:
+              - key: default.conf
+                path: default.conf
+{{- end }}
+EOF
+
+  596  helm lint charts/fullstack-ocp   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml
+  597  helm upgrade --install fullstack charts/fullstack-ocp -n fullstack-dev   -f charts/fullstack-ocp/values-dev.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml   -f labs/level-3-packaging-dependencies/values-dev-ocp-frontend-port.yaml   --set postgresql.enabled=true   --wait --timeout 10m
+  598  oc -n fullstack-dev get po -o wide
+  599  curl -sS http://frontend-dev.apps.crc.testing/health
+  600  git add charts/fullstack-ocp/templates/frontend-deployment.yaml
+  601  git commit -m "Clean frontend deployment template (remove accidental heredoc pollution)"
+  602  git status
+  603  git diff --name-status
+  604  git diff -- charts/fullstack-ocp/templates/backend-deployment.yaml
+  605  git diff -- charts/fullstack-ocp/values.yaml
+  606  git diff -- charts/myapp-ocp/values.yaml
+  607  git --no-pager log --oneline -n 5
+  608  # annule le changement hors-sujet
+  609  git restore charts/myapp-ocp/values.yaml
+  610  # si tu ne veux PAS garder la clé openshift.uidBase (non utilisée par la solution nginx:8080)
+  611  git restore charts/fullstack-ocp/values.yaml
+  612  ls -la charts/fullstack-ocp/templates/
+  613  git restore charts/fullstack-ocp/templates/services.yaml
+  614  git add charts/fullstack-ocp/templates/backend-deployment.yaml
+  615  git commit -m "Fix backend for OpenShift restricted SCC (non-root + health endpoint)"
+  616  git add labs/level-3-packaging-dependencies/evidence         labs/level-3-packaging-dependencies/values-dev-ocp-overrides.yaml         labs/level-3-packaging-dependencies/values-dev-ocp-uid.yaml
+  617  git commit -m "lab(level-3): packaging/deps evidence + OpenShift values overrides"
+  618  git rm charts/fullstack-ocp/templates/services.yaml
+  619  git commit -m "Remove unused services.yaml template"
+  620  git status
+  621  git push
+  622  git status
+  623  history | grep history
+  624  history > historylevel3.txt
