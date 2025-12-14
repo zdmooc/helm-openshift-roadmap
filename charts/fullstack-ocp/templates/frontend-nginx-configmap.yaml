@@ -1,0 +1,25 @@
+{{- if .Values.frontend.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fullstack-ocp.fullname" . }}-frontend-nginx
+  labels:
+    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+    component: frontend
+data:
+  default.conf: |
+    server {
+      listen {{ default 8080 .Values.frontend.containerPort }};
+      server_name _;
+
+      location = /health {
+        return 200 "OK\n";
+        add_header Content-Type text/plain;
+      }
+
+      location / {
+        return 200 "FRONTEND OK\n";
+        add_header Content-Type text/plain;
+      }
+    }
+{{- end }}
