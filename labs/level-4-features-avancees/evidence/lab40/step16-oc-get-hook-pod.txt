@@ -1,0 +1,2 @@
+NAME                                    READY   STATUS      RESTARTS   AGE   IP           NODE   NOMINATED NODE   READINESS GATES
+fullstack-fullstack-ocp-migrate-xmwhl   0/1     Completed   0          9s    10.217.1.8   crc    <none>           <none>
