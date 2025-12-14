@@ -1,0 +1,11 @@
+total 33
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 13 22:41 ./
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 13 09:33 ../
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121  227 Dec 13 22:41 Chart.lock
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121  650 Dec 13 09:33 Chart.yaml
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 5627 Dec 13 09:33 README.md
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 13 22:41 charts/
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121    0 Dec 13 09:33 templates/
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121  876 Dec 13 09:33 values-dev.yaml
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121  975 Dec 13 09:33 values-prod.yaml
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 1332 Dec 13 09:33 values.yaml

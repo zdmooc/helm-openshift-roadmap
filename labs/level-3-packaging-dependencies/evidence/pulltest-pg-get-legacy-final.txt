@@ -1,0 +1,2 @@
+NAME          READY   STATUS    RESTARTS   AGE     IP             NODE   NOMINATED NODE   READINESS GATES
+pulltest-pg   1/1     Running   0          2m28s   10.217.1.148   crc    <none>           <none>

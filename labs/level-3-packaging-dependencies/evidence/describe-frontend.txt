@@ -1,0 +1,88 @@
+Name:             fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz
+Namespace:        fullstack-dev
+Priority:         0
+Service Account:  default
+Node:             crc/192.168.126.11
+Start Time:       Sun, 14 Dec 2025 00:44:22 +0100
+Labels:           app.kubernetes.io/instance=fullstack
+                  app.kubernetes.io/name=fullstack-ocp
+                  component=frontend
+                  pod-template-hash=85bbc48744
+Annotations:      k8s.ovn.org/pod-networks:
+                    {"default":{"ip_addresses":["10.217.1.150/23"],"mac_address":"0a:58:0a:d9:01:96","gateway_ips":["10.217.0.1"],"routes":[{"dest":"10.217.0....
+                  k8s.v1.cni.cncf.io/network-status:
+                    [{
+                        "name": "ovn-kubernetes",
+                        "interface": "eth0",
+                        "ips": [
+                            "10.217.1.150"
+                        ],
+                        "mac": "0a:58:0a:d9:01:96",
+                        "default": true,
+                        "dns": {}
+                    }]
+                  openshift.io/scc: restricted-v2
+                  seccomp.security.alpha.kubernetes.io/pod: runtime/default
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.217.1.150
+IPs:
+  IP:           10.217.1.150
+Controlled By:  ReplicaSet/fullstack-fullstack-ocp-frontend-85bbc48744
+Containers:
+  frontend:
+    Container ID:   cri-o://31f5eac41d31cf9036976e0bcce5f135d587132faf241e07dce4144e46c2fe4f
+    Image:          nginx:1.21.0
+    Image ID:       docker.io/library/nginx@sha256:2f1cd90e00fe2c991e18272bb35d6a8258eeb27785d121aa4cc1ae4235167cfd
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Sun, 14 Dec 2025 00:50:15 +0100
+      Finished:     Sun, 14 Dec 2025 00:50:15 +0100
+    Ready:          False
+    Restart Count:  6
+    Limits:
+      cpu:     100m
+      memory:  128Mi
+    Requests:
+      cpu:        50m
+      memory:     64Mi
+    Liveness:     http-get http://:http/ delay=30s timeout=1s period=10s #success=1 #failure=3
+    Readiness:    http-get http://:http/ delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jvl7x (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-jvl7x:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+    ConfigMapName:           openshift-service-ca.crt
+    ConfigMapOptional:       <nil>
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/memory-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason          Age                 From               Message
+  ----     ------          ----                ----               -------
+  Normal   Scheduled       11m                 default-scheduler  Successfully assigned fullstack-dev/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz to crc
+  Normal   AddedInterface  11m                 multus             Add eth0 [10.217.1.150/23] from ovn-kubernetes
+  Normal   Pulled          5m8s (x7 over 11m)  kubelet            Container image "nginx:1.21.0" already present on machine
+  Normal   Created         5m7s (x7 over 10m)  kubelet            Created container: frontend
+  Normal   Started         5m7s (x7 over 10m)  kubelet            Started container frontend
+  Warning  BackOff         51s (x57 over 10m)  kubelet            Back-off restarting failed container frontend in pod fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz_fullstack-dev(6a449aa3-a39e-4762-bbe8-bf2386c325f6)

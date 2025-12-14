@@ -1,0 +1,2 @@
+NAME          READY   STATUS              RESTARTS   AGE   IP       NODE   NOMINATED NODE   READINESS GATES
+pulltest-pg   0/1     ContainerCreating   0          2s    <none>   crc    <none>           <none>

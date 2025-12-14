@@ -1,0 +1,43 @@
+    20	    spec:
+    21	      containers:
+    22	        - name: backend
+    23	          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+    24	          imagePullPolicy: IfNotPresent
+    25	          ports:
+    26	            - name: http
+    27	              containerPort: {{ .Values.backend.service.port }}
+    28	              protocol: TCP
+    29	          securityContext:
+    30	            allowPrivilegeEscalation: false
+    31	            capabilities:
+    32	              drop: ["ALL"]
+    33	            runAsNonRoot: true
+    34	            readOnlyRootFilesystem: false
+    35	          command: ["python","-c"]
+    36	          args:
+    37	            - |
+    38	              import http.server, socketserver
+    39	              class H(http.server.BaseHTTPRequestHandler):
+    40	                  def do_GET(self):
+    41	                      if self.path in ("/health","/"):
+    42	                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+    43	                      else:
+    44	                          self.send_response(404); self.end_headers()
+    45	                  def log_message(self, fmt, *args): pass
+    46	              with socketserver.TCPServer(("", 5000), H) as httpd:
+    47	                  httpd.serve_forever()
+    48	          livenessProbe:
+    49	            httpGet:
+    50	              path: /health
+    51	              port: http
+    52	            initialDelaySeconds: 30
+    53	            periodSeconds: 10
+    54	          readinessProbe:
+    55	            httpGet:
+    56	              path: /health
+    57	              port: http
+    58	            initialDelaySeconds: 5
+    59	            periodSeconds: 5
+    60	          resources:
+    61	            {{- toYaml .Values.backend.resources | nindent 12 }}
+    62	{{- end }}

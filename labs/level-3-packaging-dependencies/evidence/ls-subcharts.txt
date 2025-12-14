@@ -1,0 +1,4 @@
+total 72K
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121   0 Dec 13 22:54 ./
+drwxr-xr-x 1 HP 17 G3 Win 11 23H2 197121   0 Dec 13 22:54 ../
+-rw-r--r-- 1 HP 17 G3 Win 11 23H2 197121 66K Dec 13 22:54 postgresql-13.4.4.tgz

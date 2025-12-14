@@ -1,0 +1,23 @@
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES            SELECTOR
+deployment.apps/fullstack-fullstack-ocp-backend    0/1     1            0           7m26s   backend      python:3.9-slim   app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=fullstack-ocp,component=backend
+deployment.apps/fullstack-fullstack-ocp-frontend   0/1     1            0           7m26s   frontend     nginx:1.21.0      app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=fullstack-ocp,component=frontend
+
+NAME                                    READY   AGE     CONTAINERS   IMAGES
+statefulset.apps/fullstack-postgresql   1/1     7m26s   postgresql   docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25
+
+NAME                                                    READY   STATUS             RESTARTS       AGE     IP             NODE   NOMINATED NODE   READINESS GATES
+pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z    0/1     CrashLoopBackOff   6 (101s ago)   7m26s   10.217.1.151   crc    <none>           <none>
+pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz   0/1     CrashLoopBackOff   6 (92s ago)    7m26s   10.217.1.150   crc    <none>           <none>
+pod/fullstack-postgresql-0                              1/1     Running            0              7m25s   10.217.1.152   crc    <none>           <none>
+
+NAME                                       TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE     SELECTOR
+service/fullstack-fullstack-ocp-backend    ClusterIP   10.217.4.114   <none>        5000/TCP   7m26s   app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=fullstack-ocp,component=backend
+service/fullstack-fullstack-ocp-frontend   ClusterIP   10.217.5.12    <none>        80/TCP     7m26s   app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=fullstack-ocp,component=frontend
+service/fullstack-postgresql               ClusterIP   10.217.5.121   <none>        5432/TCP   7m26s   app.kubernetes.io/component=primary,app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=postgresql
+service/fullstack-postgresql-hl            ClusterIP   None           <none>        5432/TCP   7m26s   app.kubernetes.io/component=primary,app.kubernetes.io/instance=fullstack,app.kubernetes.io/name=postgresql
+
+NAME                                                        HOST/PORT                       PATH   SERVICES                           PORT   TERMINATION   WILDCARD
+route.route.openshift.io/fullstack-fullstack-ocp-frontend   frontend-dev.apps.crc.testing          fullstack-fullstack-ocp-frontend   http                 None
+
+NAME                                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS                   VOLUMEATTRIBUTESCLASS   AGE     VOLUMEMODE
+persistentvolumeclaim/data-fullstack-postgresql-0   Bound    pvc-abd67ccd-1583-4b25-8848-211a44f58c4b   79Gi       RWO            crc-csi-hostpath-provisioner   <unset>                 7m26s   Filesystem

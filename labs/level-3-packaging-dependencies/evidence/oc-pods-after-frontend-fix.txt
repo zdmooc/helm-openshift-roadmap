@@ -1,0 +1,4 @@
+NAME                                               READY   STATUS             RESTARTS         AGE   IP            NODE   NOMINATED NODE   READINESS GATES
+fullstack-fullstack-ocp-backend-5647f6846b-8ww8k   1/1     Running            0                54m   10.217.0.86   crc    <none>           <none>
+fullstack-fullstack-ocp-frontend-c4d894889-bgwrv   0/1     CrashLoopBackOff   14 (3m46s ago)   54m   10.217.0.87   crc    <none>           <none>
+fullstack-postgresql-0                             1/1     Running            0                54m   10.217.0.88   crc    <none>           <none>

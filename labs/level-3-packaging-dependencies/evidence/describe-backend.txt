@@ -1,0 +1,88 @@
+Name:             fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z
+Namespace:        fullstack-dev
+Priority:         0
+Service Account:  default
+Node:             crc/192.168.126.11
+Start Time:       Sun, 14 Dec 2025 00:44:22 +0100
+Labels:           app.kubernetes.io/instance=fullstack
+                  app.kubernetes.io/name=fullstack-ocp
+                  component=backend
+                  pod-template-hash=74f8b44c7d
+Annotations:      k8s.ovn.org/pod-networks:
+                    {"default":{"ip_addresses":["10.217.1.151/23"],"mac_address":"0a:58:0a:d9:01:97","gateway_ips":["10.217.0.1"],"routes":[{"dest":"10.217.0....
+                  k8s.v1.cni.cncf.io/network-status:
+                    [{
+                        "name": "ovn-kubernetes",
+                        "interface": "eth0",
+                        "ips": [
+                            "10.217.1.151"
+                        ],
+                        "mac": "0a:58:0a:d9:01:97",
+                        "default": true,
+                        "dns": {}
+                    }]
+                  openshift.io/scc: restricted-v2
+                  seccomp.security.alpha.kubernetes.io/pod: runtime/default
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.217.1.151
+IPs:
+  IP:           10.217.1.151
+Controlled By:  ReplicaSet/fullstack-fullstack-ocp-backend-74f8b44c7d
+Containers:
+  backend:
+    Container ID:   cri-o://d488b7c035cef820cdac55afad4d34c8b3ec968ab9b7f1e22663543aa77d4306
+    Image:          python:3.9-slim
+    Image ID:       docker.io/library/python@sha256:2d97f6910b16bd338d3060f261f53f144965f755599aab1acda1e13cf1731b1b
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Sun, 14 Dec 2025 00:55:11 +0100
+      Finished:     Sun, 14 Dec 2025 00:55:11 +0100
+    Ready:          False
+    Restart Count:  7
+    Limits:
+      cpu:     150m
+      memory:  256Mi
+    Requests:
+      cpu:        75m
+      memory:     128Mi
+    Liveness:     http-get http://:http/health delay=30s timeout=1s period=10s #success=1 #failure=3
+    Readiness:    http-get http://:http/health delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wkm2l (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-wkm2l:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+    ConfigMapName:           openshift-service-ca.crt
+    ConfigMapOptional:       <nil>
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/memory-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason          Age                 From               Message
+  ----     ------          ----                ----               -------
+  Normal   Scheduled       11m                 default-scheduler  Successfully assigned fullstack-dev/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z to crc
+  Normal   AddedInterface  11m                 multus             Add eth0 [10.217.1.151/23] from ovn-kubernetes
+  Warning  BackOff         55s (x57 over 11m)  kubelet            Back-off restarting failed container backend in pod fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z_fullstack-dev(ef542456-1ef3-4c7a-8954-55dd5d86bc2b)
+  Normal   Pulled          16s (x8 over 11m)   kubelet            Container image "python:3.9-slim" already present on machine
+  Normal   Created         15s (x8 over 11m)   kubelet            Created container: backend
+  Normal   Started         15s (x8 over 11m)   kubelet            Started container backend

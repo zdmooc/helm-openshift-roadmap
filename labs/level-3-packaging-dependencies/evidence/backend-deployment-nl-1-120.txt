@@ -1,0 +1,63 @@
+     1	{{- if .Values.backend.enabled -}}
+     2	apiVersion: apps/v1
+     3	kind: Deployment
+     4	metadata:
+     5	  name: {{ include "fullstack-ocp.fullname" . }}-backend
+     6	  labels:
+     7	    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+     8	    component: backend
+     9	spec:
+    10	  replicas: {{ .Values.backend.replicaCount }}
+    11	  selector:
+    12	    matchLabels:
+    13	      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+    14	      component: backend
+    15	  template:
+    16	    metadata:
+    17	      labels:
+    18	        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+    19	        component: backend
+    20	    spec:
+    21	      containers:
+    22	      - name: backend
+    23	        image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+    24	        imagePullPolicy: IfNotPresent
+    25	        ports:
+    26	        - name: http
+    27	          containerPort: {{ .Values.backend.service.port }}
+    28	          protocol: TCP
+    29	        securityContext:
+    30	            allowPrivilegeEscalation: false
+    31	            capabilities:
+    32	              drop: ["ALL"]
+    33	            runAsNonRoot: true
+    34	            readOnlyRootFilesystem: false
+    35	          command: ["python","-c"]
+    36	          args:
+    37	            - |
+    38	              import http.server, socketserver
+    39	              class H(http.server.BaseHTTPRequestHandler):
+    40	                  def do_GET(self):
+    41	                      if self.path in ("/health","/"):
+    42	                          self.send_response(200); self.end_headers(); self.wfile.write(b"OK")
+    43	                      else:
+    44	                          self.send_response(404); self.end_headers()
+    45	                  def log_message(self, fmt, *args): pass
+    46	              with socketserver.TCPServer(("", 5000), H) as httpd:
+    47	                  httpd.serve_forever()
+    48	          livenessProbe:
+    49	
+    50	          httpGet:
+    51	            path: /health
+    52	            port: http
+    53	          initialDelaySeconds: 30
+    54	          periodSeconds: 10
+    55	        readinessProbe:
+    56	          httpGet:
+    57	            path: /health
+    58	            port: http
+    59	          initialDelaySeconds: 5
+    60	          periodSeconds: 5
+    61	        resources:
+    62	          {{- toYaml .Values.backend.resources | nindent 12 }}
+    63	{{- end }}

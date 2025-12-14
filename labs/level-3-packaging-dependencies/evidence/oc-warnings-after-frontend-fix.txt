@@ -1,0 +1,4 @@
+LAST SEEN   TYPE      REASON    OBJECT                                                  MESSAGE
+58m         Warning   BackOff   pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z    Back-off restarting failed container backend in pod fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z_fullstack-dev(ef542456-1ef3-4c7a-8954-55dd5d86bc2b)
+58m         Warning   BackOff   pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz   Back-off restarting failed container frontend in pod fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz_fullstack-dev(6a449aa3-a39e-4762-bbe8-bf2386c325f6)
+2m24s       Warning   BackOff   pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv    Back-off restarting failed container frontend in pod fullstack-fullstack-ocp-frontend-c4d894889-bgwrv_fullstack-dev(5e526c47-c406-498e-a81a-f4a2211e7e88)

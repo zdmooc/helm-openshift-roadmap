@@ -1,0 +1,5 @@
+== Services ==
+      1 Service fullstack-fullstack-ocp-backend
+      1 Service fullstack-fullstack-ocp-frontend
+      1 Service fullstack-postgresql
+      1 Service fullstack-postgresql-hl

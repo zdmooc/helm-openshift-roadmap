@@ -1,0 +1,72 @@
+Name:             pulltest-pg
+Namespace:        fullstack-dev
+Priority:         0
+Service Account:  default
+Node:             crc/192.168.126.11
+Start Time:       Sun, 14 Dec 2025 00:29:04 +0100
+Labels:           run=pulltest-pg
+Annotations:      k8s.ovn.org/pod-networks:
+                    {"default":{"ip_addresses":["10.217.1.142/23"],"mac_address":"0a:58:0a:d9:01:8e","gateway_ips":["10.217.0.1"],"routes":[{"dest":"10.217.0....
+                  k8s.v1.cni.cncf.io/network-status:
+                    [{
+                        "name": "ovn-kubernetes",
+                        "interface": "eth0",
+                        "ips": [
+                            "10.217.1.142"
+                        ],
+                        "mac": "0a:58:0a:d9:01:8e",
+                        "default": true,
+                        "dns": {}
+                    }]
+                  openshift.io/scc: anyuid
+Status:           Pending
+IP:               10.217.1.142
+IPs:
+  IP:  10.217.1.142
+Containers:
+  pulltest-pg:
+    Container ID:  
+    Image:         docker.io/bitnami/postgresql:16.6.0
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      3600
+    State:          Waiting
+      Reason:       ErrImagePull
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-brwvp (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-brwvp:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+    ConfigMapName:           openshift-service-ca.crt
+    ConfigMapOptional:       <nil>
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason          Age   From               Message
+  ----     ------          ----  ----               -------
+  Normal   Scheduled       1s    default-scheduler  Successfully assigned fullstack-dev/pulltest-pg to crc
+  Normal   AddedInterface  1s    multus             Add eth0 [10.217.1.142/23] from ovn-kubernetes
+  Normal   Pulling         1s    kubelet            Pulling image "docker.io/bitnami/postgresql:16.6.0"
+  Warning  Failed          0s    kubelet            Failed to pull image "docker.io/bitnami/postgresql:16.6.0": initializing source docker://bitnami/postgresql:16.6.0: reading manifest 16.6.0 in docker.io/bitnami/postgresql: manifest unknown
+  Warning  Failed          0s    kubelet            Error: ErrImagePull
+  Normal   BackOff         0s    kubelet            Back-off pulling image "docker.io/bitnami/postgresql:16.6.0"
+  Warning  Failed          0s    kubelet            Error: ImagePullBackOff

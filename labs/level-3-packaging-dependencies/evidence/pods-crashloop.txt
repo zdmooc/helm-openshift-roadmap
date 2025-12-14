@@ -1,0 +1,2 @@
+FRONT=fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz
+BACK=fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z

@@ -1,0 +1,59 @@
+     1	{{- if .Values.frontend.enabled -}}
+     2	apiVersion: apps/v1
+     3	kind: Deployment
+     4	metadata:
+     5	  name: {{ include "fullstack-ocp.fullname" . }}-frontend
+     6	  labels:
+     7	    {{- include "fullstack-ocp.labels" . | nindent 4 }}
+     8	    component: frontend
+     9	spec:
+    10	  replicas: {{ .Values.frontend.replicaCount }}
+    11	  selector:
+    12	    matchLabels:
+    13	      {{- include "fullstack-ocp.selectorLabels" . | nindent 6 }}
+    14	      component: frontend
+    15	  template:
+    16	    metadata:
+    17	      labels:
+    18	        {{- include "fullstack-ocp.selectorLabels" . | nindent 8 }}
+    19	        component: frontend
+    20	    spec:
+    21	      containers:
+    22	      - name: frontend
+    23	        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+    24	        imagePullPolicy: IfNotPresent
+    25	        ports:
+    26	        - name: http
+    27	          containerPort: 80
+    28	          protocol: TCP
+    29	        securityContext:
+    30	            allowPrivilegeEscalation: false
+    31	            capabilities:
+    32	              drop: ["ALL"]
+    33	            runAsNonRoot: true
+    34	            readOnlyRootFilesystem: false
+    35	        volumeMounts:
+    36	            - name: nginx-cache
+    37	              mountPath: /var/cache/nginx
+    38	            - name: nginx-run
+    39	              mountPath: /var/run
+    40	        livenessProbe:
+    41	          httpGet:
+    42	            path: /
+    43	            port: http
+    44	          initialDelaySeconds: 30
+    45	          periodSeconds: 10
+    46	        readinessProbe:
+    47	          httpGet:
+    48	            path: /
+    49	            port: http
+    50	          initialDelaySeconds: 5
+    51	          periodSeconds: 5
+    52	        resources:
+    53	          {{- toYaml .Values.frontend.resources | nindent 12 }}
+    54	      volumes:
+    55	        - name: nginx-cache
+    56	          emptyDir: {}
+    57	        - name: nginx-run
+    58	          emptyDir: {}
+    59	{{- end }}

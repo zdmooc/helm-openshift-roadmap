@@ -1,0 +1,88 @@
+453:  ## @param primary.podSecurityContext.enabled Enable security context
+454:  ## @param primary.podSecurityContext.fsGroupChangePolicy Set filesystem group change policy
+455:  ## @param primary.podSecurityContext.sysctls Set kernel settings using the sysctl interface
+456:  ## @param primary.podSecurityContext.supplementalGroups Set filesystem extra groups
+457:  ## @param primary.podSecurityContext.fsGroup Group ID for the pod
+459:  podSecurityContext:
+461:    fsGroupChangePolicy: Always
+464:    fsGroup: 1001
+467:  ## @param primary.containerSecurityContext.enabled Enabled containers' Security Context
+468:  ## @param primary.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+469:  ## @param primary.containerSecurityContext.runAsUser Set containers' Security Context runAsUser
+470:  ## @param primary.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
+471:  ## @param primary.containerSecurityContext.privileged Set container's Security Context privileged
+472:  ## @param primary.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+473:  ## @param primary.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
+474:  ## @param primary.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+475:  ## @param primary.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
+477:  containerSecurityContext:
+480:    runAsUser: 1001
+828:  ## @param readReplicas.podSecurityContext.enabled Enable security context
+829:  ## @param readReplicas.podSecurityContext.fsGroupChangePolicy Set filesystem group change policy
+830:  ## @param readReplicas.podSecurityContext.sysctls Set kernel settings using the sysctl interface
+831:  ## @param readReplicas.podSecurityContext.supplementalGroups Set filesystem extra groups
+832:  ## @param readReplicas.podSecurityContext.fsGroup Group ID for the pod
+834:  podSecurityContext:
+836:    fsGroupChangePolicy: Always
+839:    fsGroup: 1001
+842:  ## @param readReplicas.containerSecurityContext.enabled Enabled containers' Security Context
+843:  ## @param readReplicas.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+844:  ## @param readReplicas.containerSecurityContext.runAsUser Set containers' Security Context runAsUser
+845:  ## @param readReplicas.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
+846:  ## @param readReplicas.containerSecurityContext.privileged Set container's Security Context privileged
+847:  ## @param readReplicas.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+848:  ## @param readReplicas.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
+849:  ## @param readReplicas.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+850:  ## @param readReplicas.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
+852:  containerSecurityContext:
+855:    runAsUser: 1001
+1128:    ## @param backup.cronjob.podSecurityContext.enabled Enable PodSecurityContext for CronJob/Backup
+1129:    ## @param backup.cronjob.podSecurityContext.fsGroupChangePolicy Set filesystem group change policy
+1130:    ## @param backup.cronjob.podSecurityContext.sysctls Set kernel settings using the sysctl interface
+1131:    ## @param backup.cronjob.podSecurityContext.supplementalGroups Set filesystem extra groups
+1132:    ## @param backup.cronjob.podSecurityContext.fsGroup Group ID for the CronJob
+1133:    podSecurityContext:
+1135:      fsGroupChangePolicy: Always
+1138:      fsGroup: 1001
+1141:    ## @param backup.cronjob.containerSecurityContext.enabled Enabled containers' Security Context
+1142:    ## @param backup.cronjob.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+1143:    ## @param backup.cronjob.containerSecurityContext.runAsUser Set containers' Security Context runAsUser
+1144:    ## @param backup.cronjob.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
+1145:    ## @param backup.cronjob.containerSecurityContext.privileged Set container's Security Context privileged
+1146:    ## @param backup.cronjob.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+1147:    ## @param backup.cronjob.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
+1148:    ## @param backup.cronjob.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+1149:    ## @param backup.cronjob.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
+1150:    containerSecurityContext:
+1153:      runAsUser: 1001
+1317:## volumePermissions: Change the owner and group of the persistent volume(s) mountpoint(s) to 'runAsUser:fsGroup' on each node
+1319:volumePermissions:
+1320:  ## @param volumePermissions.enabled Enable init container that changes the owner and group of the persistent volume
+1323:  ## @param volumePermissions.image.registry [default: REGISTRY_NAME] Init container volume-permissions image registry
+1324:  ## @param volumePermissions.image.repository [default: REPOSITORY_NAME/os-shell] Init container volume-permissions image repository
+1325:  ## @skip volumePermissions.image.tag Init container volume-permissions image tag (immutable tags are recommended)
+1326:  ## @param volumePermissions.image.digest Init container volume-permissions image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+1327:  ## @param volumePermissions.image.pullPolicy Init container volume-permissions image pull policy
+1328:  ## @param volumePermissions.image.pullSecrets Init container volume-permissions image pull secrets
+1346:  ## @param volumePermissions.resources.limits Init container volume-permissions resource limits
+1347:  ## @param volumePermissions.resources.requests Init container volume-permissions resource requests
+1353:  ## Note: the chown of the data folder is done to containerSecurityContext.runAsUser
+1354:  ## and not the below volumePermissions.containerSecurityContext.runAsUser
+1355:  ## @param volumePermissions.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+1356:  ## @param volumePermissions.containerSecurityContext.runAsUser User ID for the init container
+1357:  ## @param volumePermissions.containerSecurityContext.runAsGroup Group ID for the init container
+1358:  ## @param volumePermissions.containerSecurityContext.runAsNonRoot runAsNonRoot for the init container
+1359:  ## @param volumePermissions.containerSecurityContext.seccompProfile.type seccompProfile.type for the init container
+1361:  containerSecurityContext:
+1363:    runAsUser: 0
+1477:  ## @param metrics.containerSecurityContext.enabled Enabled containers' Security Context
+1478:  ## @param metrics.containerSecurityContext.seLinuxOptions [object,nullable] Set SELinux options in container
+1479:  ## @param metrics.containerSecurityContext.runAsUser Set containers' Security Context runAsUser
+1480:  ## @param metrics.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
+1481:  ## @param metrics.containerSecurityContext.privileged Set container's Security Context privileged
+1482:  ## @param metrics.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+1483:  ## @param metrics.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
+1484:  ## @param metrics.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+1485:  ## @param metrics.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
+1487:  containerSecurityContext:
+1490:    runAsUser: 1001

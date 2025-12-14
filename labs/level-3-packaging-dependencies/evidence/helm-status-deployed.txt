@@ -1,0 +1,6 @@
+NAME: fullstack
+LAST DEPLOYED: Sun Dec 14 11:32:49 2025
+NAMESPACE: fullstack-dev
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None

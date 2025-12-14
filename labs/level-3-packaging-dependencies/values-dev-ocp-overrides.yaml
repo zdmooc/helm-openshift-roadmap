@@ -1,0 +1,17 @@
+postgresql:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/postgresql
+    tag: "16.1.0-debian-11-r25"
+  volumePermissions:
+    enabled: false
+  primary:
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1000710000
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1000710000
+      runAsNonRoot: true
+database:
+  enabled: false

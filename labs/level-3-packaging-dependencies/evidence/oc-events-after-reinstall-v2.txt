@@ -1,0 +1,76 @@
+LAST SEEN   TYPE      REASON                  OBJECT                                                   MESSAGE
+9h          Normal    Scheduled               pod/pulltest-pg                                          Successfully assigned fullstack-dev/pulltest-pg to crc
+9h          Normal    Scheduled               pod/fullstack-postgresql-0                               Successfully assigned fullstack-dev/fullstack-postgresql-0 to crc
+10h         Normal    Scheduled               pod/pulltest-pg                                          Successfully assigned fullstack-dev/pulltest-pg to crc
+31m         Normal    Scheduled               pod/fullstack-postgresql-0                               Successfully assigned fullstack-dev/fullstack-postgresql-0 to crc
+31m         Normal    Scheduled               pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Successfully assigned fullstack-dev/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv to crc
+10h         Normal    Scheduled               pod/pulltest-pg                                          Successfully assigned fullstack-dev/pulltest-pg to crc
+31m         Normal    Scheduled               pod/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k     Successfully assigned fullstack-dev/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k to crc
+9h          Normal    Scheduled               pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Successfully assigned fullstack-dev/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz to crc
+9h          Normal    Scheduled               pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Successfully assigned fullstack-dev/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z to crc
+10h         Normal    AddedInterface          pod/pulltest-pg                                          Add eth0 [10.217.1.142/23] from ovn-kubernetes
+10h         Normal    Pulling                 pod/pulltest-pg                                          Pulling image "docker.io/bitnami/postgresql:16.6.0"
+10h         Warning   Failed                  pod/pulltest-pg                                          Failed to pull image "docker.io/bitnami/postgresql:16.6.0": initializing source docker://bitnami/postgresql:16.6.0: reading manifest 16.6.0 in docker.io/bitnami/postgresql: manifest unknown
+10h         Warning   Failed                  pod/pulltest-pg                                          Error: ErrImagePull
+10h         Warning   Failed                  pod/pulltest-pg                                          Error: ImagePullBackOff
+10h         Normal    BackOff                 pod/pulltest-pg                                          Back-off pulling image "docker.io/bitnami/postgresql:16.6.0"
+10h         Normal    AddedInterface          pod/pulltest-pg                                          Add eth0 [10.217.1.144/23] from ovn-kubernetes
+9h          Normal    Pulling                 pod/pulltest-pg                                          Pulling image "docker.io/bitnami/postgresql:17.6.0-debian-12-r4"
+9h          Warning   Failed                  pod/pulltest-pg                                          Error: ErrImagePull
+9h          Warning   Failed                  pod/pulltest-pg                                          Failed to pull image "docker.io/bitnami/postgresql:17.6.0-debian-12-r4": initializing source docker://bitnami/postgresql:17.6.0-debian-12-r4: reading manifest 17.6.0-debian-12-r4 in docker.io/bitnami/postgresql: manifest unknown
+9h          Warning   Failed                  pod/pulltest-pg                                          Error: ImagePullBackOff
+9h          Normal    BackOff                 pod/pulltest-pg                                          Back-off pulling image "docker.io/bitnami/postgresql:17.6.0-debian-12-r4"
+9h          Normal    Pulling                 pod/pulltest-pg                                          Pulling image "docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25"
+9h          Normal    AddedInterface          pod/pulltest-pg                                          Add eth0 [10.217.1.148/23] from ovn-kubernetes
+9h          Normal    Started                 pod/pulltest-pg                                          Started container pulltest-pg
+9h          Normal    Created                 pod/pulltest-pg                                          Created container: pulltest-pg
+9h          Normal    Pulled                  pod/pulltest-pg                                          Successfully pulled image "docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25" in 46.022s (46.022s including waiting). Image size: 281761860 bytes.
+9h          Normal    Killing                 pod/pulltest-pg                                          Stopping container pulltest-pg
+9h          Normal    ScalingReplicaSet       deployment/fullstack-fullstack-ocp-backend               Scaled up replica set fullstack-fullstack-ocp-backend-74f8b44c7d from 0 to 1
+9h          Normal    ScalingReplicaSet       deployment/fullstack-fullstack-ocp-frontend              Scaled up replica set fullstack-fullstack-ocp-frontend-85bbc48744 from 0 to 1
+9h          Normal    SuccessfulCreate        replicaset/fullstack-fullstack-ocp-backend-74f8b44c7d    Created pod: fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z
+9h          Normal    ExternalProvisioning    persistentvolumeclaim/data-fullstack-postgresql-0        Waiting for a volume to be created either by the external provisioner 'kubevirt.io.hostpath-provisioner' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+9h          Normal    SuccessfulCreate        statefulset/fullstack-postgresql                         create Claim data-fullstack-postgresql-0 Pod fullstack-postgresql-0 in StatefulSet fullstack-postgresql success
+9h          Normal    AddedInterface          pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Add eth0 [10.217.1.150/23] from ovn-kubernetes
+9h          Normal    SuccessfulCreate        replicaset/fullstack-fullstack-ocp-frontend-85bbc48744   Created pod: fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz
+9h          Normal    WaitForFirstConsumer    persistentvolumeclaim/data-fullstack-postgresql-0        waiting for first consumer to be created before binding
+9h          Normal    ProvisioningSucceeded   persistentvolumeclaim/data-fullstack-postgresql-0        Successfully provisioned volume pvc-abd67ccd-1583-4b25-8848-211a44f58c4b
+9h          Normal    Provisioning            persistentvolumeclaim/data-fullstack-postgresql-0        External provisioner is provisioning volume for claim "fullstack-dev/data-fullstack-postgresql-0"
+9h          Normal    AddedInterface          pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Add eth0 [10.217.1.151/23] from ovn-kubernetes
+9h          Normal    SuccessfulCreate        statefulset/fullstack-postgresql                         create Pod fullstack-postgresql-0 in StatefulSet fullstack-postgresql successful
+9h          Normal    AddedInterface          pod/fullstack-postgresql-0                               Add eth0 [10.217.1.152/23] from ovn-kubernetes
+9h          Normal    Pulled                  pod/fullstack-postgresql-0                               Container image "docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25" already present on machine
+9h          Normal    Created                 pod/fullstack-postgresql-0                               Created container: postgresql
+9h          Normal    Started                 pod/fullstack-postgresql-0                               Started container postgresql
+9h          Normal    Started                 pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Started container backend
+9h          Normal    Started                 pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Started container frontend
+9h          Normal    Created                 pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Created container: backend
+9h          Normal    Created                 pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Created container: frontend
+36m         Warning   BackOff                 pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Back-off restarting failed container backend in pod fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z_fullstack-dev(ef542456-1ef3-4c7a-8954-55dd5d86bc2b)
+36m         Warning   BackOff                 pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Back-off restarting failed container frontend in pod fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz_fullstack-dev(6a449aa3-a39e-4762-bbe8-bf2386c325f6)
+34m         Normal    Pulled                  pod/fullstack-fullstack-ocp-backend-74f8b44c7d-8jw5z     Container image "python:3.9-slim" already present on machine
+33m         Normal    Pulled                  pod/fullstack-fullstack-ocp-frontend-85bbc48744-xzkrz    Container image "nginx:1.21.0" already present on machine
+32m         Normal    Killing                 pod/fullstack-postgresql-0                               Stopping container postgresql
+31m         Normal    SuccessfulCreate        statefulset/fullstack-postgresql                         create Pod fullstack-postgresql-0 in StatefulSet fullstack-postgresql successful
+31m         Normal    SuccessfulCreate        replicaset/fullstack-fullstack-ocp-backend-5647f6846b    Created pod: fullstack-fullstack-ocp-backend-5647f6846b-8ww8k
+31m         Normal    SuccessfulCreate        replicaset/fullstack-fullstack-ocp-frontend-c4d894889    Created pod: fullstack-fullstack-ocp-frontend-c4d894889-bgwrv
+31m         Normal    WaitForFirstConsumer    persistentvolumeclaim/data-fullstack-postgresql-0        waiting for first consumer to be created before binding
+31m         Normal    ExternalProvisioning    persistentvolumeclaim/data-fullstack-postgresql-0        Waiting for a volume to be created either by the external provisioner 'kubevirt.io.hostpath-provisioner' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+31m         Normal    Provisioning            persistentvolumeclaim/data-fullstack-postgresql-0        External provisioner is provisioning volume for claim "fullstack-dev/data-fullstack-postgresql-0"
+31m         Normal    ProvisioningSucceeded   persistentvolumeclaim/data-fullstack-postgresql-0        Successfully provisioned volume pvc-40eae60d-bab2-415f-b84c-fcf40947abb7
+31m         Normal    AddedInterface          pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Add eth0 [10.217.0.87/23] from ovn-kubernetes
+31m         Normal    SuccessfulCreate        statefulset/fullstack-postgresql                         create Claim data-fullstack-postgresql-0 Pod fullstack-postgresql-0 in StatefulSet fullstack-postgresql success
+31m         Normal    ScalingReplicaSet       deployment/fullstack-fullstack-ocp-frontend              Scaled up replica set fullstack-fullstack-ocp-frontend-c4d894889 from 0 to 1
+31m         Normal    AddedInterface          pod/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k     Add eth0 [10.217.0.86/23] from ovn-kubernetes
+31m         Normal    ScalingReplicaSet       deployment/fullstack-fullstack-ocp-backend               Scaled up replica set fullstack-fullstack-ocp-backend-5647f6846b from 0 to 1
+31m         Normal    Pulled                  pod/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k     Container image "python:3.9-slim" already present on machine
+31m         Normal    Created                 pod/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k     Created container: backend
+31m         Normal    Started                 pod/fullstack-fullstack-ocp-backend-5647f6846b-8ww8k     Started container backend
+31m         Normal    Pulled                  pod/fullstack-postgresql-0                               Container image "docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r25" already present on machine
+31m         Normal    AddedInterface          pod/fullstack-postgresql-0                               Add eth0 [10.217.0.88/23] from ovn-kubernetes
+31m         Normal    Created                 pod/fullstack-postgresql-0                               Created container: postgresql
+31m         Normal    Started                 pod/fullstack-postgresql-0                               Started container postgresql
+15m         Normal    Created                 pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Created container: frontend
+15m         Normal    Started                 pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Started container frontend
+2m          Normal    Pulled                  pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Container image "nginx:1.21.0" already present on machine
+4s          Warning   BackOff                 pod/fullstack-fullstack-ocp-frontend-c4d894889-bgwrv     Back-off restarting failed container frontend in pod fullstack-fullstack-ocp-frontend-c4d894889-bgwrv_fullstack-dev(5e526c47-c406-498e-a81a-f4a2211e7e88)

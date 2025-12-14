@@ -1,0 +1,11 @@
+_helpers.tpl
+backend-deployment.yaml
+backend-service.yaml
+db-service.yaml
+db-statefulset.yaml
+frontend-deployment.yaml
+frontend-service.yaml
+hpa.yaml
+networkpolicy.yaml
+pdb.yaml
+route-frontend.yaml

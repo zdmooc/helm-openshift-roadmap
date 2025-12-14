@@ -1,0 +1,3 @@
+NAME      	VERSION	REPOSITORY                        	STATUS
+postgresql	13.x.x 	https://charts.bitnami.com/bitnami	ok    
+

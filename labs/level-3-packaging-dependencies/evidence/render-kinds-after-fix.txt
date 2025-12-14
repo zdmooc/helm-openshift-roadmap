@@ -1,0 +1,11 @@
+4:kind: ServiceAccount
+36:kind: Service
+71:kind: Service
+97:kind: Service
+121:kind: Service
+145:kind: Deployment
+218:kind: Deployment
+288:kind: StatefulSet
+451:      kind: PersistentVolumeClaim
+463:kind: Route
+476:    kind: Service
