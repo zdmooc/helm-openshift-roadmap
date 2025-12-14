@@ -1,0 +1,28 @@
+CRC is a tool that manages a local OpenShift 4.x cluster optimized for testing and development purposes
+
+Usage:
+  crc [flags]
+  crc [command]
+
+Available Commands:
+  bundle      Manage CRC bundles
+  cleanup     Undo config changes
+  completion  Generate the autocompletion script for the specified shell
+  config      Modify crc configuration
+  console     Open the OpenShift Web Console in the default browser
+  delete      Delete the instance
+  help        Help about any command
+  ip          Get IP address of the running OpenShift cluster
+  oc-env      Add the 'oc' executable to PATH
+  podman-env  Setup podman environment
+  setup       Set up prerequisites for using CRC
+  start       Start the instance
+  status      Display status of the OpenShift cluster
+  stop        Stop the instance
+  version     Print version information
+
+Flags:
+  -h, --help               help for crc
+      --log-level string   log level (e.g. "debug | info | warn | error") (default "info")
+
+Use "crc [command] --help" for more information about a command.
