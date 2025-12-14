@@ -1,0 +1,5 @@
+NAME                  DISPLAY               TYPE   PUBLISHER   AGE
+certified-operators   Certified Operators   grpc   Red Hat     157d
+community-operators   Community Operators   grpc   Red Hat     157d
+redhat-marketplace    Red Hat Marketplace   grpc   Red Hat     157d
+redhat-operators      Red Hat Operators     grpc   Red Hat     157d
