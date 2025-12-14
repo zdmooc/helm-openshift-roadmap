@@ -1,0 +1,42 @@
+LAST SEEN   TYPE      REASON                   OBJECT                                              MESSAGE
+12m         Normal    Scheduled                pod/multus-wpmvd                                    Successfully assigned openshift-multus/multus-wpmvd to crc
+8m52s       Normal    Scheduled                pod/multus-admission-controller-57c559948b-5q76l    Successfully assigned openshift-multus/multus-admission-controller-57c559948b-5q76l to crc
+12m         Normal    Scheduled                pod/multus-admission-controller-57c559948b-c5pbz    Successfully assigned openshift-multus/multus-admission-controller-57c559948b-c5pbz to crc
+8m54s       Normal    Scheduled                pod/multus-m8ggl                                    Successfully assigned openshift-multus/multus-m8ggl to crc
+12m         Normal    SuccessfulDelete         daemonset/multus                                    Deleted pod: multus-h755b
+12m         Normal    Killing                  pod/multus-h755b                                    Stopping container kube-multus
+12m         Normal    ScalingReplicaSet        deployment/multus-admission-controller              Scaled up replica set multus-admission-controller-57c559948b from 0 to 1
+12m         Normal    SuccessfulCreate         replicaset/multus-admission-controller-57c559948b   Created pod: multus-admission-controller-57c559948b-c5pbz
+12m         Normal    SuccessfulCreate         daemonset/multus                                    Created pod: multus-wpmvd
+12m         Normal    Started                  pod/multus-wpmvd                                    Started container kube-multus
+12m         Normal    Created                  pod/multus-wpmvd                                    Created container: kube-multus
+12m         Normal    Pulled                   pod/multus-wpmvd                                    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d3ec8bac159dca317a93460c0a3f83b3936eb6d3c98a16d828d7399cb3a2c3fc" already present on machine
+11m         Warning   FailedCreatePodSandBox   pod/multus-admission-controller-57c559948b-c5pbz    Failed to create pod sandbox: rpc error: code = Unknown desc = failed to get network status for pod sandbox k8s_multus-admission-controller-57c559948b-c5pbz_openshift-multus_f2636459-f766-40c1-b91a-77c52af81b15_0(83e129cc977fbc9a2eaa10d6cdbf6ccb2432644751cdceb68d4e9c4f68c31726): failed to find requested network name
+11m         Normal    Pulled                   pod/multus-admission-controller-57c559948b-c5pbz    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b5347099a11afdd492bb8b286cce797445d5a1737b9eb6e546b575870dc5297a" already present on machine
+11m         Normal    AddedInterface           pod/multus-admission-controller-57c559948b-c5pbz    Add eth0 [10.217.0.254/23] from ovn-kubernetes
+11m         Normal    Pulled                   pod/multus-admission-controller-57c559948b-c5pbz    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:523e20f023049cfd3857f6868bc453227cec0a314c8caf23a2802813acf7138e" already present on machine
+11m         Normal    Started                  pod/multus-admission-controller-57c559948b-c5pbz    Started container multus-admission-controller
+11m         Normal    Created                  pod/multus-admission-controller-57c559948b-c5pbz    Created container: multus-admission-controller
+11m         Normal    Created                  pod/multus-admission-controller-57c559948b-c5pbz    Created container: kube-rbac-proxy
+11m         Normal    Started                  pod/multus-admission-controller-57c559948b-c5pbz    Started container kube-rbac-proxy
+11m         Normal    ScalingReplicaSet        deployment/multus-admission-controller              Scaled down replica set multus-admission-controller-b8b6f8fb9 from 1 to 0
+11m         Normal    Killing                  pod/multus-admission-controller-b8b6f8fb9-55pxb     Stopping container multus-admission-controller
+11m         Normal    Killing                  pod/multus-admission-controller-b8b6f8fb9-55pxb     Stopping container kube-rbac-proxy
+11m         Normal    SuccessfulDelete         replicaset/multus-admission-controller-b8b6f8fb9    Deleted pod: multus-admission-controller-b8b6f8fb9-55pxb
+9m5s        Normal    Killing                  pod/multus-wpmvd                                    Stopping container kube-multus
+8m55s       Normal    SuccessfulCreate         daemonset/multus                                    Created pod: multus-m8ggl
+8m54s       Normal    Pulled                   pod/multus-m8ggl                                    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d3ec8bac159dca317a93460c0a3f83b3936eb6d3c98a16d828d7399cb3a2c3fc" already present on machine
+8m54s       Normal    Created                  pod/multus-m8ggl                                    Created container: kube-multus
+8m54s       Normal    Started                  pod/multus-m8ggl                                    Started container kube-multus
+8m53s       Normal    Killing                  pod/multus-admission-controller-57c559948b-c5pbz    Stopping container kube-rbac-proxy
+8m53s       Normal    Killing                  pod/multus-admission-controller-57c559948b-c5pbz    Stopping container multus-admission-controller
+8m53s       Normal    SuccessfulCreate         replicaset/multus-admission-controller-57c559948b   Created pod: multus-admission-controller-57c559948b-5q76l
+8m52s       Warning   FailedCreatePodSandBox   pod/multus-admission-controller-57c559948b-5q76l    Failed to create pod sandbox: rpc error: code = Unknown desc = failed to create pod network sandbox k8s_multus-admission-controller-57c559948b-5q76l_openshift-multus_221d824e-f02d-48d7-9c48-529027083b25_0(984f6afa0c4a7c0ec0ff7294bea50fd50a89ba8b3785afbd2057f00821d10def): no CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started?
+8m51s       Warning   FailedCreatePodSandBox   pod/multus-admission-controller-57c559948b-5q76l    Failed to create pod sandbox: rpc error: code = Unknown desc = failed to create pod network sandbox k8s_multus-admission-controller-57c559948b-5q76l_openshift-multus_221d824e-f02d-48d7-9c48-529027083b25_0(b62c7c3889f606fdc85bb495ef9f4d116c8c204895a225815706a5877082c294): no CNI configuration file in /etc/kubernetes/cni/net.d/. Has your network provider started?
+8m40s       Normal    Pulled                   pod/multus-admission-controller-57c559948b-5q76l    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b5347099a11afdd492bb8b286cce797445d5a1737b9eb6e546b575870dc5297a" already present on machine
+8m40s       Normal    AddedInterface           pod/multus-admission-controller-57c559948b-5q76l    Add eth0 [10.217.1.3/23] from ovn-kubernetes
+8m39s       Normal    Created                  pod/multus-admission-controller-57c559948b-5q76l    Created container: kube-rbac-proxy
+8m39s       Normal    Created                  pod/multus-admission-controller-57c559948b-5q76l    Created container: multus-admission-controller
+8m39s       Normal    Started                  pod/multus-admission-controller-57c559948b-5q76l    Started container multus-admission-controller
+8m39s       Normal    Pulled                   pod/multus-admission-controller-57c559948b-5q76l    Container image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:523e20f023049cfd3857f6868bc453227cec0a314c8caf23a2802813acf7138e" already present on machine
+8m39s       Normal    Started                  pod/multus-admission-controller-57c559948b-5q76l    Started container kube-rbac-proxy

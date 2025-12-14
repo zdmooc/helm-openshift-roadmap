@@ -1,0 +1,7 @@
+NAME                                           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/multus                          1         1         1       1            1           kubernetes.io/os=linux   157d
+daemonset.apps/multus-additional-cni-plugins   1         1         1       1            1           kubernetes.io/os=linux   157d
+daemonset.apps/network-metrics-daemon          1         1         1       1            1           kubernetes.io/os=linux   157d
+
+NAME                                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/multus-admission-controller   1/1     1            1           157d
