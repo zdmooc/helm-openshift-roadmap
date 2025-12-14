@@ -1,2 +1,2 @@
 NAME                                DISPLAY                    VERSION   REPLACES                            PHASE
-openshift-gitops-operator.v1.18.1   Red Hat OpenShift GitOps   1.18.1    openshift-gitops-operator.v1.18.0   Installing
+openshift-gitops-operator.v1.18.1   Red Hat OpenShift GitOps   1.18.1    openshift-gitops-operator.v1.18.0   Failed
