@@ -1,13 +1,10 @@
 === DATE ===
-Sun Dec 21 20:15:20     2025
+Sun Dec 21 20:41:54     2025
 
-=== DEPLOY IMAGE (myapp-prod) ===
 myapp-ocp => nginx:1.21.0
 
-=== POD ===
 pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t
 
-=== DESCRIBE POD (myapp-prod) ===
 Name:             myapp-prod-myapp-ocp-6884869b7c-4jq5t
 Namespace:        myapp-prod
 Priority:         0
@@ -109,50 +106,49 @@ Tolerations:                 node.kubernetes.io/memory-pressure:NoSchedule op=Ex
 Events:
   Type     Reason          Age                 From               Message
   ----     ------          ----                ----               -------
-  Normal   Scheduled       36m                 default-scheduler  Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-4jq5t to crc
-  Normal   AddedInterface  36m                 multus             Add eth0 [10.217.0.181/23] from ovn-kubernetes
-  Warning  Failed          34m                 kubelet            Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3812853459/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
-  Warning  Failed          32m (x2 over 33m)   kubelet            Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
-  Normal   Pulling         30m (x5 over 36m)   kubelet            Pulling image "nginx:1.21.0"
-  Warning  Failed          30m (x5 over 34m)   kubelet            Error: ErrImagePull
-  Warning  Failed          30m (x2 over 31m)   kubelet            Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
-  Warning  Failed          28m (x16 over 34m)  kubelet            Error: ImagePullBackOff
-  Normal   BackOff         27m (x21 over 34m)  kubelet            Back-off pulling image "nginx:1.21.0"
-  Normal   Pulled          25m                 kubelet            Successfully pulled image "nginx:1.21.0" in 2m2.073s (2m2.073s including waiting). Image size: 137367999 bytes.
+  Normal   Scheduled       62m                 default-scheduler  Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-4jq5t to crc
+  Normal   AddedInterface  62m                 multus             Add eth0 [10.217.0.181/23] from ovn-kubernetes
+  Warning  Failed          61m                 kubelet            Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3812853459/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
+  Warning  Failed          59m (x2 over 60m)   kubelet            Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
+  Normal   Pulling         56m (x5 over 62m)   kubelet            Pulling image "nginx:1.21.0"
+  Warning  Failed          56m (x5 over 61m)   kubelet            Error: ErrImagePull
+  Warning  Failed          56m (x2 over 58m)   kubelet            Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
+  Warning  Failed          55m (x16 over 61m)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff         54m (x21 over 61m)  kubelet            Back-off pulling image "nginx:1.21.0"
+  Normal   Pulled          51m                 kubelet            Successfully pulled image "nginx:1.21.0" in 2m2.073s (2m2.073s including waiting). Image size: 137367999 bytes.
 
-=== EVENTS (myapp-prod) ===
 LAST SEEN   TYPE      REASON                  OBJECT                                       MESSAGE
-36m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-fqg77 to crc
-36m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Add eth0 [10.217.0.179/23] from ovn-kubernetes
-36m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-fqg77
-36m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-lr4hb to crc
-36m         Warning   ReplicaSetCreateError   deployment/myapp-prod-myapp-ocp              Failed to create new replica set "myapp-prod-myapp-ocp-6884869b7c": Unauthorized
-36m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-4jq5t
-36m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-lr4hb
-36m         Normal    ScalingReplicaSet       deployment/myapp-prod-myapp-ocp              Scaled up replica set myapp-prod-myapp-ocp-6884869b7c from 0 to 3
-36m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-4jq5t to crc
-36m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Add eth0 [10.217.0.180/23] from ovn-kubernetes
-36m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Add eth0 [10.217.0.181/23] from ovn-kubernetes
-34m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3812853459/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
-34m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3475726974/5": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
-34m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage2868093224/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
-32m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
-32m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
-32m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
-31m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
-31m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Error: ErrImagePull
-31m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Pulling image "nginx:1.21.0"
-30m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Error: ErrImagePull
-30m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
-30m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Pulling image "nginx:1.21.0"
-30m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
-30m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Error: ErrImagePull
-30m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Pulling image "nginx:1.21.0"
-29m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Error: ImagePullBackOff
-29m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Error: ImagePullBackOff
-28m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Error: ImagePullBackOff
-28m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Back-off pulling image "nginx:1.21.0"
-27m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Back-off pulling image "nginx:1.21.0"
-26m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Back-off pulling image "nginx:1.21.0"
-25m         Normal    Pulled                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Successfully pulled image "nginx:1.21.0" in 1m57.094s (1m57.094s including waiting). Image size: 137367999 bytes.
-25m         Normal    Pulled                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Successfully pulled image "nginx:1.21.0" in 2m2.073s (2m2.073s including waiting). Image size: 137367999 bytes.
+62m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-fqg77 to crc
+62m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Add eth0 [10.217.0.179/23] from ovn-kubernetes
+62m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-fqg77
+62m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-lr4hb to crc
+62m         Warning   ReplicaSetCreateError   deployment/myapp-prod-myapp-ocp              Failed to create new replica set "myapp-prod-myapp-ocp-6884869b7c": Unauthorized
+62m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-4jq5t
+62m         Normal    SuccessfulCreate        replicaset/myapp-prod-myapp-ocp-6884869b7c   Created pod: myapp-prod-myapp-ocp-6884869b7c-lr4hb
+62m         Normal    ScalingReplicaSet       deployment/myapp-prod-myapp-ocp              Scaled up replica set myapp-prod-myapp-ocp-6884869b7c from 0 to 3
+62m         Normal    Scheduled               pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Successfully assigned myapp-prod/myapp-prod-myapp-ocp-6884869b7c-4jq5t to crc
+62m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Add eth0 [10.217.0.180/23] from ovn-kubernetes
+62m         Normal    AddedInterface          pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Add eth0 [10.217.0.181/23] from ovn-kubernetes
+61m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3812853459/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
+61m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage3475726974/5": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
+61m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage2868093224/3": happened during read: unexpected EOF (while reconnecting: Get "https://registry-1.docker.io/v2/library/nginx/blobs/sha256:b4d181a07f8025e00e0cb28f1cc14613da2ce26450b80c54aea537fa93cf3bda": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host)
+59m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
+59m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
+59m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.127.1:53: no such host
+57m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
+57m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Error: ErrImagePull
+57m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Pulling image "nginx:1.21.0"
+56m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Error: ErrImagePull
+56m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
+56m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Pulling image "nginx:1.21.0"
+56m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Failed to pull image "nginx:1.21.0": initializing source docker://nginx:1.21.0: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": dial tcp: lookup registry-1.docker.io on 192.168.126.11:53: no such host
+56m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Error: ErrImagePull
+56m         Normal    Pulling                 pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Pulling image "nginx:1.21.0"
+56m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Error: ImagePullBackOff
+55m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Error: ImagePullBackOff
+55m         Warning   Failed                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Error: ImagePullBackOff
+54m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Back-off pulling image "nginx:1.21.0"
+54m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Back-off pulling image "nginx:1.21.0"
+52m         Normal    BackOff                 pod/myapp-prod-myapp-ocp-6884869b7c-lr4hb    Back-off pulling image "nginx:1.21.0"
+51m         Normal    Pulled                  pod/myapp-prod-myapp-ocp-6884869b7c-fqg77    Successfully pulled image "nginx:1.21.0" in 1m57.094s (1m57.094s including waiting). Image size: 137367999 bytes.
+51m         Normal    Pulled                  pod/myapp-prod-myapp-ocp-6884869b7c-4jq5t    Successfully pulled image "nginx:1.21.0" in 2m2.073s (2m2.073s including waiting). Image size: 137367999 bytes.

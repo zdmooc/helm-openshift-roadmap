@@ -1,11 +1,9 @@
 === DATE ===
-Sun Dec 21 18:38:09     2025
+Sun Dec 21 20:41:29     2025
 
-=== APPLY NAMESPACES (lab50-dev / lab50-prod) + managed-by label ===
-namespace/lab50-dev created
-namespace/lab50-prod created
+namespace/lab50-dev unchanged
+namespace/lab50-prod unchanged
 
-=== VERIFY ===
-NAME         STATUS   AGE   LABELS
-lab50-dev    Active   1s    argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=lab50-dev,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
-lab50-prod   Active   1s    argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=lab50-prod,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
+NAME         STATUS   AGE    LABELS
+lab50-dev    Active   123m   argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=lab50-dev,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
+lab50-prod   Active   123m   argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=lab50-prod,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
