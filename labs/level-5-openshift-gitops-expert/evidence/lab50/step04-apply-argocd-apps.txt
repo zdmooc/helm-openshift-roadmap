@@ -1,0 +1,19 @@
+=== DATE ===
+Sun Dec 21 19:39:14     2025
+
+=== APPLY APPLICATIONS (Argo CD) ===
+application.argoproj.io/myapp-dev unchanged
+application.argoproj.io/myapp-prod unchanged
+
+=== CHECK APPLICATIONS ===
+NAME                   SYNC STATUS   HEALTH STATUS
+bpce-backend-build     OutOfSync     Missing
+bpce-backend-dev       Synced        Healthy
+bpce-backend-preprod   OutOfSync     Missing
+bpce-backend-prod      OutOfSync     Missing
+bpce-events-demo-lab   Synced        Healthy
+bpce-kafka-lab         Synced        Healthy
+bpce-root              OutOfSync     Healthy
+lab02-guestbook        OutOfSync     Missing
+myapp-dev              Synced        Progressing
+myapp-prod             Synced        Progressing

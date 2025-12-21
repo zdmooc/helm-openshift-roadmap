@@ -1,0 +1,24 @@
+=== DATE ===
+Sun Dec 21 18:46:05     2025
+
+=== CREATE PROJECTS (myapp-dev / myapp-prod) ===
+Error from server (AlreadyExists): project.project.openshift.io "myapp-dev" already exists
+Now using project "myapp-prod" on server "https://api.crc.testing:6443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app rails-postgresql-example
+
+to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
+
+    kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.43 -- /agnhost serve-hostname
+
+
+=== LABEL managed-by (recommended) ===
+namespace/myapp-dev labeled
+namespace/myapp-prod labeled
+
+=== VERIFY ===
+NAME         STATUS   AGE   LABELS
+myapp-dev    Active   8d    argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=myapp-dev,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
+myapp-prod   Active   2s    argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=myapp-prod,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted

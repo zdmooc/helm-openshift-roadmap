@@ -1,0 +1,94 @@
+=== DATE ===
+Sun Dec 21 18:30:29     2025
+
+=== WHOAMI / PROJECT ===
+kubeadmin
+bpce-platform
+
+=== CATALOGSOURCES (marketplace) ===
+NAME                  DISPLAY               TYPE   PUBLISHER   AGE
+certified-operators   Certified Operators   grpc   Red Hat     164d
+community-operators   Community Operators   grpc   Red Hat     164d
+redhat-marketplace    Red Hat Marketplace   grpc   Red Hat     164d
+redhat-operators      Red Hat Operators     grpc   Red Hat     164d
+
+=== PACKAGEMANIFEST openshift-gitops-operator ===
+latest
+DEFAULT_CHANNEL=latest
+
+=== APPLY SUBSCRIPTION (openshift-operators) ===
+subscription.operators.coreos.com/openshift-gitops-operator created
+
+=== SUBSCRIPTION / CSV (gitops) ===
+NAME                        PACKAGE                     SOURCE             CHANNEL
+openshift-gitops-operator   openshift-gitops-operator   redhat-operators   latest
+openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0    openshift-gitops-operator.v1.18.2   Succeeded
+
+=== NAMESPACES (gitops) ===
+openshift-gitops                                   Active   6d22h
+openshift-gitops-operator                          Active   6d22h
+
+=== openshift-gitops CONTENT (if exists) ===
+NAME                                                             READY   STATUS    RESTARTS   AGE
+pod/cluster-67f5c4874b-bvkp4                                     1/1     Running   0          3h1m
+pod/gitops-plugin-598cff7645-4ck29                               1/1     Running   0          3h1m
+pod/openshift-gitops-application-controller-0                    1/1     Running   0          170m
+pod/openshift-gitops-applicationset-controller-69964ffd4-fvdhj   1/1     Running   0          3h1m
+pod/openshift-gitops-dex-server-68d6584b99-wgvtz                 1/1     Running   0          3h1m
+pod/openshift-gitops-redis-588f6678bf-xm4tk                      1/1     Running   0          3h1m
+pod/openshift-gitops-repo-server-75db857f8-66g2d                 1/1     Running   0          3h1m
+pod/openshift-gitops-server-674758b98b-x2q9x                     1/1     Running   0          3h1m
+
+NAME                                                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)             AGE
+service/cluster                                      ClusterIP   10.217.5.62    <none>        8080/TCP            6d22h
+service/gitops-plugin                                ClusterIP   10.217.5.94    <none>        9001/TCP            6d22h
+service/openshift-gitops-applicationset-controller   ClusterIP   10.217.5.140   <none>        7000/TCP,8080/TCP   6d22h
+service/openshift-gitops-dex-server                  ClusterIP   10.217.4.68    <none>        5556/TCP,5557/TCP   6d22h
+service/openshift-gitops-metrics                     ClusterIP   10.217.4.191   <none>        8082/TCP            6d22h
+service/openshift-gitops-redis                       ClusterIP   10.217.4.48    <none>        6379/TCP            6d22h
+service/openshift-gitops-repo-server                 ClusterIP   10.217.5.231   <none>        8081/TCP,8084/TCP   6d22h
+service/openshift-gitops-server                      ClusterIP   10.217.5.220   <none>        80/TCP,443/TCP      6d22h
+service/openshift-gitops-server-metrics              ClusterIP   10.217.4.67    <none>        8083/TCP            6d22h
+
+NAME                                                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/cluster                                      1/1     1            1           6d22h
+deployment.apps/gitops-plugin                                1/1     1            1           6d22h
+deployment.apps/openshift-gitops-applicationset-controller   1/1     1            1           6d22h
+deployment.apps/openshift-gitops-dex-server                  1/1     1            1           6d22h
+deployment.apps/openshift-gitops-redis                       1/1     1            1           6d22h
+deployment.apps/openshift-gitops-repo-server                 1/1     1            1           6d22h
+deployment.apps/openshift-gitops-server                      1/1     1            1           6d22h
+
+NAME                                                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/cluster-5b5c99d9b9                                      0         0         0       6d22h
+replicaset.apps/cluster-6786774484                                      0         0         0       6d1h
+replicaset.apps/cluster-67f5c4874b                                      1         1         1       3h1m
+replicaset.apps/gitops-plugin-577dfbc76                                 0         0         0       6d22h
+replicaset.apps/gitops-plugin-598cff7645                                1         1         1       3h1m
+replicaset.apps/gitops-plugin-8d875c45f                                 0         0         0       6d1h
+replicaset.apps/openshift-gitops-applicationset-controller-57945599ff   0         0         0       6d22h
+replicaset.apps/openshift-gitops-applicationset-controller-69964ffd4    1         1         1       3h1m
+replicaset.apps/openshift-gitops-applicationset-controller-87487cd97    0         0         0       6d1h
+replicaset.apps/openshift-gitops-dex-server-5cc6c67967                  0         0         0       6d22h
+replicaset.apps/openshift-gitops-dex-server-68d6584b99                  1         1         1       3h1m
+replicaset.apps/openshift-gitops-dex-server-6f5cffcfb4                  0         0         0       6d22h
+replicaset.apps/openshift-gitops-dex-server-6f86d84ff9                  0         0         0       6d1h
+replicaset.apps/openshift-gitops-redis-588f6678bf                       1         1         1       3h1m
+replicaset.apps/openshift-gitops-redis-5f46fdf9f9                       0         0         0       6d22h
+replicaset.apps/openshift-gitops-redis-74844f69c9                       0         0         0       6d1h
+replicaset.apps/openshift-gitops-repo-server-74c6cbfbfd                 0         0         0       6d22h
+replicaset.apps/openshift-gitops-repo-server-75db857f8                  1         1         1       3h1m
+replicaset.apps/openshift-gitops-repo-server-854cb464db                 0         0         0       6d1h
+replicaset.apps/openshift-gitops-server-565c6cdc6c                      0         0         0       6d1h
+replicaset.apps/openshift-gitops-server-674758b98b                      1         1         1       3h1m
+replicaset.apps/openshift-gitops-server-867599dc85                      0         0         0       6d22h
+
+NAME                                                       READY   AGE
+statefulset.apps/openshift-gitops-application-controller   1/1     6d21h
+
+NAME                                               HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+route.route.openshift.io/openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
+
+=== ROUTES (openshift-gitops) ===
+NAME                      HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
