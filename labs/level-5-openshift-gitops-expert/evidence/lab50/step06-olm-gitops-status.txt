@@ -1,0 +1,147 @@
+### DATE
+Sun Dec 21 16:09:32     2025
+
+### SUBSCRIPTIONS (gitops/argo)
+openshift-gitops-operator   openshift-gitops-operator   openshift-gitops-operator   redhat-operators   latest
+
+### CSV (gitops/argo)
+bpce-build                                         openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+bpce-dev                                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+bpce-platform                                      openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+bpce-preprod                                       openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+bpce-prod                                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+default                                            openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+ex280-lab00-bootstrap-zidane                       openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+ex280-lab02                                        openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+fullstack-dev                                      openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+helm-demo                                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+helm-labs                                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+hostpath-provisioner                               openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+kube-node-lease                                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+kube-public                                        openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+kube-system                                        openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+lab02-guestbook                                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+myapp-dev                                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+myapp-repo-test                                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-apiserver-operator                       openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-apiserver                                openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-authentication-operator                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-authentication                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cloud-network-config-controller          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cloud-platform-infra                     openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cluster-machine-approver                 openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cluster-samples-operator                 openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cluster-storage-operator                 openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-cluster-version                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-config-managed                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-config-operator                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-config                                   openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-console-operator                         openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-console-user-settings                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-console                                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-controller-manager-operator              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-controller-manager                       openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-debug-8t5xg                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-debug-g79mh                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-debug-vwppm                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-dns-operator                             openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-dns                                      openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-etcd-operator                            openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-etcd                                     openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-gitops-operator                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-gitops                                   openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-host-network                             openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-image-registry                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-infra                                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-ingress-canary                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-ingress-operator                         openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-ingress                                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kni-infra                                openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-apiserver-operator                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-apiserver                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-controller-manager-operator         openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-controller-manager                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-scheduler-operator                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-scheduler                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-storage-version-migrator-operator   openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-kube-storage-version-migrator            openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-machine-api                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-machine-config-operator                  openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-marketplace                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-monitoring                               openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-multus                                   openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-network-console                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-network-diagnostics                      openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-network-node-identity                    openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-network-operator                         openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-node                                     openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-nutanix-infra                            openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-oauth-apiserver                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-openstack-infra                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-operator-lifecycle-manager               openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-operators                                openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-ovirt-infra                              openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-ovn-kubernetes                           openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-route-controller-manager                 openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-service-ca-operator                      openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-service-ca                               openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-user-workload-monitoring                 openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift-vsphere-infra                            openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+openshift                                          openshift-gitops-operator.v1.19.0   Red Hat OpenShift GitOps   1.19.0           openshift-gitops-operator.v1.18.2   Succeeded
+
+### INSTALLPLANS (gitops/argo)
+openshift-gitops-operator   install-plqch   openshift-gitops-operator.v1.18.2   Automatic   true
+openshift-gitops-operator   install-sq5dl   openshift-gitops-operator.v1.19.0   Automatic   true
+openshift-gitops-operator   install-t9d64   openshift-gitops-operator.v1.18.1   Automatic   true
+
+### EVENTS openshift-gitops-operator (last 50)
+59m         Normal    LeaderElection        lease/2b63967d.openshift.io                                          openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2_443fb21c-c6e4-44b6-b127-2857fc36a8b2 became leader
+59m         Normal    Started               pod/openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2    Started container kube-rbac-proxy
+59m         Warning   ComponentUnhealthy    clusterserviceversion/openshift-gitops-operator.v1.18.2              installing: waiting for deployment openshift-gitops-operator-controller-manager to become ready: deployment "openshift-gitops-operator-controller-manager" not available: Deployment does not have minimum availability.
+58m         Normal    InstallSucceeded      clusterserviceversion/openshift-gitops-operator.v1.18.2              install strategy completed with no errors
+49m         Normal    BeingReplaced         clusterserviceversion/openshift-gitops-operator.v1.18.2              being replaced by csv: openshift-gitops-operator.v1.19.0
+49m         Normal    RequirementsUnknown   clusterserviceversion/openshift-gitops-operator.v1.19.0              requirements not yet checked
+49m         Normal    RequirementsNotMet    clusterserviceversion/openshift-gitops-operator.v1.19.0              one or more requirements couldn't be found
+49m         Normal    ScalingReplicaSet     deployment/openshift-gitops-operator-controller-manager              Scaled up replica set openshift-gitops-operator-controller-manager-6b648bffd8 from 0 to 1
+49m         Normal    AddedInterface        pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Add eth0 [10.217.0.50/23] from ovn-kubernetes
+49m         Normal    SuccessfulCreate      replicaset/openshift-gitops-operator-controller-manager-6b648bffd8   Created pod: openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2
+49m         Normal    Scheduled             pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Successfully assigned openshift-gitops-operator/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2 to crc
+49m         Normal    Pulling               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Pulling image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:c3f236b77221bfb0ffd9f44fbf231ecf44764905226f9eaa876c9335c27acb46"
+49m         Warning   AppliedWithWarnings   installplan/install-sq5dl                                            1 warning(s) generated during installation of operator "openshift-gitops-operator.v1.19.0" (CustomResourceDefinition "argocds.argoproj.io"): ArgoCD v1alpha1 version is deprecated and will be converted to v1beta1 automatically. Moving forward, please use v1beta1 as the ArgoCD API version.
+40m         Warning   InstallCheckFailed    clusterserviceversion/openshift-gitops-operator.v1.19.0              install timeout
+40m         Normal    Pulled                pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Successfully pulled image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:c3f236b77221bfb0ffd9f44fbf231ecf44764905226f9eaa876c9335c27acb46" in 53.982s (53.982s including waiting). Image size: 246488567 bytes.
+40m         Normal    Started               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Started container manager
+40m         Normal    Created               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Created container: manager
+40m         Normal    Pulled                pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Container image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:58698c84109b0833060ab86ef36c0092418c87aba61ba271bef60a18e6b5a6af" already present on machine
+40m         Normal    Started               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Started container kube-rbac-proxy
+40m         Normal    Created               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Created container: kube-rbac-proxy
+40m         Normal    NeedsReinstall        clusterserviceversion/openshift-gitops-operator.v1.19.0              installing: waiting for deployment openshift-gitops-operator-controller-manager to become ready: deployment "openshift-gitops-operator-controller-manager" waiting for 1 outdated replica(s) to be terminated
+40m         Normal    ScalingReplicaSet     deployment/openshift-gitops-operator-controller-manager              Scaled down replica set openshift-gitops-operator-controller-manager-7fdcd5f4dd from 1 to 0
+40m         Normal    Killing               pod/openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2    Stopping container kube-rbac-proxy
+40m         Warning   Unhealthy             pod/openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2    Readiness probe failed: Get "http://10.217.1.31:8081/readyz": dial tcp 10.217.1.31:8081: connect: connection refused
+40m         Normal    LeaderElection        lease/2b63967d.openshift.io                                          openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2_443fb21c-c6e4-44b6-b127-2857fc36a8b2 stopped leading
+40m         Normal    SuccessfulDelete      replicaset/openshift-gitops-operator-controller-manager-7fdcd5f4dd   Deleted pod: openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2
+40m         Normal    Killing               pod/openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2    Stopping container manager
+40m         Warning   ProbeError            pod/openshift-gitops-operator-controller-manager-7fdcd5f4dd-cfxp2    Readiness probe error: Get "http://10.217.1.31:8081/readyz": dial tcp 10.217.1.31:8081: connect: connection refused...
+40m         Normal    Replaced              clusterserviceversion/openshift-gitops-operator.v1.18.2              has been replaced by a newer ClusterServiceVersion that has successfully installed.
+40m         Normal    NeedsReinstall        clusterserviceversion/openshift-gitops-operator.v1.19.0              calculated deployment install is bad
+40m         Normal    AllRequirementsMet    clusterserviceversion/openshift-gitops-operator.v1.19.0              all requirements found, attempting install
+40m         Normal    ScalingReplicaSet     deployment/openshift-gitops-operator-controller-manager              Scaled up replica set openshift-gitops-operator-controller-manager-569584f845 from 0 to 1
+40m         Normal    SuccessfulCreate      replicaset/openshift-gitops-operator-controller-manager-569584f845   Created pod: openshift-gitops-operator-controller-manager-569584f845-2bkrf
+40m         Normal    Scheduled             pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Successfully assigned openshift-gitops-operator/openshift-gitops-operator-controller-manager-569584f845-2bkrf to crc
+40m         Normal    Pulled                pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Container image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:c3f236b77221bfb0ffd9f44fbf231ecf44764905226f9eaa876c9335c27acb46" already present on machine
+40m         Normal    AddedInterface        pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Add eth0 [10.217.0.51/23] from ovn-kubernetes
+40m         Normal    Created               pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Created container: manager
+40m         Normal    Started               pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Started container manager
+40m         Normal    Pulled                pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Container image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:58698c84109b0833060ab86ef36c0092418c87aba61ba271bef60a18e6b5a6af" already present on machine
+40m         Normal    Started               pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Started container kube-rbac-proxy
+40m         Normal    InstallSucceeded      clusterserviceversion/openshift-gitops-operator.v1.19.0              waiting for install components to report healthy
+40m         Normal    Created               pod/openshift-gitops-operator-controller-manager-569584f845-2bkrf    Created container: kube-rbac-proxy
+40m         Normal    InstallWaiting        clusterserviceversion/openshift-gitops-operator.v1.19.0              installing: waiting for deployment openshift-gitops-operator-controller-manager to become ready: deployment "openshift-gitops-operator-controller-manager" waiting for 1 outdated replica(s) to be terminated
+40m         Normal    LeaderElection        lease/2b63967d.openshift.io                                          openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2_f60b7559-e963-4e85-a40b-16d69365c984 became leader
+40m         Normal    SuccessfulDelete      replicaset/openshift-gitops-operator-controller-manager-6b648bffd8   Deleted pod: openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2
+40m         Normal    ScalingReplicaSet     deployment/openshift-gitops-operator-controller-manager              Scaled down replica set openshift-gitops-operator-controller-manager-6b648bffd8 from 1 to 0
+40m         Normal    Killing               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Stopping container kube-rbac-proxy
+40m         Normal    Killing               pod/openshift-gitops-operator-controller-manager-6b648bffd8-qtxb2    Stopping container manager
+40m         Normal    InstallSucceeded      clusterserviceversion/openshift-gitops-operator.v1.19.0              install strategy completed with no errors
+40m         Normal    LeaderElection        lease/2b63967d.openshift.io                                          openshift-gitops-operator-controller-manager-569584f845-2bkrf_9b945685-28fd-4cf5-8492-de2125b81daf became leader

@@ -1,0 +1,40 @@
+### DATE
+Sun Dec 21 16:27:06     2025
+
+### Argo CD Route
+NAME                      HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
+
+### Argo CD URL (host only)
+openshift-gitops-server-openshift-gitops.apps-crc.testing
+
+### Admin password (DO NOT PASTE IN CHAT)
+fiZrGd07Ys8kyDBOnlM2EmKItNwLQv3F
+
+### AppProjects
+NAME      AGE
+default   6d19h
+
+### Applications
+NAME                   SYNC STATUS   HEALTH STATUS
+bpce-backend-build     OutOfSync     Missing
+bpce-backend-dev       Synced        Healthy
+bpce-backend-preprod   OutOfSync     Missing
+bpce-backend-prod      OutOfSync     Missing
+bpce-events-demo-lab   Synced        Healthy
+bpce-kafka-lab         Synced        Healthy
+bpce-root              OutOfSync     Healthy
+lab02-guestbook        OutOfSync     Missing
+
+### ApplicationSets
+NAME                        AGE
+bpce-backend-environments   6d4h
+
+### If bpce-root exists, show summary
+NAME        SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+bpce-root   OutOfSync     Healthy         bd924d8ec11fd617cbf50f150614636a5c6d585b   default
+
+### If bpce-backend-environments exists, show summary
+NAME                        AGE
+bpce-backend-environments   6d4h
+

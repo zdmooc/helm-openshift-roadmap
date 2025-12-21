@@ -1,0 +1,41 @@
+### DATE
+Sun Dec 21 15:56:42     2025
+
+### oc whoami
+kubeadmin
+
+### CLUSTERVERSION
+NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
+version   4.19.3    True        False         14d     Cluster version is 4.19.3
+
+### CLUSTEROPERATORS
+NAME                                       VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE   MESSAGE
+authentication                             4.19.3    True        False         False      44m     
+config-operator                            4.19.3    True        False         False      164d    
+console                                    4.19.3    True        False         False      45m     
+control-plane-machine-set                  4.19.3    True        False         False      164d    
+dns                                        4.19.3    True        False         False      46m     
+etcd                                       4.19.3    True        False         False      164d    
+image-registry                             4.19.3    True        False         False      14d     
+ingress                                    4.19.3    True        False         False      164d    
+kube-apiserver                             4.19.3    True        False         False      164d    
+kube-controller-manager                    4.19.3    True        False         False      164d    
+kube-scheduler                             4.19.3    True        False         False      164d    
+kube-storage-version-migrator              4.19.3    True        False         False      46m     
+machine-api                                4.19.3    True        False         False      164d    
+machine-approver                           4.19.3    True        False         False      164d    
+machine-config                             4.19.3    True        False         False      164d    
+marketplace                                4.19.3    True        False         False      164d    
+monitoring                                 4.19.3    True        False         False      14d     
+network                                    4.19.3    True        False         False      164d    
+openshift-apiserver                        4.19.3    True        False         False      45m     
+openshift-controller-manager               4.19.3    True        False         False      46m     
+openshift-samples                          4.19.3    True        False         False      164d    
+operator-lifecycle-manager                 4.19.3    True        False         False      164d    
+operator-lifecycle-manager-catalog         4.19.3    True        False         False      164d    
+operator-lifecycle-manager-packageserver   4.19.3    True        False         False      46m     
+service-ca                                 4.19.3    True        False         False      164d    
+
+### NODES
+NAME   STATUS   ROLES                         AGE    VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE                                                KERNEL-VERSION                 CONTAINER-RUNTIME
+crc    Ready    control-plane,master,worker   164d   v1.32.5   192.168.126.11   <none>        Red Hat Enterprise Linux CoreOS 9.6.20250701-0 (Plow)   5.14.0-570.25.1.el9_6.x86_64   cri-o://1.32.6-2.rhaos4.19.git8e1af22.el9

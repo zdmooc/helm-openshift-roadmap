@@ -1,0 +1,1184 @@
+### DATE
+Sun Dec 21 16:32:26     2025
+
+### Apps (summary columns)
+bpce-backend-build     default   bpce-build         https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   deploy/kustomize/overlays/build               main   OutOfSync   Missing
+bpce-backend-dev       default   bpce-dev           https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   deploy/kustomize/overlays/dev                 main   Synced      Healthy
+bpce-backend-preprod   default   bpce-preprod       https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   deploy/kustomize/overlays/preprod             main   OutOfSync   Missing
+bpce-backend-prod      default   bpce-prod          https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   deploy/kustomize/overlays/prod                main   OutOfSync   Missing
+bpce-events-demo-lab   default   bpce-platform      https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   platform/apps/bpce-events-demo/overlays/lab   main   Synced      Healthy
+bpce-kafka-lab         default   bpce-platform      https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   platform/kafka/overlays/lab                   main   Synced      Healthy
+bpce-root              default   openshift-gitops   https://kubernetes.default.svc   https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git   gitops/argocd/applications                    main   OutOfSync   Healthy
+lab02-guestbook        default   lab02-guestbook    https://kubernetes.default.svc   https://github.com/zdmooc/argocd-expert-pack.git                          labs/lab02-first-app/manifests/guestbook      main   OutOfSync   Missing
+
+### Target namespaces existence check
+bpce-dev           bpce-dev   Active   6d4h
+OK
+bpce-build         bpce-build   Active   5d19h
+OK
+bpce-preprod       bpce-preprod   Active   5d19h
+OK
+bpce-prod          bpce-prod   Active   5d19h
+OK
+lab02-guestbook    lab02-guestbook   Active   6d4h
+OK
+
+### Describe: bpce-root
+Name:         bpce-root
+Namespace:    openshift-gitops
+Labels:       <none>
+Annotations:  <none>
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2025-12-15T11:06:23Z
+  Generation:          2060
+  Resource Version:    1094209
+  UID:                 f96f0ce8-6a79-408a-b864-fdfaf093ff66
+Spec:
+  Destination:
+    Namespace:  openshift-gitops
+    Server:     https://kubernetes.default.svc
+  Project:      default
+  Source:
+    Path:             gitops/argocd/applications
+    Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+    Target Revision:  main
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+Status:
+  Controller Namespace:  openshift-gitops
+  Health:
+    Last Transition Time:  2025-12-15T11:06:25Z
+    Status:                Healthy
+  History:
+    Deploy Started At:  2025-12-16T14:01:52Z
+    Deployed At:        2025-12-16T14:01:59Z
+    Id:                 8
+    Initiated By:
+      Automated:  true
+    Revision:     143cc4a64e5809d44cbbf381585252b1d988b2c3
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T18:22:32Z
+    Deployed At:        2025-12-16T18:22:36Z
+    Id:                 9
+    Initiated By:
+      Automated:  true
+    Revision:     2766c449ed0347ee06ca59bfade6b4a94f3ca712
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T19:26:33Z
+    Deployed At:        2025-12-16T19:26:44Z
+    Id:                 10
+    Initiated By:
+      Automated:  true
+    Revision:     8a78704eae8841f343f50e325b6318793760ac7b
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T19:38:20Z
+    Deployed At:        2025-12-16T19:38:33Z
+    Id:                 11
+    Initiated By:
+      Automated:  true
+    Revision:     469569714c6fbb248852ba5638601b8c70e95590
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T19:56:08Z
+    Deployed At:        2025-12-16T19:56:16Z
+    Id:                 12
+    Initiated By:
+      Automated:  true
+    Revision:     81794cd05ad389b5145f4aa6a8a90c754f4f3a24
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T20:00:08Z
+    Deployed At:        2025-12-16T20:00:13Z
+    Id:                 13
+    Initiated By:
+      Automated:  true
+    Revision:     b2f5da2c65719baaffed1f31d097633416505893
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T20:09:42Z
+    Deployed At:        2025-12-16T20:09:47Z
+    Id:                 14
+    Initiated By:
+      Automated:  true
+    Revision:     de267bfb496a258ebcd1f8baefdbee1a70ac7fc3
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T20:28:46Z
+    Deployed At:        2025-12-16T20:29:04Z
+    Id:                 15
+    Initiated By:
+      Automated:  true
+    Revision:     8a87c41fde030f74165bc7e2b593b23da84b0f0d
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T20:48:43Z
+    Deployed At:        2025-12-16T20:48:49Z
+    Id:                 16
+    Initiated By:
+      Automated:  true
+    Revision:     f4e96f64d7027afb6345e260726a7feda45582a5
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-16T22:22:05Z
+    Deployed At:        2025-12-16T22:22:10Z
+    Id:                 17
+    Initiated By:
+      Automated:  true
+    Revision:     bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Source:
+      Path:             gitops/argocd/applications
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+  Operation State:
+    Finished At:  2025-12-21T15:29:34Z
+    Message:      successfully synced (all tasks run)
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Limit:  5
+      Sync:
+        Auto Heal Attempts Count:  22
+        Prune:                     true
+        Resources:
+          Group:   argoproj.io
+          Kind:    Application
+          Name:    bpce-backend-dev
+        Revision:  bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Phase:         Succeeded
+    Started At:    2025-12-21T15:29:33Z
+    Sync Result:
+      Resources:
+        Group:       argoproj.io
+        Hook Phase:  Running
+        Kind:        Application
+        Message:     application.argoproj.io/bpce-backend-dev configured. Warning: resource applications/bpce-backend-dev is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by  apply.  apply should only be used on resources created declaratively by either  create --save-config or  apply. The missing annotation will be patched automatically.
+        Name:        bpce-backend-dev
+        Namespace:   openshift-gitops
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1alpha1
+      Revision:      bd924d8ec11fd617cbf50f150614636a5c6d585b
+      Source:
+        Path:             gitops/argocd/applications
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+  Reconciled At:          2025-12-21T15:29:34Z
+  Resources:
+    Group:      argoproj.io
+    Kind:       Application
+    Name:       bpce-backend-dev
+    Namespace:  openshift-gitops
+    Status:     OutOfSync
+    Version:    v1alpha1
+    Group:      argoproj.io
+    Health:
+      Message:  ApplicationSet up to date
+      Status:   Healthy
+    Kind:       ApplicationSet
+    Name:       bpce-backend-environments
+    Namespace:  openshift-gitops
+    Status:     Synced
+    Version:    v1alpha1
+  Source Hydrator:
+  Source Type:  Directory
+  Summary:
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  openshift-gitops
+        Server:     https://kubernetes.default.svc
+      Source:
+        Path:             gitops/argocd/applications
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+    Revision:             bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Status:               OutOfSync
+Events:
+  Type    Reason              Age    From                           Message
+  ----    ------              ----   ----                           -------
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a78704eae8841f343f50e325b6318793760ac7b'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a78704eae8841f343f50e325b6318793760ac7b succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 469569714c6fbb248852ba5638601b8c70e95590 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to b2f5da2c65719baaffed1f31d097633416505893 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d19h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d18h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d17h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d16h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d16h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    4d16h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  4d16h  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  ResourceUpdated     4d16h  argocd-application-controller  Updated sync status: OutOfSync -> Unknown
+  Normal  OperationStarted    81m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  ResourceUpdated     81m    argocd-application-controller  Updated sync status: Unknown -> OutOfSync
+  Normal  OperationCompleted  81m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    76m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  76m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    63m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  63m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    52m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  52m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    47m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  47m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    38m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  38m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    33m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  33m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    28m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  28m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    23m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  23m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    18m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  17m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    12m    argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  12m    argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    7m58s  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  7m57s  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+  Normal  OperationStarted    2m57s  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Normal  OperationCompleted  2m56s  argocd-application-controller  Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+
+### Describe: bpce-backend-build
+Name:         bpce-backend-build
+Namespace:    openshift-gitops
+Labels:       <none>
+Annotations:  <none>
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2025-12-15T11:06:27Z
+  Finalizers:
+    resources-finalizer.argocd.argoproj.io
+  Generation:  727
+  Owner References:
+    API Version:           argoproj.io/v1alpha1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  ApplicationSet
+    Name:                  bpce-backend-environments
+    UID:                   e9dbba73-37b1-4a65-907e-f246ffd541e1
+  Resource Version:        1094458
+  UID:                     1dcc8b50-dfc7-4f7e-82ad-17e418fcc1df
+Spec:
+  Destination:
+    Namespace:  bpce-build
+    Server:     https://kubernetes.default.svc
+  Project:      default
+  Source:
+    Path:             deploy/kustomize/overlays/build
+    Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+    Target Revision:  main
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+    Sync Options:
+      CreateNamespace=true
+Status:
+  Conditions:
+    Last Transition Time:  2025-12-16T22:28:57Z
+    Message:               Failed sync attempt to bd924d8ec11fd617cbf50f150614636a5c6d585b: one or more objects failed to apply, reason: deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build" (retried 5 times).
+    Type:                  SyncError
+  Controller Namespace:    openshift-gitops
+  Health:
+    Last Transition Time:  2025-12-15T20:02:56Z
+    Status:                Missing
+  History:
+    Deploy Started At:  2025-12-15T11:52:49Z
+    Deployed At:        2025-12-15T11:52:51Z
+    Id:                 0
+    Initiated By:
+      Username:  admin
+    Revision:    894bc15c8007ec081e442ea5dfd0158b8a7d9b83
+    Source:
+      Path:             deploy/kustomize/overlays/build
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-15T14:52:15Z
+    Deployed At:        2025-12-15T14:52:21Z
+    Id:                 1
+    Initiated By:
+      Automated:  true
+    Revision:     967e01ccd1e1ad446052e0cc289671b4061b38a1
+    Source:
+      Path:             deploy/kustomize/overlays/build
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+  Operation State:
+    Finished At:  2025-12-16T22:28:55Z
+    Message:      one or more objects failed to apply, reason: deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build" (retried 5 times).
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Limit:  5
+      Sync:
+        Prune:     true
+        Revision:  bd924d8ec11fd617cbf50f150614636a5c6d585b
+        Sync Options:
+          CreateNamespace=true
+    Phase:        Failed
+    Retry Count:  5
+    Started At:   2025-12-16T22:23:33Z
+    Sync Result:
+      Resources:
+        Group:       
+        Hook Phase:  Failed
+        Kind:        ServiceAccount
+        Message:     serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build"
+        Name:        backend-sa
+        Namespace:   bpce-build
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Failed
+        Kind:        Service
+        Message:     services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build"
+        Name:        backend
+        Namespace:   bpce-build
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       apps
+        Hook Phase:  Failed
+        Images:
+          default-route-openshift-image-registry.apps-crc.testing/bpce-build/container-tools-api:build
+        Kind:        Deployment
+        Message:     deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build"
+        Name:        backend
+        Namespace:   bpce-build
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       route.openshift.io
+        Hook Phase:  Failed
+        Kind:        Route
+        Message:     routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build"
+        Name:        backend
+        Namespace:   bpce-build
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+      Revision:      bd924d8ec11fd617cbf50f150614636a5c6d585b
+      Source:
+        Path:             deploy/kustomize/overlays/build
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+  Reconciled At:          2025-12-21T15:31:02Z
+  Resources:
+    Health:
+      Status:   Missing
+    Kind:       Service
+    Name:       backend
+    Namespace:  bpce-build
+    Status:     OutOfSync
+    Version:    v1
+    Health:
+      Status:   Missing
+    Kind:       ServiceAccount
+    Name:       backend-sa
+    Namespace:  bpce-build
+    Status:     OutOfSync
+    Version:    v1
+    Group:      apps
+    Health:
+      Status:   Missing
+    Kind:       Deployment
+    Name:       backend
+    Namespace:  bpce-build
+    Status:     OutOfSync
+    Version:    v1
+    Group:      route.openshift.io
+    Health:
+      Status:   Missing
+    Kind:       Route
+    Name:       backend
+    Namespace:  bpce-build
+    Status:     OutOfSync
+    Version:    v1
+  Source Hydrator:
+  Source Type:  Kustomize
+  Summary:
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  bpce-build
+        Server:     https://kubernetes.default.svc
+      Source:
+        Path:             deploy/kustomize/overlays/build
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+    Revision:             bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Status:               OutOfSync
+Events:
+  Type     Reason              Age    From                           Message
+  ----     ------              ----   ----                           -------
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 469569714c6fbb248852ba5638601b8c70e95590 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 failed: one or more objects failed to apply, reason: routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to b2f5da2c65719baaffed1f31d097633416505893 failed: one or more objects failed to apply, reason: deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d failed: one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build" (retried 5 times).
+  Normal   OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Warning  OperationCompleted  4d17h  argocd-application-controller  Sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b failed: one or more objects failed to apply, reason: deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-build",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-build",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-build",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-build" (retried 5 times).
+
+### Describe: bpce-backend-preprod
+Name:         bpce-backend-preprod
+Namespace:    openshift-gitops
+Labels:       <none>
+Annotations:  <none>
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2025-12-15T11:06:27Z
+  Finalizers:
+    resources-finalizer.argocd.argoproj.io
+  Generation:  745
+  Owner References:
+    API Version:           argoproj.io/v1alpha1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  ApplicationSet
+    Name:                  bpce-backend-environments
+    UID:                   e9dbba73-37b1-4a65-907e-f246ffd541e1
+  Resource Version:        1094137
+  UID:                     05582b61-b3f8-435b-9444-729eaeb29281
+Spec:
+  Destination:
+    Namespace:  bpce-preprod
+    Server:     https://kubernetes.default.svc
+  Project:      default
+  Source:
+    Path:             deploy/kustomize/overlays/preprod
+    Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+    Target Revision:  main
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+    Sync Options:
+      CreateNamespace=true
+Status:
+  Conditions:
+    Last Transition Time:  2025-12-16T22:27:37Z
+    Message:               Failed sync attempt to bd924d8ec11fd617cbf50f150614636a5c6d585b: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod" (retried 5 times).
+    Type:                  SyncError
+  Controller Namespace:    openshift-gitops
+  Health:
+    Last Transition Time:  2025-12-15T20:02:56Z
+    Status:                Missing
+  History:
+    Deploy Started At:  2025-12-15T11:52:55Z
+    Deployed At:        2025-12-15T11:52:58Z
+    Id:                 0
+    Initiated By:
+      Username:  admin
+    Revision:    894bc15c8007ec081e442ea5dfd0158b8a7d9b83
+    Source:
+      Path:             deploy/kustomize/overlays/preprod
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-15T14:52:34Z
+    Deployed At:        2025-12-15T14:52:38Z
+    Id:                 1
+    Initiated By:
+      Automated:  true
+    Revision:     967e01ccd1e1ad446052e0cc289671b4061b38a1
+    Source:
+      Path:             deploy/kustomize/overlays/preprod
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+  Operation State:
+    Finished At:  2025-12-16T22:27:35Z
+    Message:      one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod" (retried 5 times).
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Limit:  5
+      Sync:
+        Prune:     true
+        Revision:  bd924d8ec11fd617cbf50f150614636a5c6d585b
+        Sync Options:
+          CreateNamespace=true
+    Phase:        Failed
+    Retry Count:  5
+    Started At:   2025-12-16T22:22:18Z
+    Sync Result:
+      Resources:
+        Group:       
+        Hook Phase:  Failed
+        Kind:        ServiceAccount
+        Message:     serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod"
+        Name:        backend-sa
+        Namespace:   bpce-preprod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Failed
+        Kind:        Service
+        Message:     services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod"
+        Name:        backend
+        Namespace:   bpce-preprod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       apps
+        Hook Phase:  Failed
+        Images:
+          default-route-openshift-image-registry.apps-crc.testing/bpce-preprod/container-tools-api:preprod
+        Kind:        Deployment
+        Message:     deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod"
+        Name:        backend
+        Namespace:   bpce-preprod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       route.openshift.io
+        Hook Phase:  Failed
+        Kind:        Route
+        Message:     routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod"
+        Name:        backend
+        Namespace:   bpce-preprod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+      Revision:      bd924d8ec11fd617cbf50f150614636a5c6d585b
+      Source:
+        Path:             deploy/kustomize/overlays/preprod
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+  Reconciled At:          2025-12-21T15:29:08Z
+  Resources:
+    Health:
+      Status:   Missing
+    Kind:       Service
+    Name:       backend
+    Namespace:  bpce-preprod
+    Status:     OutOfSync
+    Version:    v1
+    Health:
+      Status:   Missing
+    Kind:       ServiceAccount
+    Name:       backend-sa
+    Namespace:  bpce-preprod
+    Status:     OutOfSync
+    Version:    v1
+    Group:      apps
+    Health:
+      Status:   Missing
+    Kind:       Deployment
+    Name:       backend
+    Namespace:  bpce-preprod
+    Status:     OutOfSync
+    Version:    v1
+    Group:      route.openshift.io
+    Health:
+      Status:   Missing
+    Kind:       Route
+    Name:       backend
+    Namespace:  bpce-preprod
+    Status:     OutOfSync
+    Version:    v1
+  Source Hydrator:
+  Source Type:  Kustomize
+  Summary:
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  bpce-preprod
+        Server:     https://kubernetes.default.svc
+      Source:
+        Path:             deploy/kustomize/overlays/preprod
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+    Revision:             bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Status:               OutOfSync
+Events:
+  Type     Reason              Age    From                           Message
+  ----     ------              ----   ----                           -------
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 469569714c6fbb248852ba5638601b8c70e95590 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 failed: one or more objects failed to apply, reason: routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to b2f5da2c65719baaffed1f31d097633416505893 failed: one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 failed: one or more objects failed to apply, reason: routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d failed: one or more objects failed to apply, reason: routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod" (retried 5 times).
+  Normal   OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Warning  OperationCompleted  4d17h  argocd-application-controller  Sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-preprod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-preprod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-preprod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-preprod" (retried 5 times).
+
+### Describe: bpce-backend-prod
+Name:         bpce-backend-prod
+Namespace:    openshift-gitops
+Labels:       <none>
+Annotations:  <none>
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2025-12-15T11:06:27Z
+  Finalizers:
+    resources-finalizer.argocd.argoproj.io
+  Generation:  735
+  Owner References:
+    API Version:           argoproj.io/v1alpha1
+    Block Owner Deletion:  true
+    Controller:            true
+    Kind:                  ApplicationSet
+    Name:                  bpce-backend-environments
+    UID:                   e9dbba73-37b1-4a65-907e-f246ffd541e1
+  Resource Version:        1094383
+  UID:                     a1282d4e-af6e-4586-8a8a-c9f0d8780f1e
+Spec:
+  Destination:
+    Namespace:  bpce-prod
+    Server:     https://kubernetes.default.svc
+  Project:      default
+  Source:
+    Path:             deploy/kustomize/overlays/prod
+    Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+    Target Revision:  main
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+    Sync Options:
+      CreateNamespace=true
+Status:
+  Conditions:
+    Last Transition Time:  2025-12-16T22:27:25Z
+    Message:               Failed sync attempt to bd924d8ec11fd617cbf50f150614636a5c6d585b: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+    Type:                  SyncError
+  Controller Namespace:    openshift-gitops
+  Health:
+    Last Transition Time:  2025-12-15T20:02:56Z
+    Status:                Missing
+  History:
+    Deploy Started At:  2025-12-15T11:53:02Z
+    Deployed At:        2025-12-15T11:53:03Z
+    Id:                 0
+    Initiated By:
+      Username:  admin
+    Revision:    894bc15c8007ec081e442ea5dfd0158b8a7d9b83
+    Source:
+      Path:             deploy/kustomize/overlays/prod
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+    Deploy Started At:  2025-12-15T14:52:42Z
+    Deployed At:        2025-12-15T14:52:45Z
+    Id:                 1
+    Initiated By:
+      Automated:  true
+    Revision:     967e01ccd1e1ad446052e0cc289671b4061b38a1
+    Source:
+      Path:             deploy/kustomize/overlays/prod
+      Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+      Target Revision:  main
+  Operation State:
+    Finished At:  2025-12-16T22:27:24Z
+    Message:      one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Limit:  5
+      Sync:
+        Prune:     true
+        Revision:  bd924d8ec11fd617cbf50f150614636a5c6d585b
+        Sync Options:
+          CreateNamespace=true
+    Phase:        Failed
+    Retry Count:  5
+    Started At:   2025-12-16T22:22:04Z
+    Sync Result:
+      Resources:
+        Group:       
+        Hook Phase:  Failed
+        Kind:        ServiceAccount
+        Message:     serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod"
+        Name:        backend-sa
+        Namespace:   bpce-prod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Failed
+        Kind:        Service
+        Message:     services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod"
+        Name:        backend
+        Namespace:   bpce-prod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       apps
+        Hook Phase:  Failed
+        Images:
+          default-route-openshift-image-registry.apps-crc.testing/bpce-prod/container-tools-api:prod
+        Kind:        Deployment
+        Message:     deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod"
+        Name:        backend
+        Namespace:   bpce-prod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       route.openshift.io
+        Hook Phase:  Failed
+        Kind:        Route
+        Message:     routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod"
+        Name:        backend
+        Namespace:   bpce-prod
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+      Revision:      bd924d8ec11fd617cbf50f150614636a5c6d585b
+      Source:
+        Path:             deploy/kustomize/overlays/prod
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+  Reconciled At:          2025-12-21T15:30:33Z
+  Resources:
+    Health:
+      Status:   Missing
+    Kind:       Service
+    Name:       backend
+    Namespace:  bpce-prod
+    Status:     OutOfSync
+    Version:    v1
+    Health:
+      Status:   Missing
+    Kind:       ServiceAccount
+    Name:       backend-sa
+    Namespace:  bpce-prod
+    Status:     OutOfSync
+    Version:    v1
+    Group:      apps
+    Health:
+      Status:   Missing
+    Kind:       Deployment
+    Name:       backend
+    Namespace:  bpce-prod
+    Status:     OutOfSync
+    Version:    v1
+    Group:      route.openshift.io
+    Health:
+      Status:   Missing
+    Kind:       Route
+    Name:       backend
+    Namespace:  bpce-prod
+    Status:     OutOfSync
+    Version:    v1
+  Source Hydrator:
+  Source Type:  Kustomize
+  Summary:
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  bpce-prod
+        Server:     https://kubernetes.default.svc
+      Source:
+        Path:             deploy/kustomize/overlays/prod
+        Repo URL:         https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        Target Revision:  main
+    Revision:             bd924d8ec11fd617cbf50f150614636a5c6d585b
+    Status:               OutOfSync
+Events:
+  Type     Reason              Age    From                           Message
+  ----     ------              ----   ----                           -------
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '469569714c6fbb248852ba5638601b8c70e95590'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 469569714c6fbb248852ba5638601b8c70e95590 failed: one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '81794cd05ad389b5145f4aa6a8a90c754f4f3a24'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to 81794cd05ad389b5145f4aa6a8a90c754f4f3a24 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'b2f5da2c65719baaffed1f31d097633416505893'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to b2f5da2c65719baaffed1f31d097633416505893 failed: one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod",serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to 'de267bfb496a258ebcd1f8baefdbee1a70ac7fc3'
+  Warning  OperationCompleted  4d19h  argocd-application-controller  Sync operation to de267bfb496a258ebcd1f8baefdbee1a70ac7fc3 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d19h  argocd-application-controller  Initiated automated sync to '8a87c41fde030f74165bc7e2b593b23da84b0f0d'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to 8a87c41fde030f74165bc7e2b593b23da84b0f0d failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d18h  argocd-application-controller  Initiated automated sync to 'f4e96f64d7027afb6345e260726a7feda45582a5'
+  Warning  OperationCompleted  4d18h  argocd-application-controller  Sync operation to f4e96f64d7027afb6345e260726a7feda45582a5 failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+  Normal   OperationStarted    4d17h  argocd-application-controller  Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+  Warning  OperationCompleted  4d17h  argocd-application-controller  Sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b failed: one or more objects failed to apply, reason: serviceaccounts is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "serviceaccounts" in API group "" in the namespace "bpce-prod",services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "bpce-prod",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "bpce-prod",routes.route.openshift.io is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "routes" in API group "route.openshift.io" in the namespace "bpce-prod" (retried 5 times).
+
+### Describe: lab02-guestbook
+Name:         lab02-guestbook
+Namespace:    openshift-gitops
+Labels:       <none>
+Annotations:  <none>
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2025-12-15T10:37:08Z
+  Generation:          451
+  Resource Version:    1094396
+  UID:                 9208f8e8-2fe2-4b53-9d62-249e3d588fb5
+Spec:
+  Destination:
+    Namespace:  lab02-guestbook
+    Server:     https://kubernetes.default.svc
+  Project:      default
+  Source:
+    Path:             labs/lab02-first-app/manifests/guestbook
+    Repo URL:         https://github.com/zdmooc/argocd-expert-pack.git
+    Target Revision:  main
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+    Sync Options:
+      CreateNamespace=true
+Status:
+  Conditions:
+    Last Transition Time:  2025-12-15T10:47:15Z
+    Message:               Failed sync attempt to e56b67db297902ef7c1b2d85bf938cfebe176c49: one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "lab02-guestbook",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "lab02-guestbook" (retried 5 times).
+    Type:                  SyncError
+  Controller Namespace:    openshift-gitops
+  Health:
+    Last Transition Time:  2025-12-15T10:41:56Z
+    Status:                Missing
+  Operation State:
+    Finished At:  2025-12-15T10:47:13Z
+    Message:      one or more objects failed to apply, reason: services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "lab02-guestbook",deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "lab02-guestbook" (retried 5 times).
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Limit:  5
+      Sync:
+        Prune:     true
+        Revision:  e56b67db297902ef7c1b2d85bf938cfebe176c49
+        Sync Options:
+          CreateNamespace=true
+    Phase:        Failed
+    Retry Count:  5
+    Started At:   2025-12-15T10:41:56Z
+    Sync Result:
+      Resources:
+        Group:       
+        Hook Phase:  Failed
+        Kind:        Service
+        Message:     services is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "services" in API group "" in the namespace "lab02-guestbook"
+        Name:        guestbook
+        Namespace:   lab02-guestbook
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       apps
+        Hook Phase:  Failed
+        Images:
+          nginxinc/nginx-unprivileged:stable
+        Kind:        Deployment
+        Message:     deployments.apps is forbidden: User "system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" cannot create resource "deployments" in API group "apps" in the namespace "lab02-guestbook"
+        Name:        guestbook
+        Namespace:   lab02-guestbook
+        Status:      SyncFailed
+        Sync Phase:  Sync
+        Version:     v1
+      Revision:      e56b67db297902ef7c1b2d85bf938cfebe176c49
+      Source:
+        Path:             labs/lab02-first-app/manifests/guestbook
+        Repo URL:         https://github.com/zdmooc/argocd-expert-pack.git
+        Target Revision:  main
+  Reconciled At:          2025-12-21T15:30:37Z
+  Resources:
+    Health:
+      Status:   Missing
+    Kind:       Service
+    Name:       guestbook
+    Namespace:  lab02-guestbook
+    Status:     OutOfSync
+    Version:    v1
+    Group:      apps
+    Health:
+      Status:   Missing
+    Kind:       Deployment
+    Name:       guestbook
+    Namespace:  lab02-guestbook
+    Status:     OutOfSync
+    Version:    v1
+  Source Hydrator:
+  Source Type:  Kustomize
+  Summary:
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  lab02-guestbook
+        Server:     https://kubernetes.default.svc
+      Source:
+        Path:             labs/lab02-first-app/manifests/guestbook
+        Repo URL:         https://github.com/zdmooc/argocd-expert-pack.git
+        Target Revision:  main
+    Revision:             e56b67db297902ef7c1b2d85bf938cfebe176c49
+    Status:               OutOfSync
+Events:                   <none>
+
+### ApplicationSet YAML (bpce-backend-environments)
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"ApplicationSet","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"bpce-root"},"name":"bpce-backend-environments","namespace":"openshift-gitops"},"spec":{"generators":[{"list":{"elements":[{"env":"dev","namespace":"bpce-dev","path":"deploy/kustomize/overlays/dev"},{"env":"build","namespace":"bpce-build","path":"deploy/kustomize/overlays/build"},{"env":"preprod","namespace":"bpce-preprod","path":"deploy/kustomize/overlays/preprod"},{"env":"prod","namespace":"bpce-prod","path":"deploy/kustomize/overlays/prod"}]}}],"template":{"metadata":{"name":"bpce-backend-{{env}}"},"spec":{"destination":{"namespace":"{{namespace}}","server":"https://kubernetes.default.svc"},"project":"default","source":{"path":"{{path}}","repoURL":"https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git","targetRevision":"main"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=true"]}}}}}
+  creationTimestamp: "2025-12-15T11:06:27Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: bpce-root
+  name: bpce-backend-environments
+  namespace: openshift-gitops
+  resourceVersion: "1081177"
+  uid: e9dbba73-37b1-4a65-907e-f246ffd541e1
+spec:
+  generators:
+  - list:
+      elements:
+      - env: dev
+        namespace: bpce-dev
+        path: deploy/kustomize/overlays/dev
+      - env: build
+        namespace: bpce-build
+        path: deploy/kustomize/overlays/build
+      - env: preprod
+        namespace: bpce-preprod
+        path: deploy/kustomize/overlays/preprod
+      - env: prod
+        namespace: bpce-prod
+        path: deploy/kustomize/overlays/prod
+  template:
+    metadata:
+      name: bpce-backend-{{env}}
+    spec:
+      destination:
+        namespace: '{{namespace}}'
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        path: '{{path}}'
+        repoURL: https://github.com/zdmooc/bpce-natixis-gitops-openshift-quarkus-lab.git
+        targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+status:
+  conditions:
+  - lastTransitionTime: "2025-12-15T11:06:27Z"
+    message: Successfully generated parameters for all Applications
+    reason: ApplicationSetUpToDate
+    status: "False"
+    type: ErrorOccurred
+  - lastTransitionTime: "2025-12-15T11:06:27Z"
+    message: Successfully generated parameters for all Applications
+    reason: ParametersGenerated
+    status: "True"
+    type: ParametersGenerated
+  - lastTransitionTime: "2025-12-15T11:06:27Z"
+    message: ApplicationSet up to date
+    reason: ApplicationSetUpToDate
+    status: "True"
+    type: ResourcesUpToDate
+  resources:
+  - group: argoproj.io
+    health:
+      status: Missing
+    kind: Application
+    name: bpce-backend-build
+    namespace: openshift-gitops
+    status: OutOfSync
+    version: v1alpha1
+  - group: argoproj.io
+    health:
+      status: Healthy
+    kind: Application
+    name: bpce-backend-dev
+    namespace: openshift-gitops
+    status: Synced
+    version: v1alpha1
+  - group: argoproj.io
+    health:
+      status: Missing
+    kind: Application
+    name: bpce-backend-preprod
+    namespace: openshift-gitops
+    status: OutOfSync
+    version: v1alpha1
+  - group: argoproj.io
+    health:
+      status: Missing
+    kind: Application
+    name: bpce-backend-prod
+    namespace: openshift-gitops
+    status: OutOfSync
+    version: v1alpha1
+

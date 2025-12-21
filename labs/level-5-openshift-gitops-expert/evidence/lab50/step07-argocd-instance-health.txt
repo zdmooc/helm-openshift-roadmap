@@ -1,0 +1,106 @@
+### DATE
+Sun Dec 21 16:20:21     2025
+
+### NS openshift-gitops / openshift-gitops-operator
+
+### ArgoCD CR (if any)
+NAMESPACE          NAME               AGE
+openshift-gitops   openshift-gitops   6d19h
+
+### Pods openshift-gitops-operator
+NAME                                                            READY   STATUS    RESTARTS   AGE   IP            NODE   NOMINATED NODE   READINESS GATES
+openshift-gitops-operator-controller-manager-569584f845-2bkrf   2/2     Running   0          51m   10.217.0.51   crc    <none>           <none>
+
+### Pods openshift-gitops
+NAME                                                         READY   STATUS    RESTARTS   AGE   IP            NODE   NOMINATED NODE   READINESS GATES
+cluster-67f5c4874b-bvkp4                                     1/1     Running   0          51m   10.217.0.54   crc    <none>           <none>
+gitops-plugin-598cff7645-4ck29                               1/1     Running   0          51m   10.217.0.55   crc    <none>           <none>
+openshift-gitops-application-controller-0                    1/1     Running   0          40m   10.217.0.82   crc    <none>           <none>
+openshift-gitops-applicationset-controller-69964ffd4-fvdhj   1/1     Running   0          51m   10.217.0.74   crc    <none>           <none>
+openshift-gitops-dex-server-68d6584b99-wgvtz                 1/1     Running   0          51m   10.217.0.52   crc    <none>           <none>
+openshift-gitops-redis-588f6678bf-xm4tk                      1/1     Running   0          51m   10.217.0.57   crc    <none>           <none>
+openshift-gitops-repo-server-75db857f8-66g2d                 1/1     Running   0          51m   10.217.0.70   crc    <none>           <none>
+openshift-gitops-server-674758b98b-x2q9x                     1/1     Running   0          51m   10.217.0.73   crc    <none>           <none>
+
+### Deployments openshift-gitops
+NAME                                         READY   UP-TO-DATE   AVAILABLE   AGE
+cluster                                      1/1     1            1           6d19h
+gitops-plugin                                1/1     1            1           6d19h
+openshift-gitops-applicationset-controller   1/1     1            1           6d19h
+openshift-gitops-dex-server                  1/1     1            1           6d19h
+openshift-gitops-redis                       1/1     1            1           6d19h
+openshift-gitops-repo-server                 1/1     1            1           6d19h
+openshift-gitops-server                      1/1     1            1           6d19h
+
+### Routes openshift-gitops
+NAME                      HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
+
+### Services openshift-gitops
+NAME                                         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)             AGE
+cluster                                      ClusterIP   10.217.5.62    <none>        8080/TCP            6d19h
+gitops-plugin                                ClusterIP   10.217.5.94    <none>        9001/TCP            6d19h
+openshift-gitops-applicationset-controller   ClusterIP   10.217.5.140   <none>        7000/TCP,8080/TCP   6d19h
+openshift-gitops-dex-server                  ClusterIP   10.217.4.68    <none>        5556/TCP,5557/TCP   6d19h
+openshift-gitops-metrics                     ClusterIP   10.217.4.191   <none>        8082/TCP            6d19h
+openshift-gitops-redis                       ClusterIP   10.217.4.48    <none>        6379/TCP            6d19h
+openshift-gitops-repo-server                 ClusterIP   10.217.5.231   <none>        8081/TCP,8084/TCP   6d19h
+openshift-gitops-server                      ClusterIP   10.217.5.220   <none>        80/TCP,443/TCP      6d19h
+openshift-gitops-server-metrics              ClusterIP   10.217.4.67    <none>        8083/TCP            6d19h
+
+### Secrets (admin/initial)
+argocd-dex-server-token-5lb9c                                    kubernetes.io/service-account-token   4      6d19h
+argocd-secret                                                    Opaque                                6      6d19h
+argocd-server-tls                                                kubernetes.io/tls                     2      6d19h
+openshift-gitops-applicationset-controller-dockercfg-sjmbw       kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-argocd-application-controller-dockercfg-qjp7m   kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-argocd-dex-server-dockercfg-cp6q7               kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-argocd-redis-dockercfg-6cqcl                    kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-argocd-redis-ha-dockercfg-ndzh7                 kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-argocd-server-dockercfg-j4n9l                   kubernetes.io/dockercfg               1      6d19h
+openshift-gitops-ca                                              kubernetes.io/tls                     3      6d19h
+openshift-gitops-cluster                                         Opaque                                1      6d19h
+openshift-gitops-redis-initial-password                          Opaque                                2      6d19h
+openshift-gitops-tls                                             kubernetes.io/tls                     2      6d19h
+
+### Events openshift-gitops (last 40)
+39m         Normal    Pulled               pod/openshift-gitops-server-674758b98b-x2q9x                      Successfully pulled image "registry.redhat.io/openshift-gitops-1/argocd-rhel8@sha256:a5d9ecefafd75b1c8ba0fd067f6336d7df1cd8775e3c250032048c9745875e4f" in 11m14.979s (11m14.979s including waiting). Image size: 637572192 bytes.
+39m         Normal    Created              pod/openshift-gitops-server-674758b98b-x2q9x                      Created container: argocd-server
+39m         Normal    Started              pod/openshift-gitops-server-674758b98b-x2q9x                      Started container argocd-server
+39m         Normal    Created              pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Created container: copyutil
+39m         Normal    Pulled               pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Successfully pulled image "registry.redhat.io/openshift-gitops-1/argocd-rhel8@sha256:a5d9ecefafd75b1c8ba0fd067f6336d7df1cd8775e3c250032048c9745875e4f" in 11m27.906s (11m27.906s including waiting). Image size: 637572192 bytes.
+39m         Normal    Started              pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Started container copyutil
+39m         Normal    Pulling              pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Pulling image "registry.redhat.io/openshift-gitops-1/dex-rhel8@sha256:442508af831dd69f0bdfde9065c8bf2776abf5d37786467528f696e372f5d996"
+39m         Normal    Killing              pod/openshift-gitops-server-565c6cdc6c-4p74c                      Stopping container argocd-server
+39m         Normal    ScalingReplicaSet    deployment/openshift-gitops-server                                Scaled down replica set openshift-gitops-server-565c6cdc6c from 1 to 0
+39m         Normal    SuccessfulDelete     replicaset/openshift-gitops-server-565c6cdc6c                     Deleted pod: openshift-gitops-server-565c6cdc6c-4p74c
+39m         Normal    Created              pod/openshift-gitops-repo-server-75db857f8-66g2d                  Created container: copyutil
+39m         Normal    Started              pod/openshift-gitops-repo-server-75db857f8-66g2d                  Started container copyutil
+39m         Normal    Pulled               pod/openshift-gitops-repo-server-75db857f8-66g2d                  Successfully pulled image "registry.redhat.io/openshift-gitops-1/argocd-rhel8@sha256:a5d9ecefafd75b1c8ba0fd067f6336d7df1cd8775e3c250032048c9745875e4f" in 12m5.464s (12m5.464s including waiting). Image size: 637572192 bytes.
+39m         Normal    Created              pod/openshift-gitops-repo-server-75db857f8-66g2d                  Created container: argocd-repo-server
+39m         Normal    Started              pod/openshift-gitops-repo-server-75db857f8-66g2d                  Started container argocd-repo-server
+39m         Normal    Pulled               pod/openshift-gitops-repo-server-75db857f8-66g2d                  Container image "registry.redhat.io/openshift-gitops-1/argocd-rhel8@sha256:a5d9ecefafd75b1c8ba0fd067f6336d7df1cd8775e3c250032048c9745875e4f" already present on machine
+39m         Normal    Started              pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Started container dex
+39m         Normal    Created              pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Created container: dex
+39m         Normal    Pulled               pod/openshift-gitops-dex-server-68d6584b99-wgvtz                  Successfully pulled image "registry.redhat.io/openshift-gitops-1/dex-rhel8@sha256:442508af831dd69f0bdfde9065c8bf2776abf5d37786467528f696e372f5d996" in 43.387s (43.387s including waiting). Image size: 154118635 bytes.
+38m         Normal    SuccessfulDelete     replicaset/openshift-gitops-dex-server-6f86d84ff9                 Deleted pod: openshift-gitops-dex-server-6f86d84ff9-6sbnp
+38m         Normal    ScalingReplicaSet    deployment/openshift-gitops-dex-server                            Scaled down replica set openshift-gitops-dex-server-6f86d84ff9 from 1 to 0
+38m         Normal    Killing              pod/openshift-gitops-dex-server-6f86d84ff9-6sbnp                  Stopping container dex
+38m         Normal    Killing              pod/openshift-gitops-repo-server-854cb464db-hdddz                 Stopping container argocd-repo-server
+38m         Normal    SuccessfulDelete     replicaset/openshift-gitops-repo-server-854cb464db                Deleted pod: openshift-gitops-repo-server-854cb464db-hdddz
+38m         Normal    ScalingReplicaSet    deployment/openshift-gitops-repo-server                           Scaled down replica set openshift-gitops-repo-server-854cb464db from 1 to 0
+34m         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+34m         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+26m         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+25m         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+20m         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+20m         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+15m         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+15m         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+10m         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+10m         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+5m55s       Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+5m54s       Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded
+54s         Normal    OperationStarted     application/bpce-root                                             Initiated automated sync to 'bd924d8ec11fd617cbf50f150614636a5c6d585b'
+52s         Normal    updated              applicationset/bpce-backend-environments                          updated Application "bpce-backend-dev"
+52s         Normal    OperationCompleted   application/bpce-root                                             Partial sync operation to bd924d8ec11fd617cbf50f150614636a5c6d585b succeeded

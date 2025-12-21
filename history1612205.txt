@@ -1,0 +1,551 @@
+  798  git add "$CHART/values.yaml" "$CHART/templates/hooks-migrate-job.yaml" "$E/step10-"*
+  799  git commit -m "lab40: add migrate hook job (pre-install/pre-upgrade)"
+  800  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  801  CHART=charts/fullstack-ocp
+  802  E=labs/level-4-features-avancees/evidence/lab40
+  803  # 1) Voir ce que Git détecte
+  804  git status --porcelain
+  805  # 2) Stager hook + evidence
+  806  git add   "$CHART/values.yaml"   "$CHART/templates/hooks-migrate-job.yaml"   "$E"/step8-*   "$E"/step9-*   "$E"/step10-*
+  807  # 3) Vérifier ce qui est stagé
+  808  git diff --cached --name-only
+  809  # 4) Commit
+  810  git commit -m "lab40: add migrate hook + evidence (steps 8-10)"
+  811  git status
+  812  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  813  CHART=charts/fullstack-ocp
+  814  E=labs/level-4-features-avancees/evidence/lab40
+  815  # 1) Remplacer la delete-policy (ne garder que before-hook-creation)
+  816  sed -i 's/"helm\.sh\/hook-delete-policy": .*/"helm.sh\/hook-delete-policy": before-hook-creation/'   "$CHART/templates/hooks-migrate-job.yaml"
+  817  # 2) Evidence + contrôles
+  818  grep -n 'hook-delete-policy' "$CHART/templates/hooks-migrate-job.yaml" | tee "$E/step12-hook-delete-policy.txt"
+  819  helm lint "$CHART" | tee "$E/step12-helm-lint.txt"
+  820  # 3) Commit
+  821  git add "$CHART/templates/hooks-migrate-job.yaml" "$E/step12-"*
+  822  git commit -m "lab40: keep migrate hook job for evidence"
+  823  git status
+  824  cat "$E/step12-hook-delete-policy.txt"
+  825  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  826  NS=fullstack-dev
+  827  REL=fullstack
+  828  CHART=charts/fullstack-ocp
+  829  E=labs/level-4-features-avancees/evidence/lab40
+  830  # 1) Upgrade avec hook activé (attend la fin du Job hook)
+  831  helm upgrade -n "$NS" "$REL" "$CHART"   -f "$E/values-from-release.yaml"   --set hooks.migrate.enabled=true   --wait --timeout 3m   | tee "$E/step13-helm-upgrade-with-hook.txt"
+  832  # 2) Identifier le Job et récupérer preuves
+  833  oc get job -n "$NS" | tee "$E/step13-oc-get-job.txt"
+  834  oc get pods -n "$NS" -l job-name="${REL}-fullstack-ocp-migrate" -o wide | tee "$E/step13-oc-get-hook-pod.txt"
+  835  # 3) Logs + describe (pod du Job)
+  836  POD=$(oc get pods -n "$NS" -l job-name="${REL}-fullstack-ocp-migrate" -o jsonpath='{.items[0].metadata.name}')
+  837  oc describe job -n "$NS" "${REL}-fullstack-ocp-migrate" | tee "$E/step13-oc-describe-job.txt"
+  838  oc logs -n "$NS" "$POD" | tee "$E/step13-oc-logs-migrate.txt"
+  839  # Le Job doit être "Complete"
+  840  oc get job -n "$NS" "${REL}-fullstack-ocp-migrate" -o jsonpath='{.status.succeeded}{"\n"}'
+  841  cat "$E/step13-oc-logs-migrate.txt"
+  842  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  843  NS=fullstack-dev
+  844  JOB=fullstack-fullstack-ocp-migrate
+  845  E=labs/level-4-features-avancees/evidence/lab40
+  846  # 1) Récupérer le nom du pod hook
+  847  POD=$(oc get pod -n "$NS" -l job-name="$JOB" -o jsonpath='{.items[0].metadata.name}')
+  848  echo "$POD" | tee "$E/step14-hook-pod-name.txt"
+  849  # 2) Décrire le pod (events détaillés: pull image, erreurs, SCC, etc.)
+  850  oc describe pod -n "$NS" "$POD" | tee "$E/step14-oc-describe-hook-pod.txt"
+  851  # 3) Extraire reason/message (waiting)
+  852  oc get pod -n "$NS" "$POD" -o jsonpath='{.status.phase}{"\n"}{.status.containerStatuses[0].state.waiting.reason}{"\n"}{.status.containerStatuses[0].state.waiting.message}{"\n"}'   | tee "$E/step14-pod-waiting.txt"
+  853  # 4) Events namespace (fin)
+  854  oc get events -n "$NS" --sort-by=.lastTimestamp | tail -n 80 | tee "$E/step14-oc-events-tail.txt"
+  855  # 5) Commit evidence debug
+  856  git add "$E/step14-"*
+  857  git commit -m "lab40: capture hook pod debug evidence (container creating)"
+  858  cat "$E/step14-pod-waiting.txt"
+  859  grep -E "ErrImagePull|ImagePullBackOff|Failed|forbidden|SCC|denied|timeout|i/o timeout|x509" -n "$E/step14-oc-describe-hook-pod.txt" || true
+  860  git status
+  861  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  862  E=labs/level-4-features-avancees/evidence/lab40
+  863  git add "$E/step13-"*
+  864  git commit -m "lab40: capture failed hook run evidence (multus unauthorized)"
+  865  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  866  E=labs/level-4-features-avancees/evidence/lab40
+  867  oc get co network -o wide | tee "$E/step15-co-network.txt"
+  868  oc get pods -n openshift-multus -o wide | tee "$E/step15-openshift-multus-pods.txt"
+  869  oc get ds,deploy -n openshift-multus | tee "$E/step15-openshift-multus-workloads.txt"
+  870  oc -n openshift-multus rollout restart ds/multus || true
+  871  oc -n openshift-multus rollout restart deploy/multus-admission-controller || true
+  872  oc -n openshift-multus get pods -w
+  873  oc -n openshift-multus get pods
+  874  # supprime les pods multus / admission (adapter les noms si besoin)
+  875  oc -n openshift-multus delete pod -l app=multus || true
+  876  oc -n openshift-multus delete pod -l app=multus-admission-controller || true
+  877  oc -n openshift-multus get pods -w
+  878  git add "$E/step16-"*
+  879  git commit -m "lab40: hook migrate job successful run evidence"
+  880  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  881  E=labs/level-4-features-avancees/evidence/lab40
+  882  oc get pods -n openshift-multus -o wide | tee "$E/step15-openshift-multus-pods-after.txt"
+  883  oc get events -n openshift-multus --sort-by=.lastTimestamp | tail -n 80 | tee "$E/step15-openshift-multus-events-tail.txt"
+  884  git add "$E/step15-"*
+  885  git commit -m "lab40: capture network/multus status + restart evidence"
+  886  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  887  NS=fullstack-dev
+  888  REL=fullstack
+  889  CHART=charts/fullstack-ocp
+  890  E=labs/level-4-features-avancees/evidence/lab40
+  891  JOB=${REL}-fullstack-ocp-migrate
+  892  # purge job/pod bloqués
+  893  oc delete job -n "$NS" "$JOB" --ignore-not-found=true
+  894  oc delete pod -n "$NS" -l job-name="$JOB" --ignore-not-found=true
+  895  # relance upgrade avec hook
+  896  helm upgrade -n "$NS" "$REL" "$CHART"   -f "$E/values-from-release.yaml"   --set hooks.migrate.enabled=true   --wait --timeout 10m   | tee "$E/step16-helm-upgrade-with-hook.txt"
+  897  # preuves job/pod/logs
+  898  oc get job -n "$NS" | tee "$E/step16-oc-get-job.txt"
+  899  oc get pods -n "$NS" -l job-name="$JOB" -o wide | tee "$E/step16-oc-get-hook-pod.txt"
+  900  POD=$(oc get pods -n "$NS" -l job-name="$JOB" -o jsonpath='{.items[0].metadata.name}')
+  901  oc describe job -n "$NS" "$JOB" | tee "$E/step16-oc-describe-job.txt"
+  902  oc logs -n "$NS" "$POD" | tee "$E/step16-oc-logs-migrate.txt"
+  903  git add "$E/step16-"*
+  904  git commit -m "lab40: hook migrate job successful run evidence"
+  905  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  906  git status
+  907  git log --oneline -5
+  908  NS=fullstack-dev
+  909  JOB=fullstack-fullstack-ocp-migrate
+  910  E=labs/level-4-features-avancees/evidence/lab40
+  911  oc get job -n "$NS" "$JOB" -o yaml | tee "$E/step17-hook-job-yaml-after-run.yaml"
+  912  git add "$E/step17-"*
+  913  git commit -m "lab40: capture hook job YAML after successful run"
+  914  git status
+  915  git log --oneline -6
+  916  git push -u origin level4-lab40-hooks-tests-schema
+  917  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  918  git checkout -b level4-lab41-repo-artifacthub
+  919  ls -la labs/level-4-features-avancees/
+  920  ls -la "$E"
+  921  git status
+  922  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  923  # Lab41 evidence
+  924  E=labs/level-4-features-avancees/evidence/lab41
+  925  mkdir -p "$E"
+  926  # 1) Capture contexte (branche + remote + date)
+  927  git rev-parse --abbrev-ref HEAD | tee "$E/step01-branch.txt"
+  928  git remote -v | tee "$E/step01-remote.txt"
+  929  date | tee "$E/step01-date.txt"
+  930  # 2) Capturer les consignes du lab41 (pour traçabilité)
+  931  wc -l labs/level-4-features-avancees/lab41-repo-helm-github-et-artifacthub.md | tee "$E/step01-lab41-wc.txt"
+  932  sed -n '1,220p' labs/level-4-features-avancees/lab41-repo-helm-github-et-artifacthub.md | tee "$E/step01-lab41-md-head.txt"
+  933  # 3) Commit evidence init
+  934  git add "$E/step01-"*
+  935  git commit -m "lab41: init evidence + capture lab instructions"
+  936  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  937  E=labs/level-4-features-avancees/evidence/lab41
+  938  # Step02: préparer + packager le chart (priorité: charts/myapp-ocp)
+  939  CHART_DIR="charts/myapp-ocp"
+  940  if [[ ! -f "$CHART_DIR/Chart.yaml" ]]; then   CHART_DIR="$(dirname "$(find charts -maxdepth 2 -name Chart.yaml -print -quit)")"; fi
+  941  echo "$CHART_DIR" | tee "$E/step02-chart-dir.txt"
+  942  test -f "$CHART_DIR/Chart.yaml" || { echo "ERROR: no Chart.yaml found under ./charts"; exit 1; }
+  943  # Preuves chart + lint
+  944  helm show chart "$CHART_DIR" | tee "$E/step02-helm-show-chart.txt"
+  945  helm lint "$CHART_DIR" | tee "$E/step02-helm-lint.txt"
+  946  # Package dans evidence (pour ne rien perdre)
+  947  mkdir -p "$E/pkg"
+  948  helm package "$CHART_DIR" -d "$E/pkg" | tee "$E/step02-helm-package.txt"
+  949  ls -la "$E/pkg" | tee "$E/step02-pkg-ls.txt"
+  950  PKG="$(ls -1 "$E/pkg"/*.tgz | head -n1)"
+  951  echo "$PKG" | tee "$E/step02-package-path.txt"
+  952  # Commit evidence step02
+  953  git add "$E/step02-"* "$E/pkg/"*.tgz
+  954  git commit -m "lab41: package chart + capture lint/show evidence"
+  955  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  956  E=labs/level-4-features-avancees/evidence/lab41
+  957  CHART_DIR="charts/myapp-ocp"
+  958  T="$CHART_DIR/templates/networkpolicy.yaml"
+  959  V="$CHART_DIR/values.yaml"
+  960  C="$CHART_DIR/Chart.yaml"
+  961  # Evidence "avant"
+  962  sed -n '1,60p' "$T" | tee "$E/step03-networkpolicy-yaml-head-before.txt"
+  963  grep -n '^networkPolicy:' "$V" || echo "networkPolicy: <missing>" | tee "$E/step03-values-networkpolicy-missing.txt"
+  964  grep -n '^version:' "$C" | tee "$E/step03-chart-version-before.txt"
+  965  # Fix 1/2: rendre le template safe même si networkPolicy absent
+  966  perl -pi -e 's/\{\{\-?\s*if\s+\.Values\.networkPolicy\.enabled\s*\-?\}\}/{{- if (dig "networkPolicy" "enabled" false .Values) -}}/g' "$T"
+  967  # Fix 2/2: ajouter un défaut dans values.yaml (pour doc + cohérence)
+  968  grep -q '^networkPolicy:' "$V" || cat >> "$V" <<'EOF'
+
+networkPolicy:
+  enabled: false
+EOF
+
+  969  # Bump version (pratique avant publication repo/artifacthub)
+  970  perl -pi -e 's/^version:\s*0\.1\.0$/version: 0.1.1/' "$C"
+  971  # Evidence "après" + lint OK
+  972  sed -n '1,60p' "$T" | tee "$E/step03-networkpolicy-yaml-head-after.txt"
+  973  grep -n '^networkPolicy:' -n "$V" | tee "$E/step03-values-networkpolicy-after.txt"
+  974  grep -n '^version:' "$C" | tee "$E/step03-chart-version-after.txt"
+  975  helm lint "$CHART_DIR" | tee "$E/step03-helm-lint-fixed.txt"
+  976  # Re-package (le .tgz peut rester ignoré ici: il servira à copier dans le repo GitHub Pages)
+  977  mkdir -p "$E/pkg"
+  978  helm package "$CHART_DIR" -d "$E/pkg" | tee "$E/step03-helm-package.txt"
+  979  ls -la "$E/pkg" | tee "$E/step03-pkg-ls.txt"
+  980  # Commit chart + evidence
+  981  git add "$T" "$V" "$C" "$E/step03-"*
+  982  git commit -m "lab41: fix networkpolicy nil pointer + bump chart version"
+  983  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  984  E=labs/level-4-features-avancees/evidence/lab41
+  985  CHART_DIR="charts/myapp-ocp"
+  986  T="$CHART_DIR/templates/networkpolicy.yaml"
+  987  V="$CHART_DIR/values.yaml"
+  988  C="$CHART_DIR/Chart.yaml"
+  989  # Evidence avant
+  990  head -n 5 "$T" | tee "$E/step04-networkpolicy-head-before.txt"
+  991  tail -n 25 "$V" | tee "$E/step04-values-tail-before.txt"
+  992  grep -n '^version:' "$C" | tee "$E/step04-chart-version-before.txt"
+  993  # 1) Fix template: remplacer le "dig" par index/default dict (safe)
+  994  perl -0777 -pi -e 's/\{\{\-\s*if\s*\(dig\s*"networkPolicy"\s*"enabled"\s*false\s*\.Values\)\s*\-\}\}/{{- $np := (index .Values "networkPolicy") | default (dict) -}}\n{{- if (index $np "enabled" | default false) -}}/s' "$T"
+  995  # 2) Fix values.yaml: supprimer le bloc networkPolicy cassé en fin de fichier (si présent) puis remettre un bloc propre
+  996  perl -0777 -pi -e 's/\nnetworkPolicy:\R.*\z//s' "$V"
+  997  cat >> "$V" <<'EOF'
+
+networkPolicy:
+  enabled: false
+  allowedNamespaces:
+    - openshift-ingress
+EOF
+
+  998  # 3) Bump chart version (nouveau correctif)
+  999  perl -pi -e 's/^version:\s*0\.1\.1$/version: 0.1.2/' "$C"
+ 1000  # Evidence après + lint OK
+ 1001  head -n 8 "$T" | tee "$E/step04-networkpolicy-head-after.txt"
+ 1002  tail -n 25 "$V" | tee "$E/step04-values-tail-after.txt"
+ 1003  grep -n '^version:' "$C" | tee "$E/step04-chart-version-after.txt"
+ 1004  helm lint "$CHART_DIR" | tee "$E/step04-helm-lint.txt"
+ 1005  # Re-package
+ 1006  mkdir -p "$E/pkg"
+ 1007  helm package "$CHART_DIR" -d "$E/pkg" | tee "$E/step04-helm-package.txt"
+ 1008  ls -la "$E/pkg" | tee "$E/step04-pkg-ls.txt"
+ 1009  # Commit fix + evidence
+ 1010  git add "$T" "$V" "$C" "$E/step04-"*
+ 1011  git commit -m "lab41: fix networkPolicy template (remove dig) + clean values + bump to 0.1.2"
+ 1012  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1013  E=labs/level-4-features-avancees/evidence/lab41
+ 1014  CHART_DIR="charts/myapp-ocp"
+ 1015  T="$CHART_DIR/templates/networkpolicy.yaml"
+ 1016  C="$CHART_DIR/Chart.yaml"
+ 1017  # Evidence avant
+ 1018  sed -n '1,15p' "$T" | tee "$E/step05-networkpolicy-head-before.txt"
+ 1019  tail -n 8 "$T" | tee "$E/step05-networkpolicy-tail-before.txt"
+ 1020  grep -n '^version:' "$C" | tee "$E/step05-chart-version-before.txt"
+ 1021  # Fix: réécrire le header du template (on garde tout à partir du 1er '---')
+ 1022  awk '
+BEGIN {
+  print "{{- with .Values.networkPolicy }}";
+  print "{{- if .enabled }}";
+  print "";
+}
+(/^---$/){p=1}
+p{print}
+' "$T" > "$T.tmp" && mv "$T.tmp" "$T"
+ 1023  # Fix: s’assurer qu’on ferme bien "if" + "with" (2x end)
+ 1024  LAST2="$(tac "$T" | tr -d "\r" | awk "NF{print; c++; if(c==2) exit}" | tac)"
+ 1025  if [[ "$LAST2" != $'{{- end }}\n{{- end }}' ]]; then   perl -0777 -pi -e 's/\{\{\-\s*end\s*\}\}\s*\z/{{- end }}\n{{- end }}\n/s' "$T"; fi
+ 1026  # Bump version
+ 1027  perl -pi -e 's/^version:\s*0\.1\.2$/version: 0.1.3/' "$C"
+ 1028  # Evidence après + lint
+ 1029  sed -n '1,15p' "$T" | tee "$E/step05-networkpolicy-head-after.txt"
+ 1030  tail -n 10 "$T" | tee "$E/step05-networkpolicy-tail-after.txt"
+ 1031  grep -n '^version:' "$C" | tee "$E/step05-chart-version-after.txt"
+ 1032  helm lint "$CHART_DIR" | tee "$E/step05-helm-lint.txt"
+ 1033  # Re-package
+ 1034  mkdir -p "$E/pkg"
+ 1035  helm package "$CHART_DIR" -d "$E/pkg" | tee "$E/step05-helm-package.txt"
+ 1036  ls -la "$E/pkg" | tee "$E/step05-pkg-ls.txt"
+ 1037  # Commit fix + evidence
+ 1038  git add "$T" "$C" "$E/step05-"*
+ 1039  git commit -m "lab41: fix networkpolicy template header (remove :=) + bump to 0.1.3"
+ 1040  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1041  E=labs/level-4-features-avancees/evidence/lab41
+ 1042  CHART_DIR=charts/myapp-ocp
+ 1043  NS=myapp-repo-test
+ 1044  helm lint "$CHART_DIR" | tee "$E/step06-helm-lint.txt"
+ 1045  helm template myapp-ocp "$CHART_DIR" > "$E/step06-helm-template.yaml"
+ 1046  # validation "API server" (détecte les YAML invalides)
+ 1047  oc get ns "$NS" >/dev/null 2>&1 || oc new-project "$NS" | tee "$E/step06-oc-new-project.txt"
+ 1048  oc apply -n "$NS" --dry-run=server -f "$E/step06-helm-template.yaml"   | tee "$E/step06-oc-apply-dry-run-server.txt" || true
+ 1049  git add "$E/step06-"*
+ 1050  git commit -m "lab41: validate rendered manifests (server dry-run)"
+ 1051  # repo charts séparé (à côté)
+ 1052  cd /c/workspaces/openshift2026
+ 1053  USER=zdmooc
+ 1054  REPO=my-helm-charts
+ 1055  PAGES_URL="https://${USER}.github.io/${REPO}"
+ 1056  SRC_TGZ="/c/workspaces/openshift2026/helm-openshift-roadmap/labs/level-4-features-avancees/evidence/lab41/pkg/myapp-ocp-0.1.3.tgz"
+ 1057  EVID="/c/workspaces/openshift2026/helm-openshift-roadmap/labs/level-4-features-avancees/evidence/lab41"
+ 1058  git clone "https://github.com/${USER}/${REPO}.git"
+ 1059  cd "${REPO}"
+ 1060  mkdir -p docs
+ 1061  cp -f "$SRC_TGZ" docs/
+ 1062  helm repo index docs --url "$PAGES_URL" | tee "$EVID/step07-helm-repo-index.txt"
+ 1063  ls -la docs | tee "$EVID/step07-docs-ls.txt"
+ 1064  sed -n '1,120p' docs/index.yaml | tee "$EVID/step07-index-yaml-head.txt"
+ 1065  git add docs
+ 1066  git commit -m "Publish myapp-ocp 0.1.3 chart"
+ 1067  git push
+ 1068  cd /c/workspaces/openshift2026
+ 1069  # sécurité
+ 1070  test -d docs || { echo "ERROR: docs/ n'existe pas ici"; exit 1; }
+ 1071  # créer le dossier repo local et y déplacer docs/
+ 1072  mkdir -p my-helm-charts
+ 1073  mv -f docs my-helm-charts/
+ 1074  cd my-helm-charts
+ 1075  git init
+ 1076  git add docs
+ 1077  git commit -m "Publish Helm repo (docs/index.yaml + tgz)"
+ 1078  git status
+ 1079  ls -la docs
+ 1080  cd /c/workspaces/openshift2026/my-helm-charts
+ 1081  git branch -M main
+ 1082  git remote remove origin 2>/dev/null || true
+ 1083  git remote add origin https://github.com/zdmooc/my-helm-charts.git
+ 1084  git push -u origin main
+ 1085  cd /c/workspaces/openshift2026/my-helm-charts
+ 1086  git branch -M main
+ 1087  git remote remove origin 2>/dev/null || true
+ 1088  git remote add origin https://github.com/zdmooc/my-helm-charts.git
+ 1089  git push -u origin main
+ 1090  curl -I https://zdmooc.github.io/my-helm-charts/index.yaml
+ 1091  curl -I https://zdmooc.github.io/my-helm-charts/index.yaml
+ 1092  curl -I https://zdmooc.github.io/my-helm-charts/myapp-ocp-0.1.3.tgz
+ 1093  # --- Step07/08 : preuve repo Helm (client) + commit evidence dans helm-openshift-roadmap ---
+ 1094  PAGES_URL="https://zdmooc.github.io/my-helm-charts"
+ 1095  ROADMAP="/c/workspaces/openshift2026/helm-openshift-roadmap"
+ 1096  E="$ROADMAP/labs/level-4-features-avancees/evidence/lab41"
+ 1097  mkdir -p "$E"
+ 1098  # nettoyer / (re)ajouter le repo Helm
+ 1099  helm repo remove my-charts >/dev/null 2>&1 || true
+ 1100  helm repo add my-charts "$PAGES_URL" | tee "$E/step07-helm-repo-add.txt"
+ 1101  helm repo update | tee "$E/step07-helm-repo-update.txt"
+ 1102  # vérifier qu’Helm voit bien le chart publié
+ 1103  helm search repo my-charts/myapp-ocp -l | tee "$E/step08-helm-search-repo.txt"
+ 1104  helm show chart my-charts/myapp-ocp | tee "$E/step08-helm-show-chart-from-repo.txt"
+ 1105  # preuve HTTP (Pages)
+ 1106  curl -I "$PAGES_URL/index.yaml" | tee "$E/step08-curl-index-head.txt"
+ 1107  curl -I "$PAGES_URL/myapp-ocp-0.1.3.tgz" | tee "$E/step08-curl-tgz-head.txt"
+ 1108  # commit evidence dans le dépôt roadmap (branche lab41)
+ 1109  cd "$ROADMAP"
+ 1110  git status
+ 1111  git add "$E/step07-"* "$E/step08-"*
+ 1112  git commit -m "lab41: verify GitHub Pages helm repo (helm repo add/search + curl 200 evidence)"
+ 1113  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1114  git status
+ 1115  git log --oneline -5
+ 1116  git push -u origin level4-lab41-repo-artifacthub
+ 1117  git checkout master
+ 1118  git pull --ff-only
+ 1119  git branch -d level4-lab41-repo-artifacthub
+ 1120  git fetch -p
+ 1121  git status
+ 1122  git push origin master
+ 1123  git branch -a
+ 1124  git push origin --delete level4-lab41-repo-artifacthub
+ 1125  git fetch -p
+ 1126  git branch -a
+ 1127  git push -u origin level4-lab40-hooks-tests-schema
+ 1128  git log --oneline --grep "lab40" -n 20
+ 1129  git merge-base --is-ancestor e42bcd7 master && echo "OK: lab40 est dans master"
+ 1130  git log --oneline --first-parent --grep "lab40" -n 50
+ 1131  git diff --name-only 9b0c22f..e42bcd7
+ 1132  git checkout master
+ 1133  git pull --ff-only
+ 1134  git branch -d level4-lab40-hooks-tests-schema
+ 1135  git push origin --delete level4-lab40-hooks-tests-schema
+ 1136  git fetch -p
+ 1137  git branch -a
+ 1138  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1139  git checkout master
+ 1140  git pull --ff-only
+ 1141  git checkout -b level5-lab50-argocd-helm-multienv
+ 1142  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1143  mkdir -p "$E"
+ 1144  # preuves contexte + consignes lab
+ 1145  git rev-parse --abbrev-ref HEAD | tee "$E/step01-branch.txt"
+ 1146  git remote -v | tee "$E/step01-remote.txt"
+ 1147  date | tee "$E/step01-date.txt"
+ 1148  wc -l labs/level-5-openshift-gitops-expert/lab50-argo-cd-helm-multi-environnements.md | tee "$E/step01-lab50-wc.txt"
+ 1149  sed -n '1,220p' labs/level-5-openshift-gitops-expert/lab50-argo-cd-helm-multi-environnements.md | tee "$E/step01-lab50-md-head.txt"
+ 1150  # vérif présence Argo CD (OpenShift GitOps)
+ 1151  oc get ns openshift-gitops | tee "$E/step01-oc-ns-openshift-gitops.txt" || true
+ 1152  oc get pods -n openshift-gitops | tee "$E/step01-oc-pods-openshift-gitops.txt" || true
+ 1153  oc get route -n openshift-gitops -l app.kubernetes.io/name=argocd-server -o wide   | tee "$E/step01-oc-argocd-route.txt" || true
+ 1154  git add "$E/step01-"*
+ 1155  git commit -m "lab50: init evidence + check openshift-gitops presence"
+ 1156  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1157  git checkout level5-lab50-argocd-helm-multienv
+ 1158  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1159  mkdir -p "$E"
+ 1160  # Manif d'installation (CLI)
+ 1161  cat > "$E/step02-openshift-gitops-install.yaml" <<'EOF'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-gitops-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-gitops-operator
+  namespace: openshift-gitops-operator
+spec:
+  upgradeStrategy: Default
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-gitops-operator
+  namespace: openshift-gitops-operator
+spec:
+  channel: latest
+  installPlanApproval: Automatic
+  name: openshift-gitops-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+
+ 1162  oc apply -f "$E/step02-openshift-gitops-install.yaml" | tee "$E/step02-oc-apply-gitops.txt"
+ 1163  # Attendre que l'opérateur arrive (puis vérifier Argo CD par défaut)
+ 1164  oc get pods -n openshift-gitops-operator -o wide | tee "$E/step02-oc-pods-gitops-operator.txt" || true
+ 1165  oc get ns openshift-gitops | tee "$E/step02-oc-ns-openshift-gitops.txt" || true
+ 1166  oc get pods -n openshift-gitops -o wide | tee "$E/step02-oc-pods-openshift-gitops.txt" || true
+ 1167  git add "$E/step02-"*
+ 1168  git commit -m "lab50: install OpenShift GitOps operator (Subscription) + initial checks"
+ 1169  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1170  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1171  NSOP=openshift-gitops-operator
+ 1172  # 1) Subscription / InstallPlan / CSV
+ 1173  oc get subscription -n "$NSOP" -o wide | tee "$E/step03-subscriptions.txt" || true
+ 1174  oc describe subscription openshift-gitops-operator -n "$NSOP" | tee "$E/step03-subscription-describe.txt" || true
+ 1175  oc get installplan -n "$NSOP" -o wide | tee "$E/step03-installplans.txt" || true
+ 1176  oc get csv -n "$NSOP" -o wide | tee "$E/step03-csv.txt" || true
+ 1177  # 2) Événements OLM (souvent la vraie raison)
+ 1178  oc get events -n "$NSOP" --sort-by=.lastTimestamp | tail -n 60 | tee "$E/step03-events-tail.txt" || true
+ 1179  # 3) Vérifier que la source "redhat-operators" est bien dispo
+ 1180  oc get catalogsource -n openshift-marketplace | tee "$E/step03-catalogsources.txt" || true
+ 1181  # 4) Vérifier si/ quand openshift-gitops est créé
+ 1182  oc get ns openshift-gitops | tee "$E/step03-ns-openshift-gitops.txt" || true
+ 1183  git add "$E/step03-"*
+ 1184  git commit -m "lab50: diagnose OLM install (subscription/installplan/csv/events/catalogsource)" || true
+ 1185  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1186  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1187  NSOP=openshift-gitops-operator
+ 1188  # 1) Subscription / InstallPlan / CSV
+ 1189  oc get subscription -n "$NSOP" -o wide | tee "$E/step03-subscriptions.txt" || true
+ 1190  oc describe subscription openshift-gitops-operator -n "$NSOP" | tee "$E/step03-subscription-describe.txt" || true
+ 1191  oc get installplan -n "$NSOP" -o wide | tee "$E/step03-installplans.txt" || true
+ 1192  oc get csv -n "$NSOP" -o wide | tee "$E/step03-csv.txt" || true
+ 1193  # 2) Événements OLM (souvent la vraie raison)
+ 1194  oc get events -n "$NSOP" --sort-by=.lastTimestamp | tail -n 60 | tee "$E/step03-events-tail.txt" || true
+ 1195  # 3) Vérifier que la source "redhat-operators" est bien dispo
+ 1196  oc get catalogsource -n openshift-marketplace | tee "$E/step03-catalogsources.txt" || true
+ 1197  # 4) Vérifier si/ quand openshift-gitops est créé
+ 1198  oc get ns openshift-gitops | tee "$E/step03-ns-openshift-gitops.txt" || true
+ 1199  git add "$E/step03-"*
+ 1200  git commit -m "lab50: diagnose OLM install (subscription/installplan/csv/events/catalogsource)" || true
+ 1201  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1202  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1203  NSOP=openshift-gitops-operator
+ 1204  # 1) état pods/deploy
+ 1205  oc get pods -n "$NSOP" -o wide | tee "$E/step04-oc-pods-op.txt"
+ 1206  oc get deploy -n "$NSOP" -o wide | tee "$E/step04-oc-deploy-op.txt"
+ 1207  # 2) describe pod (preuve ImagePullBackOff + quel container)
+ 1208  POD="$(oc get pod -n "$NSOP" -o jsonpath='{.items[0].metadata.name}')"
+ 1209  echo "$POD" | tee "$E/step04-pod-name.txt"
+ 1210  oc describe pod -n "$NSOP" "$POD" | tee "$E/step04-pod-describe.txt"
+ 1211  # 3) relance simple: supprimer le pod pour forcer un nouveau pull
+ 1212  oc delete pod -n "$NSOP" "$POD" | tee "$E/step04-oc-delete-pod.txt"
+ 1213  # 4) re-check rapide
+ 1214  sleep 10
+ 1215  oc get pods -n "$NSOP" -o wide | tee "$E/step04-oc-pods-op-after.txt"
+ 1216  oc get csv -n "$NSOP" -o wide | tee "$E/step04-csv-after.txt"
+ 1217  git add "$E/step04-"*
+ 1218  git commit -m "lab50: inspect operator pod ImagePullBackOff + restart pod" || true
+ 1219  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1220  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1221  NSOP=openshift-gitops-operator
+ 1222  oc get pods -n "$NSOP" -o wide | tee "$E/step05-oc-pods-op.txt"
+ 1223  oc get csv  -n "$NSOP" -o wide | tee "$E/step05-csv.txt"
+ 1224  POD="$(oc get pod -n "$NSOP" -o jsonpath='{.items[0].metadata.name}')"
+ 1225  echo "$POD" | tee "$E/step05-pod-name.txt"
+ 1226  # les 25 dernières lignes d'events du pod (preuve)
+ 1227  oc describe pod -n "$NSOP" "$POD" | sed -n '/^Events:/,$p' | tail -n 60   | tee "$E/step05-pod-events-tail.txt"
+ 1228  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1229  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1230  git add "$E/step05-"*
+ 1231  git commit -m "lab50: confirm ImagePullBackOff on ose-kube-rbac-proxy (operator not ready)" || true
+ 1232  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1233  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1234  NSOP=openshift-gitops-operator
+ 1235  oc get pods -n "$NSOP" --sort-by=.metadata.creationTimestamp -o wide | tee "$E/step06-pods-sorted.txt"
+ 1236  POD_NEW="$(oc get pods -n "$NSOP" --sort-by=.metadata.creationTimestamp -o name | tail -n 1 | sed 's#pod/##')"
+ 1237  echo "$POD_NEW" | tee "$E/step06-pod-new-name.txt"
+ 1238  oc describe pod -n "$NSOP" "$POD_NEW" | tee "$E/step06-pod-new-describe.txt"
+ 1239  oc describe pod -n "$NSOP" "$POD_NEW" | sed -n '/^Events:/,$p' | tail -n 80 | tee "$E/step06-pod-new-events-tail.txt"
+ 1240  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1241  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1242  oc get pods -A | egrep 'ImagePullBackOff|ErrImagePull' | tee "$E/step07-imagepullbackoff-cluster.txt" || true
+ 1243  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1244  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1245  ( oc get secret pull-secret -n openshift-config -o jsonpath='{.data.\.dockerconfigjson}'   | base64 -d | grep -q 'registry.redhat.io' ) && echo "OK: pull-secret contient registry.redhat.io" || echo "NOK: pull-secret ne contient pas registry.redhat.io" | tee "$E/step07-pullsecret-has-registry-redhat-io.txt"
+ 1246  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1247  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1248  crc ssh -- "date; getent hosts registry.redhat.io; curl -I --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true" | tee "$E/step07-crc-ssh-curl-registry-redhat-io.txt"
+ 1249  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1250  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1251  which crc | tee "$E/step08-which-crc.txt"
+ 1252  crc version | tee "$E/step08-crc-version.txt" || true
+ 1253  crc --help | head -n 120 | tee "$E/step08-crc-help-head.txt" || true
+ 1254  git add "$E/step08-"*
+ 1255  git commit -m "lab50: capture crc cli info (crc ssh not available)" || true
+ 1256  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1257  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1258  NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+ 1259  echo "$NODE" | tee "$E/step09-node-name.txt"
+ 1260  oc debug node/"$NODE" -- chroot /host bash -lc 'date; echo "--- DNS"; getent hosts registry.redhat.io || true; echo "--- CURL"; curl -IL --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true' | tee "$E/step09-node-curl-registry-redhat-io.txt" || true
+ 1261  git add "$E/step09-"*
+ 1262  git commit -m "lab50: test registry.redhat.io connectivity from node via oc debug" || true
+ 1263  chroot /host bash -lc 'date; echo "--- DNS"; getent hosts registry.redhat.io || true; echo "--- CURL"; curl -IL --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true'
+ 1264  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1265  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1266  NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+ 1267  oc debug node/"$NODE" -- bash -lc 'date; echo "--- /host"; ls -ld /host || true; echo "--- DNS"; getent hosts registry.redhat.io || true; echo "--- CURL"; curl -IL --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true' | tee "$E/step10-node-dns-curl-via-oc-debug.txt"
+ 1268  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1269  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1270  grep -nE '^---|DNS|CURL|/host|registry\.redhat\.io|HTTP/|timeout|TLS|resolve|EOF'   "$E/step10-node-dns-curl-via-oc-debug.txt"   | tail -n 200
+ 1271  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1272  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1273  F="$E/step10-node-dns-curl-via-oc-debug.txt"
+ 1274  echo "=== FILE ==="
+ 1275  ls -l "$F" || exit 1
+ 1276  echo "=== HEAD (1..120) ==="
+ 1277  nl -ba "$F" | sed -n '1,120p'
+ 1278  echo "=== TAIL (last 120) ==="
+ 1279  nl -ba "$F" | tail -n 120
+ 1280  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1281  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1282  NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+ 1283  oc debug node/"$NODE" -- bash -lc '
+echo "--- DATE"; date
+echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+echo "--- DNS"; getent hosts registry.redhat.io || true
+echo "--- CURL"; curl -ILv --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true
+' 2>&1 | tee "$E/step11-node-dns-curl-via-oc-debug.txt"
+ 1284  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1285  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1286  ls -l "$E/step11-node-dns-curl-via-oc-debug.txt"
+ 1287  nl -ba "$E/step11-node-dns-curl-via-oc-debug.txt" | tail -n 160
+ 1288  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1289  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1290  F="$E/step11-node-dns-curl-via-oc-debug.txt"
+ 1291  wc -l "$F"
+ 1292  xxd -l 256 "$F"
+ 1293  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+ 1294  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+ 1295  NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+ 1296  oc debug node/"$NODE" -- bash -lc "date; echo '--- PROXY ENV'; env | egrep -i 'http_proxy|https_proxy|no_proxy' || true; echo '--- DNS'; getent hosts registry.redhat.io || true; echo '--- CURL'; curl -IL --connect-timeout 10 -m 20 https://registry.redhat.io/v2/ || true"   2>&1 | tee "$E/step12-node-netcheck.txt"
+ 1297  history > history1612205.txt

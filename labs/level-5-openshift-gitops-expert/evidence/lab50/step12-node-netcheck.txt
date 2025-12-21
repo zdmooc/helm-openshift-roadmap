@@ -1,0 +1,27 @@
+Temporary namespace openshift-debug-r7qgn is created for debugging node...
+Starting pod/crc-debug-tj5qg ...
+To use host binaries, run `chroot /host`. Instead, if you need to access host namespaces, run `nsenter -a -t 1`.
+Mon Dec 15 07:23:17 UTC 2025
+--- PROXY ENV
+--- DNS
+2600:1f18:483:cf01:132b:29d0:a7a3:57e8 registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+2600:1f18:483:cf00:4e9a:d3a6:a18a:9089 registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+2600:1f18:483:cf01:b815:45c:e02c:8d3c registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+2600:1f18:483:cf00:cb63:b328:95aa:ee2f registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+2600:1f18:483:cf02:717c:f423:6c2a:b6ab registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+2600:1f18:483:cf02:fbb:be0e:3296:dcf9 registry-proxy-alb-1061576568.us-east-1.elb.amazonaws.com registry.redhat.io
+--- CURL
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0    99    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 401 
+date: Mon, 15 Dec 2025 07:23:18 GMT
+content-type: application/json
+content-length: 99
+docker-distribution-api-version: registry/2.0
+registry-proxy-request-id: 67a8e54b-a133-421a-a1bf-a7546c5eecbe
+www-authenticate: Bearer realm="https://registry.redhat.io/auth/realms/rhcc/protocol/redhat-docker-v2/auth",service="docker-registry"
+
+
+Removing debug pod ...
+Temporary namespace openshift-debug-r7qgn was removed.

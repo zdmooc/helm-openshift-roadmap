@@ -1,0 +1,117 @@
+=== DATE ===
+Sun Dec 21 18:11:48     2025
+
+=== WHOAMI / PROJECT ===
+kubeadmin
+bpce-platform
+
+=== NAMESPACES (gitops) ===
+openshift-gitops                                   Active   6d21h
+openshift-gitops-operator                          Active   6d21h
+
+=== CRDs (argoproj/argocd) ===
+analysisruns.argoproj.io                                          2025-12-14T19:19:42Z
+analysistemplates.argoproj.io                                     2025-12-14T19:19:43Z
+applications.argoproj.io                                          2025-12-14T19:19:43Z
+applicationsets.argoproj.io                                       2025-12-14T19:19:45Z
+appprojects.argoproj.io                                           2025-12-14T19:19:46Z
+argocds.argoproj.io                                               2025-12-14T19:19:41Z
+clusteranalysistemplates.argoproj.io                              2025-12-14T19:19:38Z
+experiments.argoproj.io                                           2025-12-14T19:19:36Z
+imageupdaters.argocd-image-updater.argoproj.io                    2025-12-21T14:19:41Z
+namespacemanagements.argoproj.io                                  2025-12-14T19:19:39Z
+notificationsconfigurations.argoproj.io                           2025-12-14T19:19:43Z
+rolloutmanagers.argoproj.io                                       2025-12-14T19:19:37Z
+rollouts.argoproj.io                                              2025-12-14T19:19:37Z
+
+=== OLM: packagemanifests (gitops) ===
+harness-gitops-operator                               Certified Operators   164d
+openshift-gitops-operator                             Red Hat Operators     164d
+gitops-primer                                         Community Operators   164d
+argocd-operator                                       Community Operators   164d
+
+=== packagemanifest openshift-gitops-operator (channels) ===
+gitops-1.10
+gitops-1.11
+gitops-1.12
+gitops-1.13
+gitops-1.14
+gitops-1.15
+gitops-1.16
+gitops-1.17
+gitops-1.18
+gitops-1.19
+gitops-1.6
+gitops-1.7
+gitops-1.8
+gitops-1.9
+latest
+
+=== openshift-gitops namespace content ===
+NAME                                                             READY   STATUS    RESTARTS   AGE
+pod/cluster-67f5c4874b-bvkp4                                     1/1     Running   0          162m
+pod/gitops-plugin-598cff7645-4ck29                               1/1     Running   0          162m
+pod/openshift-gitops-application-controller-0                    1/1     Running   0          151m
+pod/openshift-gitops-applicationset-controller-69964ffd4-fvdhj   1/1     Running   0          162m
+pod/openshift-gitops-dex-server-68d6584b99-wgvtz                 1/1     Running   0          162m
+pod/openshift-gitops-redis-588f6678bf-xm4tk                      1/1     Running   0          162m
+pod/openshift-gitops-repo-server-75db857f8-66g2d                 1/1     Running   0          162m
+pod/openshift-gitops-server-674758b98b-x2q9x                     1/1     Running   0          162m
+
+NAME                                                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)             AGE
+service/cluster                                      ClusterIP   10.217.5.62    <none>        8080/TCP            6d21h
+service/gitops-plugin                                ClusterIP   10.217.5.94    <none>        9001/TCP            6d21h
+service/openshift-gitops-applicationset-controller   ClusterIP   10.217.5.140   <none>        7000/TCP,8080/TCP   6d21h
+service/openshift-gitops-dex-server                  ClusterIP   10.217.4.68    <none>        5556/TCP,5557/TCP   6d21h
+service/openshift-gitops-metrics                     ClusterIP   10.217.4.191   <none>        8082/TCP            6d21h
+service/openshift-gitops-redis                       ClusterIP   10.217.4.48    <none>        6379/TCP            6d21h
+service/openshift-gitops-repo-server                 ClusterIP   10.217.5.231   <none>        8081/TCP,8084/TCP   6d21h
+service/openshift-gitops-server                      ClusterIP   10.217.5.220   <none>        80/TCP,443/TCP      6d21h
+service/openshift-gitops-server-metrics              ClusterIP   10.217.4.67    <none>        8083/TCP            6d21h
+
+NAME                                                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/cluster                                      1/1     1            1           6d21h
+deployment.apps/gitops-plugin                                1/1     1            1           6d21h
+deployment.apps/openshift-gitops-applicationset-controller   1/1     1            1           6d21h
+deployment.apps/openshift-gitops-dex-server                  1/1     1            1           6d21h
+deployment.apps/openshift-gitops-redis                       1/1     1            1           6d21h
+deployment.apps/openshift-gitops-repo-server                 1/1     1            1           6d21h
+deployment.apps/openshift-gitops-server                      1/1     1            1           6d21h
+
+NAME                                                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/cluster-5b5c99d9b9                                      0         0         0       6d21h
+replicaset.apps/cluster-6786774484                                      0         0         0       6d
+replicaset.apps/cluster-67f5c4874b                                      1         1         1       162m
+replicaset.apps/gitops-plugin-577dfbc76                                 0         0         0       6d21h
+replicaset.apps/gitops-plugin-598cff7645                                1         1         1       162m
+replicaset.apps/gitops-plugin-8d875c45f                                 0         0         0       6d
+replicaset.apps/openshift-gitops-applicationset-controller-57945599ff   0         0         0       6d21h
+replicaset.apps/openshift-gitops-applicationset-controller-69964ffd4    1         1         1       162m
+replicaset.apps/openshift-gitops-applicationset-controller-87487cd97    0         0         0       6d
+replicaset.apps/openshift-gitops-dex-server-5cc6c67967                  0         0         0       6d21h
+replicaset.apps/openshift-gitops-dex-server-68d6584b99                  1         1         1       162m
+replicaset.apps/openshift-gitops-dex-server-6f5cffcfb4                  0         0         0       6d21h
+replicaset.apps/openshift-gitops-dex-server-6f86d84ff9                  0         0         0       6d
+replicaset.apps/openshift-gitops-redis-588f6678bf                       1         1         1       162m
+replicaset.apps/openshift-gitops-redis-5f46fdf9f9                       0         0         0       6d21h
+replicaset.apps/openshift-gitops-redis-74844f69c9                       0         0         0       6d
+replicaset.apps/openshift-gitops-repo-server-74c6cbfbfd                 0         0         0       6d21h
+replicaset.apps/openshift-gitops-repo-server-75db857f8                  1         1         1       162m
+replicaset.apps/openshift-gitops-repo-server-854cb464db                 0         0         0       6d
+replicaset.apps/openshift-gitops-server-565c6cdc6c                      0         0         0       6d
+replicaset.apps/openshift-gitops-server-674758b98b                      1         1         1       162m
+replicaset.apps/openshift-gitops-server-867599dc85                      0         0         0       6d21h
+
+NAME                                                       READY   AGE
+statefulset.apps/openshift-gitops-application-controller   1/1     6d20h
+
+NAME                                               HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+route.route.openshift.io/openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
+
+=== argocd CRs (instances) ===
+NAMESPACE          NAME               AGE
+openshift-gitops   openshift-gitops   6d21h
+
+=== routes openshift-gitops ===
+NAME                      HOST/PORT                                                   PATH   SERVICES                  PORT    TERMINATION          WILDCARD
+openshift-gitops-server   openshift-gitops-server-openshift-gitops.apps-crc.testing          openshift-gitops-server   https   reencrypt/Redirect   None
