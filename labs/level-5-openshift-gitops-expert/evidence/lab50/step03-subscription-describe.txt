@@ -1,0 +1,79 @@
+Name:         openshift-gitops-operator
+Namespace:    openshift-gitops-operator
+Labels:       operators.coreos.com/openshift-gitops-operator.openshift-gitops-operator=
+Annotations:  <none>
+API Version:  operators.coreos.com/v1alpha1
+Kind:         Subscription
+Metadata:
+  Creation Timestamp:  2025-12-14T19:19:05Z
+  Generation:          1
+  Resource Version:    760447
+  UID:                 579aa396-49cf-450c-b581-f438947554aa
+Spec:
+  Channel:                latest
+  Install Plan Approval:  Automatic
+  Name:                   openshift-gitops-operator
+  Source:                 redhat-operators
+  Source Namespace:       openshift-marketplace
+Status:
+  Catalog Health:
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              certified-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  759715
+      UID:               9d078f28-01a6-45b8-94c9-01c1b297ef40
+    Healthy:             true
+    Last Updated:        2025-12-14T19:19:23Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              community-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  759802
+      UID:               c0156b93-9783-4af8-a05b-3e3e651d2a9a
+    Healthy:             true
+    Last Updated:        2025-12-14T19:19:23Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              redhat-marketplace
+      Namespace:         openshift-marketplace
+      Resource Version:  759589
+      UID:               5a80611d-f609-4036-ab93-2e6b50b674c8
+    Healthy:             true
+    Last Updated:        2025-12-14T19:19:23Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              redhat-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  759863
+      UID:               e55e35a5-2702-439c-b48b-7e17aaf738b1
+    Healthy:             true
+    Last Updated:        2025-12-14T19:19:23Z
+  Conditions:
+    Last Transition Time:   2025-12-14T19:19:28Z
+    Message:                all available catalogsources are healthy
+    Reason:                 AllCatalogSourcesHealthy
+    Status:                 False
+    Type:                   CatalogSourcesUnhealthy
+  Current CSV:              openshift-gitops-operator.v1.18.1
+  Install Plan Generation:  1
+  Install Plan Ref:
+    API Version:       operators.coreos.com/v1alpha1
+    Kind:              InstallPlan
+    Name:              install-t9d64
+    Namespace:         openshift-gitops-operator
+    Resource Version:  759939
+    UID:               1d7d672d-c1ae-4f2d-95d6-4726cdfbcbcd
+  Installed CSV:       openshift-gitops-operator.v1.18.1
+  Installplan:
+    API Version:  operators.coreos.com/v1alpha1
+    Kind:         InstallPlan
+    Name:         install-t9d64
+    Uuid:         1d7d672d-c1ae-4f2d-95d6-4726cdfbcbcd
+  Last Updated:   2025-12-14T19:20:24Z
+  State:          AtLatestKnown
+Events:           <none>

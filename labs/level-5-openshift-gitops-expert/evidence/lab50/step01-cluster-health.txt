@@ -1,0 +1,29 @@
+### DATE
+Sun Dec 21 14:41:42     2025
+
+### CONTEXT
+/c/workspaces/openshift2026/helm-openshift-roadmap
+
+### oc whoami
+Unable to connect to the server: dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée.
+
+### oc version
+Client Version: 4.19.3
+Kustomize Version: v5.5.0
+Unable to connect to the server: dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée.
+
+### NODES
+E1221 14:41:44.590240   15400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:44.593806   15400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:44.596283   15400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:44.600149   15400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:44.603548   15400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+Unable to connect to the server: dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée.
+
+### CLUSTEROPERATORS
+E1221 14:41:45.045599   26276 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:45.048899   26276 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:45.051905   26276 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:45.054647   26276 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+E1221 14:41:45.057457   26276 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://api.crc.testing:6443/api?timeout=32s\": dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée."
+Unable to connect to the server: dial tcp 127.0.0.1:6443: connectex: Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée.

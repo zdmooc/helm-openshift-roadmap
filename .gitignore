@@ -24,3 +24,6 @@ build/
 # keep lab evidences
 !labs/**/evidence/*.log
 historylevel3.txt
+
+# local debug
+_debug/

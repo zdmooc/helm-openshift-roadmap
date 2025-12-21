@@ -1,0 +1,857 @@
+cat <<'YAML' > platform/kafka/base/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace-bpce-platform.yaml
+  - kafkanodepool-bpce-kafka-pool.yaml
+  - kafka-bpce-kafka.yaml
+  - kafkatopic-bpce-events.yaml
+  - kafkauser-bpce-app.yaml
+YAML
+
+git add platform/kafka/base
+git commit -m "gitops: add Kafka KRaft manifests (base)"
+mkdir -p platform/kafka/overlays/lab
+cat <<'YAML' > platform/kafka/overlays/lab/kafka-client-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka-client
+  namespace: bpce-platform
+spec:
+  restartPolicy: Always
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: kafka-client
+    # Image identique à celle du broker (digest déjà pullé sur CRC).
+    # Si tu veux figer au digest exact, remplace par celui observé sur le broker.
+    image: registry.redhat.io/amq-streams/kafka-40-rhel9
+    command: ["bash","-lc","sleep infinity"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+YAML
+
+cat <<'YAML' > platform/kafka/overlays/lab/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - kafka-client-pod.yaml
+YAML
+
+git add platform/kafka/overlays/lab
+git commit -m "gitops: add lab overlay (kafka-client PSA compliant)"
+mkdir -p argocd/applications
+REPO_URL="$(git remote get-url origin)"
+cat <<YAML > argocd/applications/bpce-kafka-lab-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bpce-kafka-lab
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: ${REPO_URL}
+    targetRevision: main
+    path: platform/kafka/overlays/lab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bpce-platform
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+YAML
+
+git add argocd/applications/bpce-kafka-lab-app.yaml
+git commit -m "gitops: add Argo CD Application (bpce-kafka lab)"
+git push
+oc apply -f argocd/applications/bpce-kafka-lab-app.yaml
+oc -n openshift-gitops get applications.argoproj.io bpce-kafka-lab
+oc -n bpce-platform get kafka,kafkanodepool,kafkatopic,kafkauser,pod -o wide
+oc -n bpce-platform get kafka bpce-kafka -o jsonpath='{range .status.conditions[*]}{.type}={.status}{" "}{.reason}{"\n"}{end}'
+oc -n openshift-gitops get application bpce-kafka-lab   -o jsonpath='sync={.status.sync.status} health={.status.health.status}{"\n"}'
+oc -n openshift-gitops describe application bpce-kafka-lab | tail -n 80
+cd /c/workspaces/2026/bpce-natixis-gitops-openshift-quarkus-lab
+mkdir -p apps/quarkus/bpce-events-demo/src/main/java/com/bpce/events
+mkdir -p apps/quarkus/bpce-events-demo/src/main/resources
+cat <<'EOF' > apps/quarkus/bpce-events-demo/pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.bpce</groupId>
+  <artifactId>bpce-events-demo</artifactId>
+  <version>0.1.0</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.version>3.15.1</quarkus.platform.version>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.quarkus.platform</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+EOF
+
+cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/resources/application.properties
+# OUT (producer)
+mp.messaging.outgoing.events-out.connector=smallrye-kafka
+mp.messaging.outgoing.events-out.topic=bpce-events
+mp.messaging.outgoing.events-out.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# IN (consumer)
+mp.messaging.incoming.events-in.connector=smallrye-kafka
+mp.messaging.incoming.events-in.topic=bpce-events
+mp.messaging.incoming.events-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.events-in.auto.offset.reset=earliest
+
+# Common Kafka client (bootstrap + SCRAM via env)
+kafka.bootstrap.servers=${env:KAFKA_BOOTSTRAP_SERVERS}
+kafka.security.protocol=${env:KAFKA_SECURITY_PROTOCOL:SASL_PLAINTEXT}
+kafka.sasl.mechanism=${env:KAFKA_SASL_MECHANISM:SCRAM-SHA-512}
+kafka.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="${env:KAFKA_USERNAME}" password="${env:KAFKA_PASSWORD}";
+EOF
+
+cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/java/com/bpce/events/EventsResource.java
+package com.bpce.events;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+
+@Path("/events")
+@ApplicationScoped
+public class EventsResource {
+
+  @Channel("events-out")
+  Emitter<String> emitter;
+
+  @POST
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response send(String body) {
+    emitter.send(body == null ? "" : body);
+    return Response.accepted().build();
+  }
+}
+EOF
+
+cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/java/com/bpce/events/EventsConsumer.java
+package com.bpce.events;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.jboss.logging.Logger;
+
+@ApplicationScoped
+public class EventsConsumer {
+  private static final Logger LOG = Logger.getLogger(EventsConsumer.class);
+
+  @Incoming("events-in")
+  public void consume(String msg) {
+    LOG.infov("bpce-events-demo received: {0}", msg);
+  }
+}
+EOF
+
+# Dockerfile utilisé par BuildConfig (attend target/quarkus-app présent)
+mkdir -p apps/quarkus/bpce-events-demo/src/main/docker
+cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/docker/Dockerfile.jvm
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:latest
+WORKDIR /work/
+COPY target/quarkus-app/ /work/
+EXPOSE 8080
+USER 1001
+CMD ["java","-jar","quarkus-run.jar"]
+EOF
+
+git add apps/quarkus/bpce-events-demo
+git commit -m "apps: add quarkus bpce-events-demo (producer/consumer kafka)"
+git push
+mkdir -p platform/apps/bpce-events-demo/base
+cat <<'EOF' > platform/apps/bpce-events-demo/base/imagestream.yaml
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: bpce-events-demo
+  namespace: bpce-platform
+EOF
+
+cat <<'EOF' > platform/apps/bpce-events-demo/base/buildconfig.yaml
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: bpce-events-demo
+  namespace: bpce-platform
+spec:
+  source:
+    type: Binary
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: src/main/docker/Dockerfile.jvm
+  output:
+    to:
+      kind: ImageStreamTag
+      name: bpce-events-demo:latest
+  triggers: []
+EOF
+
+cat <<'EOF' > platform/apps/bpce-events-demo/base/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bpce-events-demo
+  namespace: bpce-platform
+  annotations:
+    image.openshift.io/triggers: |
+      [{"from":{"kind":"ImageStreamTag","name":"bpce-events-demo:latest"},"fieldPath":"spec.template.spec.containers[0].image"}]
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bpce-events-demo
+  template:
+    metadata:
+      labels:
+        app: bpce-events-demo
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: app
+        image: bpce-events-demo:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: bpce-kafka-kafka-bootstrap:9093
+        - name: KAFKA_USERNAME
+          value: bpce-app
+        - name: KAFKA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bpce-app
+              key: password
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        readinessProbe:
+          httpGet:
+            path: /q/health/ready
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /q/health/live
+            port: 8080
+EOF
+
+cat <<'EOF' > platform/apps/bpce-events-demo/base/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bpce-events-demo
+  namespace: bpce-platform
+spec:
+  selector:
+    app: bpce-events-demo
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+EOF
+
+cat <<'EOF' > platform/apps/bpce-events-demo/base/route.yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: bpce-events-demo
+  namespace: bpce-platform
+spec:
+  to:
+    kind: Service
+    name: bpce-events-demo
+  port:
+    targetPort: http
+EOF
+
+cat <<'EOF' > platform/apps/bpce-events-demo/base/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - imagestream.yaml
+  - buildconfig.yaml
+  - deployment.yaml
+  - service.yaml
+  - route.yaml
+EOF
+
+mkdir -p platform/apps/bpce-events-demo/overlays/lab
+cat <<'EOF' > platform/apps/bpce-events-demo/overlays/lab/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+EOF
+
+# Argo CD Application dédiée
+mkdir -p argocd/applications
+REPO_URL="$(git remote get-url origin)"
+cat <<EOF > argocd/applications/bpce-events-demo-lab-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bpce-events-demo-lab
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: ${REPO_URL}
+    targetRevision: main
+    path: platform/apps/bpce-events-demo/overlays/lab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bpce-platform
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
+
+git add platform/apps/bpce-events-demo argocd/applications/bpce-events-demo-lab-app.yaml
+git commit -m "gitops: add bpce-events-demo build+deploy (lab)"
+git push
+oc apply -f argocd/applications/bpce-events-demo-lab-app.yaml
+cd apps/quarkus/bpce-events-demo
+mvn -DskipTests package
+oc -n bpce-platform start-build bc/bpce-events-demo --from-dir=. --follow
+oc -n bpce-platform rollout status deploy/bpce-events-demo
+ROUTE="$(oc -n bpce-platform get route bpce-events-demo -o jsonpath='{.spec.host}')"
+MSG="hello-$(date +%s)"
+curl -sS -X POST "http://$ROUTE/events" -H 'Content-Type: text/plain' -d "$MSG" -i
+oc -n bpce-platform logs deploy/bpce-events-demo --tail=80 | egrep -n "received|$MSG" || true
+oc adm policy add-role-to-user admin   -z openshift-gitops-argocd-application-controller   -n bpce-platform
+oc -n openshift-gitops annotate application bpce-kafka-lab   argocd.argoproj.io/refresh=hard --overwrite
+oc -n openshift-gitops annotate application bpce-events-demo-lab   argocd.argoproj.io/refresh=hard --overwrite
+oc -n openshift-gitops get application bpce-kafka-lab bpce-events-demo-lab   -o jsonpath='{range .items[*]}{.metadata.name} sync={.status.sync.status} health={.status.health.status}{"\n"}{end}'
+git add platform/kafka/base/kafka-bpce-kafka.yaml
+git commit -m "gitops: align Kafka manifest with SCRAM listener (9093)"
+git push
+cd ..
+cd ..
+cd ..
+git add platform/kafka/base/kafka-bpce-kafka.yaml
+git commit -m "gitops: align Kafka manifest with SCRAM listener (9093)"
+git push
+git add platform/kafka/overlays/lab/kafka-client-pod.yaml
+git commit -m "gitops: replace kafka-client Pod with Deployment"
+git push
+java -version
+mvn -v
+export JAVA_HOME="/c/Program Files/Eclipse Adoptium/jdk-17.0.*/"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+mvn -v
+# détecte le vrai dossier JDK 17 installé (pas de wildcard dans JAVA_HOME)
+JDK_DIR="$(ls -d "/c/Program Files/Eclipse Adoptium/jdk-17"* 2>/dev/null | sort | tail -n 1)"
+export JAVA_HOME="$JDK_DIR"
+export PATH="$JAVA_HOME/bin:$PATH"
+"$JAVA_HOME/bin/java" -version
+mvn -v
+which java
+which mvn
+echo "$JAVA_HOME"
+# 1) Mets JAVA_HOME au format Windows (indispensable pour mvn.cmd)
+export JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot'
+# 2) Mets les binaires en tête du PATH (format /c/... pour Git Bash)
+export PATH="/c/Program Files/Eclipse Adoptium/jdk-17.0.17.10-hotspot/bin:/c/maven/apache-maven-3.9.8/bin:$PATH"
+# 3) Force mvn -> mvn.cmd (comme PowerShell)
+alias mvn='mvn.cmd'
+# 4) Vérifie
+type -a mvn
+java -version
+mvn -v
+cat >> ~/.bashrc <<'EOF'
+export JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot'
+export PATH="/c/Program Files/Eclipse Adoptium\jdk-17.0.17.10-hotspot/bin:/c/maven/apache-maven-3.9.8/bin:$PATH"
+alias mvn='mvn.cmd'
+EOF
+
+notepad.exe ~/.bashrc
+cat ~/.bashrc
+notepad.exe ~/.bashrc
+sed -i 's#Eclipse Adoptium\\jdk-17\.0\.17\.10-hotspot#Eclipse Adoptium/jdk-17.0.17.10-hotspot#g' ~/.bashrc
+source ~/.bashrc
+echo "$JAVA_HOME"
+type -a mvn
+mvn -v
+# remplace JAVA_HOME par une forme 100% Windows (sans /)
+sed -i "s#^export JAVA_HOME=.*#export JAVA_HOME='C:\\\\Program Files\\\\Eclipse Adoptium\\\\jdk-17.0.17.10-hotspot'#g" ~/.bashrc
+source ~/.bashrc
+echo "$JAVA_HOME"
+mvn -v
+mvn -DskipTests clean package
+export JAVA_HOME="/c/Program Files/Eclipse Adoptium/jdk-17.0.*/"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+mvn -v
+export JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot'
+export PATH="/c/Program Files/Eclipse Adoptium/jdk-17.0.17.10-hotspot/bin:/c/maven/apache-maven-3.9.8/bin:$PATH"
+alias mvn='mvn.cmd'
+mvn -v
+oc -n bpce-platform get bc,deploy,svc,route | egrep -i 'bpce-events-demo|NAME' || true
+cd apps/quarkus/bpce-events-demo
+mvn -DskipTests package
+oc -n bpce-platform start-build bc/bpce-events-demo --from-dir=. --follow
+oc -n bpce-platform rollout status deploy/bpce-events-demo
+ROUTE="$(oc -n bpce-platform get route bpce-events-demo -o jsonpath='{.spec.host}')"
+MSG="hello-$(date +%s)"
+curl -sS -X POST "http://$ROUTE/events" -H 'Content-Type: text/plain' -d "$MSG" -i
+oc -n bpce-platform logs deploy/bpce-events-demo --tail=120 | egrep -n "received|$MSG" || true
+grep -n "SECURITY_PROTOCOL\|security.protocol\|KAFKA_SECURITY_PROTOCOL" -n   apps/quarkus/bpce-events-demo/src/main/resources/application.properties
+cd /c/workspaces/2026/bpce-natixis-gitops-openshift-quarkus-lab/apps/quarkus/bpce-events-demo
+# auto-détection JDK 17 (Temurin ou Java classique)
+JDK="$(ls -d "/c/Program Files/Eclipse Adoptium/"jdk-17* "/c/Program Files/Java/"jdk-17* 2>/dev/null | head -n1)"
+echo "JDK=$JDK"
+export JAVA_HOME="$JDK"
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+mvn -v
+JDK_DIR="$(ls -d /c/Program\ Files/Eclipse\ Adoptium/jdk-17* | sort | tail -n 1)"
+export JAVA_HOME="$(cygpath -w "$JDK_DIR")"
+export PATH="$JDK_DIR/bin:/c/maven/apache-maven-3.9.8/bin:$PATH"
+alias mvn='mvn.cmd'
+echo "$JAVA_HOME"
+mvn -v
+cd /c/workspaces/2026/bpce-natixis-gitops-openshift-quarkus-lab/apps/quarkus/bpce-events-demo
+# garde l'alias mvn Windows
+alias mvn='mvn.cmd'
+# build
+mvn -DskipTests package
+# preuve que le runtime Quarkus est bien généré
+ls -la target/quarkus-app/ target/quarkus-app/quarkus-run.jar
+history > history1612205.txt
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/zdmooc/modernis-dat-repo.git
+git push -u origin main
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+# S'assure que la session courante est écrite dans le fichier d'historique
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+echo "HISTFILE=$HISTFILE"
+history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+# S'assure que la session courante est écrite dans le fichier d'historique
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+echo "HISTFILE=$HISTFILE"
+history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+# 1) Lab50 — step12 / step13 (netcheck node)
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# 2) Export filtré (oc/kubectl/helm/argocd/git) -> session-commands.md
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# 3) Export complet + filtré -> session-commands.md
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# 4) Export HISTFILE -> bash_history_full.txt
+echo "HISTFILE=$HISTFILE"
+history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+# 5) Vérifs / affichages
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+# 1) Lab50 — step12 / step13 (netcheck node)
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# 2) Export filtré (oc/kubectl/helm/argocd/git) -> session-commands.md
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# 3) Export complet + filtré -> session-commands.md
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# 4) Export HISTFILE -> bash_history_full.txt
+echo "HISTFILE=$HISTFILE"
+history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+# 5) Vérifs / affichages
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+# Lab50 — step12 / step13 (netcheck node)
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# Export historique vers fichier
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+echo "HISTFILE=$HISTFILE"
+history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+echo "=== oc context ==="
+oc whoami
+oc project -q
+oc get clusterversion || true
+echo "=== openshift-gitops ==="
+oc get ns openshift-gitops
+oc get pods -n openshift-gitops -o wide
+oc get route -n openshift-gitops -l app.kubernetes.io/name=argocd-server || true
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+echo "=== namespaces gitops ==="
+oc get ns | egrep -i 'openshift-gitops|argocd' || true
+echo "=== subscriptions / CSV (gitops) ==="
+oc get subscription -A | egrep -i 'gitops|argo' || true
+oc get csv -A | egrep -i 'gitops|argo' || true
+echo "=== openshift-gitops objects ==="
+oc get all -n openshift-gitops || true
+oc get argocd -n openshift-gitops || true
+echo "=== routes (openshift-gitops) ==="
+oc get route -n openshift-gitops || true
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step00-gitops-check.txt"
+{   echo "=== DATE ===";   date;   echo;    echo "=== WHOAMI / PROJECT ===";   oc whoami || true;   oc project -q || true;   echo;    echo "=== NAMESPACES (gitops) ===";   oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true;   echo;    echo "=== CRDs (argoproj/argocd) ===";   oc get crd | egrep -i 'argoproj|argocd|applications\.argoproj|appprojects\.argoproj|applicationsets\.argoproj' || true;   echo;    echo "=== OLM: packagemanifests (gitops) ===";   oc get packagemanifests -n openshift-marketplace | egrep -i 'gitops|openshift-gitops|argo' || true;   echo;    echo "=== packagemanifest openshift-gitops-operator (channels) ===";   oc get packagemanifest openshift-gitops-operator -n openshift-marketplace     -o jsonpath='{range .status.channels[*]}{.name}{"\n"}{end}' 2>/dev/null || echo "NOT FOUND";   echo;    echo "=== openshift-gitops namespace content ===";   oc get all -n openshift-gitops 2>/dev/null || echo "ns openshift-gitops: not found or empty";   echo;    echo "=== argocd CRs (if CRD exists) ===";   oc get argocd -A 2>/dev/null || echo "argocd CRD missing or no instances";   echo;    echo "=== routes openshift-gitops ===";   oc get route -n openshift-gitops 2>/dev/null || echo "no routes"; } | tee "$OUT"
+echo "Wrote: $OUT"
+sed -n '1,200p' "$OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+cat > "$E/step00-gitops-check.sh" <<'EOF'
+#!/usr/bin/env bash
+set -u
+
+echo "=== DATE ==="
+date
+echo
+
+echo "=== WHOAMI / PROJECT ==="
+oc whoami || true
+oc project -q || true
+echo
+
+echo "=== NAMESPACES (gitops) ==="
+oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true
+echo
+
+echo "=== CRDs (argoproj/argocd) ==="
+oc get crd | egrep -i 'argoproj|argocd|applications\.argoproj|appprojects\.argoproj|applicationsets\.argoproj' || true
+echo
+
+echo "=== OLM: packagemanifests (gitops) ==="
+oc get packagemanifests -n openshift-marketplace | egrep -i 'gitops|openshift-gitops|argo' || true
+echo
+
+echo "=== packagemanifest openshift-gitops-operator (channels) ==="
+oc get packagemanifest openshift-gitops-operator -n openshift-marketplace \
+  -o jsonpath='{range .status.channels[*]}{.name}{"\n"}{end}' 2>/dev/null || echo "NOT FOUND"
+echo
+
+echo "=== openshift-gitops namespace content ==="
+oc get all -n openshift-gitops 2>/dev/null || echo "ns openshift-gitops: not found or empty"
+echo
+
+echo "=== argocd CRs (instances) ==="
+oc get argocd -A 2>/dev/null || echo "argocd CRD missing or no instances"
+echo
+
+echo "=== routes openshift-gitops ==="
+oc get route -n openshift-gitops 2>/dev/null || echo "no routes"
+EOF
+
+chmod +x "$E/step00-gitops-check.sh"
+OUT="$E/step00-gitops-check.txt"
+"$E/step00-gitops-check.sh" | tee "$OUT"
+echo "Wrote: $OUT"
+sed -n '1,200p' "$OUT"
+git status
+git
+git branch
+# Lab50 — netcheck node (step12/step13)
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# Export commandes (filtré) -> session-commands.md
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# Export complet + filtré -> session-commands.md
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# Export HISTFILE -> bash_history_full.txt
+echo "HISTFILE=$HISTFILE"
+history -
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step00-gitops-state.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== WHOAMI / PROJECT ==="; oc whoami; oc project -q; echo;   echo "=== NAMESPACES (gitops) ==="; oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true; echo;   echo "=== SUBSCRIPTIONS (gitops/argo) ==="; oc get subscription -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CSV (gitops/argo) ==="; oc get csv -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CRDs (argoproj/argocd) ==="; oc get crd | egrep -i 'argoproj|argocd' || true; echo;   echo "=== ARGOCD INSTANCES ==="; oc get argocd -A 2>/dev/null || true; echo;   echo "=== openshift-gitops OBJECTS ==="; oc get all -n openshift-gitops 2>/dev/null || true; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# voir ce qui a changé
+git status
+git diff --stat
+# ajouter tout ce que tu viens de créer/modifier
+git add -A
+# vérif avant commit
+git status
+git diff --cached --stat
+# commit
+git commit -m "lab50: evidence gitops checks + netcheck + session command exports"
+# push (branche courante)
+git push -u origin HEAD
+sed -n '1,200p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step01-install-gitops-operator.txt"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step03-create-myapp-projects.txt"
+(   echo "=== DATE ==="; date; echo;    echo "=== CREATE PROJECTS (myapp-dev / myapp-prod) ===";   oc new-project myapp-dev  || true;   oc new-project myapp-prod || true;   echo;    echo "=== LABEL managed-by (recommended) ===";   oc label ns myapp-dev  argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   oc label ns myapp-prod argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   echo;    echo "=== VERIFY ===";   oc get ns myapp-dev myapp-prod --show-labels; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+OUT="$E/step04-apply-argocd-apps.txt"
+(   echo "=== DATE ==="; date; echo;    echo "=== APPLY APPLICATIONS (Argo CD) ===";   oc apply -f gitops/argocd-apps/application-myapp-dev.yaml  -n openshift-gitops;   oc apply -f gitops/argocd-apps/application-myapp-prod.yaml -n openshift-gitops;   echo;    echo "=== CHECK APPLICATIONS ===";   oc get applications.argoproj.io -n openshift-gitops; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+# DEV
+POD_DEV="$(oc get pod -n myapp-dev -o name | head -n1)"
+OUT_DEV="$E/step05-imagepull-debug-myapp-dev.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-dev) ===";   oc -n myapp-dev get deploy myapp-dev-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_DEV"; echo;   echo "=== DESCRIBE POD (myapp-dev) ===";   oc -n myapp-dev describe "$POD_DEV" || true;   echo;   echo "=== EVENTS (myapp-dev) ===";   oc -n myapp-dev get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_DEV"
+echo "Wrote: $OUT_DEV"
+# PROD
+POD_PROD="$(oc get pod -n myapp-prod -o name | head -n1)"
+OUT_PROD="$E/step05-imagepull-debug-myapp-prod.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-prod) ===";   oc -n myapp-prod get deploy myapp-prod-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_PROD"; echo;   echo "=== DESCRIBE POD (myapp-prod) ===";   oc -n myapp-prod describe "$POD_PROD" || true;   echo;   echo "=== EVENTS (myapp-prod) ===";   oc -n myapp-prod get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_PROD"
+echo "Wrote: $OUT_PROD"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+echo "===== DEV (image + erreurs) ====="
+grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-dev.txt" | tail -n 120
+echo
+echo "===== PROD (image + erreurs) ====="
+grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-prod.txt" | tail -n 120
+sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-dev.txt"  | tail -n 220
+sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-prod.txt" | tail -n 220
+git status
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# 1) Force l’affichage (pas de pager)
+GIT_PAGER=cat git status -sb
+# 2) Montre TOUT (même untracked), en format machine
+git status --porcelain=v1 -uall
+# 3) Vérifie que tes fichiers step05 existent et ont du contenu
+ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+GIT_PAGER=cat git status -sb
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+DBG="_debug/git-debug-$(date +%Y%m%d-%H%M%S).txt"
+mkdir -p _debug
+{   echo "DATE: $(date)";   echo "PWD : $(pwd)";   echo "BRANCH: $(git branch --show-current 2>/dev/null || echo '?')";   echo;    echo "== git --version ==";   git --version 2>&1;   echo;    echo "== git status -sb ==";   git --no-pager status -sb 2>&1;   echo;    echo "== git status --porcelain=v1 -uall ==";   git status --porcelain=v1 -uall 2>&1;   echo;    echo "== last commit ==";   git --no-pager log -1 --oneline --decorate 2>&1;   echo;    echo "== step05 files (existence + taille) ==";   ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true;   wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true; } > "$DBG"
+echo "WROTE: $DBG"
+notepad.exe "$(cygpath -w "$DBG")"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# 1) Ajoute uniquement l'evidence lab50 (et optionnellement le debug)
+git add labs/level-5-openshift-gitops-expert/evidence/lab50
+# Optionnel: garder le debug (sinon ne pas l'ajouter)
+# git add _debug
+# 2) Vérifie
+git status -sb
+git diff --cached --stat
+# 3) Commit
+git commit -m "lab50: gitops operator + namespaces/projects + apps apply + imagepull debug"
+# 4) Push
+git push
+# --- Lab50 : netcheck node (step12/step13) ---
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# --- Export commandes de session (filtré) ---
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{   echo "# Commandes — export";   echo;   echo "## Historique filtré";   echo;   echo '```';   history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# --- Export commandes de session (complet + filtré) ---
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# --- Dump HISTFILE complet ---
+echo "HISTFILE=$HISTFILE"
+history -a

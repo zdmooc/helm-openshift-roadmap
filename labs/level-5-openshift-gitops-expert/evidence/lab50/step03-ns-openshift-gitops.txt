@@ -1,0 +1,2 @@
+NAME               STATUS   AGE
+openshift-gitops   Active   13m

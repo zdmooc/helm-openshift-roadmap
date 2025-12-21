@@ -1,0 +1,22 @@
+Events:
+  Type     Reason          Age                   From               Message
+  ----     ------          ----                  ----               -------
+  Normal   Scheduled       24m                   default-scheduler  Successfully assigned openshift-gitops-operator/openshift-gitops-operator-controller-manager-8464d778d4-2rnnx to crc
+  Normal   AddedInterface  24m                   multus             Add eth0 [10.217.1.65/23] from ovn-kubernetes
+  Normal   Pulling         24m                   kubelet            Pulling image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:4de51d00e08118a95debafc752a7bbcc5fe0716802e38c705e2c9d801268a49d"
+  Normal   Pulled          22m                   kubelet            Successfully pulled image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:4de51d00e08118a95debafc752a7bbcc5fe0716802e38c705e2c9d801268a49d" in 2m19.156s (2m19.156s including waiting). Image size: 245638330 bytes.
+  Normal   Created         22m                   kubelet            Created container: manager
+  Normal   Started         22m                   kubelet            Started container manager
+  Warning  Failed          11m                   kubelet            Failed to pull image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942": copying system image from manifest list: writing blob: storing blob to file "/var/tmp/container_images_storage735376870/2": happened during read: unexpected EOF (while reconnecting: Get "https://registry.redhat.io/auth/realms/rhcc/protocol/redhat-docker-v2/auth?account=%7Cuhc-pool-eb548c05-312d-439c-84d5-6ffa33939942&scope=repository%3Aopenshift4%2Fose-kube-rbac-proxy%3Apull&service=docker-registry": dial tcp 23.23.222.4:443: i/o timeout)
+  Warning  Failed          11m                   kubelet            Failed to pull image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942": initializing source docker://registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942: Get "https://registry.redhat.io/auth/realms/rhcc/protocol/redhat-docker-v2/auth?account=%7Cuhc-pool-eb548c05-312d-439c-84d5-6ffa33939942&scope=repository%3Aopenshift4%2Fose-kube-rbac-proxy%3Apull&service=docker-registry": net/http: TLS handshake timeout
+  Warning  Failed          10m (x3 over 11m)     kubelet            Error: ErrImagePull
+  Warning  Failed          10m                   kubelet            Failed to pull image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942": rpc error: code = DeadlineExceeded desc = initializing source docker://registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942: pinging container registry registry.redhat.io: Get "https://registry.redhat.io/v2/": dial tcp 44.205.35.50:443: i/o timeout
+  Normal   BackOff         9m27s (x6 over 11m)   kubelet            Back-off pulling image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942"
+  Warning  Failed          9m27s (x6 over 11m)   kubelet            Error: ImagePullBackOff
+  Normal   Pulling         9m15s (x4 over 22m)   kubelet            Pulling image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942"
+  Warning  ProbeError      3m9s (x2 over 3m29s)  kubelet            Liveness probe error: Get "http://10.217.1.65:8081/healthz": dial tcp 10.217.1.65:8081: connect: connection refused
+body:
+  Warning  Unhealthy   3m9s (x2 over 3m29s)   kubelet  Liveness probe failed: Get "http://10.217.1.65:8081/healthz": dial tcp 10.217.1.65:8081: connect: connection refused
+  Warning  Unhealthy   2m56s (x5 over 3m36s)  kubelet  Readiness probe failed: Get "http://10.217.1.65:8081/readyz": dial tcp 10.217.1.65:8081: connect: connection refused
+  Warning  ProbeError  96s (x13 over 3m36s)   kubelet  Readiness probe error: Get "http://10.217.1.65:8081/readyz": dial tcp 10.217.1.65:8081: connect: connection refused
+body:

@@ -1,0 +1,44 @@
+### DATE
+Sun Dec 21 14:49:07     2025
+
+### which crc
+/c/Program Files/Red Hat OpenShift Local/crc
+
+### crc version
+level=warning msg="A new version (2.57.0) has been published on https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.57.0/crc-windows-installer.zip"
+CRC version: 2.53.0+a6f712
+OpenShift version: 4.19.3
+MicroShift version: 4.19.0
+
+### crc status
+CRC VM:          Stopped
+OpenShift:       Stopped (v4.19.3)
+Disk Usage:      0B of 0B (Inside the CRC VM)
+Cache Usage:     63.67GB
+Cache Directory: C:\Users\HP 17 G3 Win 11 23H2\.crc\cache
+
+### crc ip
+127.0.0.1
+
+### oc current-context
+bpce-platform/api-crc-testing:6443/kubeadmin
+
+### kubeconfig server
+https://api.crc.testing:6443
+
+### nslookup api.crc.testing
+*** UnKnown ne parvient pas … trouver api.crc.testing : Non-existent domain
+Serveur :   UnKnown
+Address:  10.155.81.100
+
+
+### hosts (crc.testing)
+19:127.0.0.1        odm-demo-odm.apps-crc.testing
+20:127.0.0.1        openshift-gitops-server-openshift-gitops.apps-crc.testing
+23:127.0.0.1        api.crc.testing canary-openshift-ingress-canary.apps-crc.testing console-openshift-console.apps-crc.testing default-route-openshift-image-registry.apps-crc.testing downloads-openshift-console.apps-crc.testing host.crc.testing oauth-openshift.apps-crc.testing
+25:127.0.0.1        ibm-licensing-service-instance-ibm-licensing.apps-crc.testing
+26:127.0.0.1 my-nginx-route-helm-demo.apps-crc.testing
+27:127.0.0.1 myapp.apps.crc.testing
+28:127.0.0.1 frontend-dev.apps.crc.testing
+29:127.0.0.1 backend-dev.apps-crc.testing
+30:127.0.0.1 bpce-events-demo-bpce-platform.apps-crc.testing

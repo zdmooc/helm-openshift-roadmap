@@ -1,0 +1,12 @@
+=== DATE ===
+Sun Dec 21 20:41:33     2025
+
+Error from server (AlreadyExists): project.project.openshift.io "myapp-dev" already exists
+Error from server (AlreadyExists): project.project.openshift.io "myapp-prod" already exists
+
+namespace/myapp-dev not labeled
+namespace/myapp-prod not labeled
+
+NAME         STATUS   AGE    LABELS
+myapp-dev    Active   8d     argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=myapp-dev,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted
+myapp-prod   Active   115m   argocd.argoproj.io/managed-by=openshift-gitops,kubernetes.io/metadata.name=myapp-prod,pod-security.kubernetes.io/audit-version=latest,pod-security.kubernetes.io/audit=restricted,pod-security.kubernetes.io/warn-version=latest,pod-security.kubernetes.io/warn=restricted

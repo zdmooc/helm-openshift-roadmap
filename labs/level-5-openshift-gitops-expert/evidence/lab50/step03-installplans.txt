@@ -1,0 +1,2 @@
+NAME            CSV                                 APPROVAL    APPROVED
+install-t9d64   openshift-gitops-operator.v1.18.1   Automatic   true

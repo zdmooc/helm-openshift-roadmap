@@ -1,0 +1,8 @@
+openshift-gitops                                   cluster-5b5c99d9b9-fw62c                                          0/1     ImagePullBackOff        0               27m
+openshift-gitops                                   gitops-plugin-577dfbc76-2jc86                                     0/1     ImagePullBackOff        0               27m
+openshift-gitops                                   openshift-gitops-applicationset-controller-57945599ff-4fddl       0/1     ImagePullBackOff        0               27m
+openshift-gitops                                   openshift-gitops-dex-server-5cc6c67967-g8bws                      0/1     Init:ImagePullBackOff   0               27m
+openshift-gitops                                   openshift-gitops-dex-server-6f5cffcfb4-plkdt                      0/1     Init:ImagePullBackOff   0               27m
+openshift-gitops                                   openshift-gitops-redis-5f46fdf9f9-26r95                           0/1     ImagePullBackOff        0               27m
+openshift-gitops                                   openshift-gitops-repo-server-74c6cbfbfd-58sqg                     0/1     Init:ImagePullBackOff   0               27m
+openshift-gitops                                   openshift-gitops-server-867599dc85-wwgck                          0/1     ImagePullBackOff        0               27m

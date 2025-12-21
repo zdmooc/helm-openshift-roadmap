@@ -1,0 +1,9 @@
+Events:
+  Type    Reason          Age    From               Message
+  ----    ------          ----   ----               -------
+  Normal  Scheduled       9m52s  default-scheduler  Successfully assigned openshift-gitops-operator/openshift-gitops-operator-controller-manager-8464d778d4-9hwsr to crc
+  Normal  AddedInterface  9m52s  multus             Add eth0 [10.217.1.81/23] from ovn-kubernetes
+  Normal  Pulled          9m51s  kubelet            Container image "registry.redhat.io/openshift-gitops-1/gitops-rhel8-operator@sha256:4de51d00e08118a95debafc752a7bbcc5fe0716802e38c705e2c9d801268a49d" already present on machine
+  Normal  Created         9m51s  kubelet            Created container: manager
+  Normal  Started         9m51s  kubelet            Started container manager
+  Normal  Pulling         9m51s  kubelet            Pulling image "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:fa0acefda43e309e7f9f31f5247c933d0b868ff1573ece2f38e0549d7e2ec942"

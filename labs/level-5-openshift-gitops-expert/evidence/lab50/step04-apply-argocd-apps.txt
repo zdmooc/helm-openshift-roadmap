@@ -1,0 +1,17 @@
+=== DATE ===
+Sun Dec 21 20:41:39     2025
+
+application.argoproj.io/myapp-dev unchanged
+application.argoproj.io/myapp-prod unchanged
+
+NAME                   SYNC STATUS   HEALTH STATUS
+bpce-backend-build     OutOfSync     Missing
+bpce-backend-dev       Synced        Healthy
+bpce-backend-preprod   OutOfSync     Missing
+bpce-backend-prod      OutOfSync     Missing
+bpce-events-demo-lab   Synced        Healthy
+bpce-kafka-lab         Synced        Healthy
+bpce-root              OutOfSync     Healthy
+lab02-guestbook        OutOfSync     Missing
+myapp-dev              Synced        Healthy
+myapp-prod             Synced        Healthy
