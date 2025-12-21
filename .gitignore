@@ -27,3 +27,8 @@ historylevel3.txt
 
 # local debug
 _debug/
+
+# local debug / history
+_debug/
+bash_history_full.txt
+history*.txt
