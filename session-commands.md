@@ -3,110 +3,6 @@
 ## Historique complet (history)
 
 ```bash
-  154  kafka.sasl.mechanism=${env:KAFKA_SASL_MECHANISM:SCRAM-SHA-512}
-  155  kafka.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="${env:KAFKA_USERNAME}" password="${env:KAFKA_PASSWORD}";
-  156  EOF
-  157  cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/java/com/bpce/events/EventsResource.java
-  158  package com.bpce.events;
-  159  import jakarta.enterprise.context.ApplicationScoped;
-  160  import jakarta.ws.rs.Consumes;
-  161  import jakarta.ws.rs.POST;
-  162  import jakarta.ws.rs.Path;
-  163  import jakarta.ws.rs.core.MediaType;
-  164  import jakarta.ws.rs.core.Response;
-  165  import org.eclipse.microprofile.reactive.messaging.Channel;
-  166  import org.eclipse.microprofile.reactive.messaging.Emitter;
-  167  @Path("/events")
-  168  @ApplicationScoped
-  169  public class EventsResource {
-  170    @Channel("events-out")
-  171    Emitter<String> emitter;
-  172    @POST
-  173    @Consumes(MediaType.TEXT_PLAIN)
-  174    public Response send(String body) {
-  175      emitter.send(body == null ? "" : body);
-  176      return Response.accepted().build();
-  177    }
-  178  }
-  179  EOF
-  180  cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/java/com/bpce/events/EventsConsumer.java
-  181  package com.bpce.events;
-  182  import jakarta.enterprise.context.ApplicationScoped;
-  183  import org.eclipse.microprofile.reactive.messaging.Incoming;
-  184  import org.jboss.logging.Logger;
-  185  @ApplicationScoped
-  186  public class EventsConsumer {
-  187    private static final Logger LOG = Logger.getLogger(EventsConsumer.class);
-  188    @Incoming("events-in")
-  189    public void consume(String msg) {
-  190      LOG.infov("bpce-events-demo received: {0}", msg);
-  191    }
-  192  }
-  193  EOF
-  194  # Dockerfile utilisé par BuildConfig (attend target/quarkus-app présent)
-  195  mkdir -p apps/quarkus/bpce-events-demo/src/main/docker
-  196  cat <<'EOF' > apps/quarkus/bpce-events-demo/src/main/docker/Dockerfile.jvm
-  197  FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:latest
-  198  WORKDIR /work/
-  199  COPY target/quarkus-app/ /work/
-  200  EXPOSE 8080
-  201  USER 1001
-  202  CMD ["java","-jar","quarkus-run.jar"]
-  203  EOF
-  204  git add apps/quarkus/bpce-events-demo
-  205  git commit -m "apps: add quarkus bpce-events-demo (producer/consumer kafka)"
-  206  git push
-  207  mkdir -p platform/apps/bpce-events-demo/base
-  208  cat <<'EOF' > platform/apps/bpce-events-demo/base/imagestream.yaml
-  209  apiVersion: image.openshift.io/v1
-  210  kind: ImageStream
-  211  metadata:
-  212    name: bpce-events-demo
-  213    namespace: bpce-platform
-  214  EOF
-  215  cat <<'EOF' > platform/apps/bpce-events-demo/base/buildconfig.yaml
-  216  apiVersion: build.openshift.io/v1
-  217  kind: BuildConfig
-  218  metadata:
-  219    name: bpce-events-demo
-  220    namespace: bpce-platform
-  221  spec:
-  222    source:
-  223      type: Binary
-  224    strategy:
-  225      type: Docker
-  226      dockerStrategy:
-  227        dockerfilePath: src/main/docker/Dockerfile.jvm
-  228    output:
-  229      to:
-  230        kind: ImageStreamTag
-  231        name: bpce-events-demo:latest
-  232    triggers: []
-  233  EOF
-  234  cat <<'EOF' > platform/apps/bpce-events-demo/base/deployment.yaml
-  235  apiVersion: apps/v1
-  236  kind: Deployment
-  237  metadata:
-  238    name: bpce-events-demo
-  239    namespace: bpce-platform
-  240    annotations:
-  241      image.openshift.io/triggers: |
-  242        [{"from":{"kind":"ImageStreamTag","name":"bpce-events-demo:latest"},"fieldPath":"spec.template.spec.containers[0].image"}]
-  243  spec:
-  244    replicas: 1
-  245    selector:
-  246      matchLabels:
-  247        app: bpce-events-demo
-  248    template:
-  249      metadata:
-  250        labels:
-  251          app: bpce-events-demo
-  252      spec:
-  253        securityContext:
-  254          seccompProfile:
-  255            type: RuntimeDefault
-  256        containers:
-  257        - name: app
   258          image: bpce-events-demo:latest
   259          ports:
   260          - name: http
@@ -564,14 +460,119 @@ EOF
   651  OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
   652  history -a
   653  {   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+  654  echo "Wrote: $OUT"
+  655  # Export HISTFILE -> bash_history_full.txt
+  656  echo "HISTFILE=$HISTFILE"
+  657  history -
+  658  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  659  E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+  660  mkdir -p "$E"
+  661  OUT="$E/step00-gitops-state.txt"
+  662  (   echo "=== DATE ==="; date; echo;   echo "=== WHOAMI / PROJECT ==="; oc whoami; oc project -q; echo;   echo "=== NAMESPACES (gitops) ==="; oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true; echo;   echo "=== SUBSCRIPTIONS (gitops/argo) ==="; oc get subscription -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CSV (gitops/argo) ==="; oc get csv -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CRDs (argoproj/argocd) ==="; oc get crd | egrep -i 'argoproj|argocd' || true; echo;   echo "=== ARGOCD INSTANCES ==="; oc get argocd -A 2>/dev/null || true; echo;   echo "=== openshift-gitops OBJECTS ==="; oc get all -n openshift-gitops 2>/dev/null || true; ) 2>&1 | tee "$OUT"
+  663  echo "Wrote: $OUT"
+  664  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  665  # voir ce qui a changé
+  666  git status
+  667  git diff --stat
+  668  # ajouter tout ce que tu viens de créer/modifier
+  669  git add -A
+  670  # vérif avant commit
+  671  git status
+  672  git diff --cached --stat
+  673  # commit
+  674  git commit -m "lab50: evidence gitops checks + netcheck + session command exports"
+  675  # push (branche courante)
+  676  git push -u origin HEAD
+  677  sed -n '1,200p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step01-install-gitops-operator.txt"
+  678  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  679  E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+  680  mkdir -p "$E"
+  681  OUT="$E/step03-create-myapp-projects.txt"
+  682  (   echo "=== DATE ==="; date; echo;    echo "=== CREATE PROJECTS (myapp-dev / myapp-prod) ===";   oc new-project myapp-dev  || true;   oc new-project myapp-prod || true;   echo;    echo "=== LABEL managed-by (recommended) ===";   oc label ns myapp-dev  argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   oc label ns myapp-prod argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   echo;    echo "=== VERIFY ===";   oc get ns myapp-dev myapp-prod --show-labels; ) 2>&1 | tee "$OUT"
+  683  echo "Wrote: $OUT"
+  684  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  685  E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+  686  OUT="$E/step04-apply-argocd-apps.txt"
+  687  (   echo "=== DATE ==="; date; echo;    echo "=== APPLY APPLICATIONS (Argo CD) ===";   oc apply -f gitops/argocd-apps/application-myapp-dev.yaml  -n openshift-gitops;   oc apply -f gitops/argocd-apps/application-myapp-prod.yaml -n openshift-gitops;   echo;    echo "=== CHECK APPLICATIONS ===";   oc get applications.argoproj.io -n openshift-gitops; ) 2>&1 | tee "$OUT"
+  688  echo "Wrote: $OUT"
+  689  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  690  E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+  691  mkdir -p "$E"
+  692  # DEV
+  693  POD_DEV="$(oc get pod -n myapp-dev -o name | head -n1)"
+  694  OUT_DEV="$E/step05-imagepull-debug-myapp-dev.txt"
+  695  (   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-dev) ===";   oc -n myapp-dev get deploy myapp-dev-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_DEV"; echo;   echo "=== DESCRIBE POD (myapp-dev) ===";   oc -n myapp-dev describe "$POD_DEV" || true;   echo;   echo "=== EVENTS (myapp-dev) ===";   oc -n myapp-dev get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_DEV"
+  696  echo "Wrote: $OUT_DEV"
+  697  # PROD
+  698  POD_PROD="$(oc get pod -n myapp-prod -o name | head -n1)"
+  699  OUT_PROD="$E/step05-imagepull-debug-myapp-prod.txt"
+  700  (   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-prod) ===";   oc -n myapp-prod get deploy myapp-prod-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_PROD"; echo;   echo "=== DESCRIBE POD (myapp-prod) ===";   oc -n myapp-prod describe "$POD_PROD" || true;   echo;   echo "=== EVENTS (myapp-prod) ===";   oc -n myapp-prod get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_PROD"
+  701  echo "Wrote: $OUT_PROD"
+  702  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  703  E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+  704  echo "===== DEV (image + erreurs) ====="
+  705  grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-dev.txt" | tail -n 120
+  706  echo
+  707  echo "===== PROD (image + erreurs) ====="
+  708  grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-prod.txt" | tail -n 120
+  709  sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-dev.txt"  | tail -n 220
+  710  sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-prod.txt" | tail -n 220
+  711  git status
+  712  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  713  # 1) Force l’affichage (pas de pager)
+  714  GIT_PAGER=cat git status -sb
+  715  # 2) Montre TOUT (même untracked), en format machine
+  716  git status --porcelain=v1 -uall
+  717  # 3) Vérifie que tes fichiers step05 existent et ont du contenu
+  718  ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+  719  wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+  720  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  721  GIT_PAGER=cat git status -sb
+  722  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  723  DBG="_debug/git-debug-$(date +%Y%m%d-%H%M%S).txt"
+  724  mkdir -p _debug
+  725  {   echo "DATE: $(date)";   echo "PWD : $(pwd)";   echo "BRANCH: $(git branch --show-current 2>/dev/null || echo '?')";   echo;    echo "== git --version ==";   git --version 2>&1;   echo;    echo "== git status -sb ==";   git --no-pager status -sb 2>&1;   echo;    echo "== git status --porcelain=v1 -uall ==";   git status --porcelain=v1 -uall 2>&1;   echo;    echo "== last commit ==";   git --no-pager log -1 --oneline --decorate 2>&1;   echo;    echo "== step05 files (existence + taille) ==";   ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true;   wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true; } > "$DBG"
+  726  echo "WROTE: $DBG"
+  727  notepad.exe "$(cygpath -w "$DBG")"
+  728  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  729  # 1) Ajoute uniquement l'evidence lab50 (et optionnellement le debug)
+  730  git add labs/level-5-openshift-gitops-expert/evidence/lab50
+  731  # Optionnel: garder le debug (sinon ne pas l'ajouter)
+  732  # git add _debug
+  733  # 2) Vérifie
+  734  git status -sb
+  735  git diff --cached --stat
+  736  # 3) Commit
+  737  git commit -m "lab50: gitops operator + namespaces/projects + apps apply + imagepull debug"
+  738  # 4) Push
+  739  git push
+  740  # --- Lab50 : netcheck node (step12/step13) ---
+  741  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  742  E=labs/level-5-openshift-gitops-expert/evidence/lab50
+  743  NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+  744  F="$E/step12-node-netcheck.txt"
+  745  echo "=== step12 lines ==="
+  746  wc -l "$F" 2>/dev/null || true
+  747  tail -n 20 "$F" 2>/dev/null || true
+  748  if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+  749  # --- Export commandes de session (filtré) ---
+  750  OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+  751  {   echo "# Commandes — export";   echo;   echo "## Historique filtré";   echo;   echo '```';   history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+  752  echo "Wrote: $OUT"
+  753  # --- Export commandes de session (complet + filtré) ---
+  754  cd /c/workspaces/openshift2026/helm-openshift-roadmap
+  755  OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+  756  history -a
+  757  {   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
 ```
 
 ## Historique filtré (oc/kubectl/helm/argocd/git)
 
 ```bash
-  204  git add apps/quarkus/bpce-events-demo
-  205  git commit -m "apps: add quarkus bpce-events-demo (producer/consumer kafka)"
-  206  git push
   352  git add platform/apps/bpce-events-demo argocd/applications/bpce-events-demo-lab-app.yaml
   353  git commit -m "gitops: add bpce-events-demo build+deploy (lab)"
   354  git push
@@ -639,4 +640,28 @@ oc get route -n openshift-gitops 2>/dev/null || echo "no routes"
   634  git
   635  git branch
   644  if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+  662  (   echo "=== DATE ==="; date; echo;   echo "=== WHOAMI / PROJECT ==="; oc whoami; oc project -q; echo;   echo "=== NAMESPACES (gitops) ==="; oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true; echo;   echo "=== SUBSCRIPTIONS (gitops/argo) ==="; oc get subscription -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CSV (gitops/argo) ==="; oc get csv -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CRDs (argoproj/argocd) ==="; oc get crd | egrep -i 'argoproj|argocd' || true; echo;   echo "=== ARGOCD INSTANCES ==="; oc get argocd -A 2>/dev/null || true; echo;   echo "=== openshift-gitops OBJECTS ==="; oc get all -n openshift-gitops 2>/dev/null || true; ) 2>&1 | tee "$OUT"
+  666  git status
+  667  git diff --stat
+  669  git add -A
+  671  git status
+  672  git diff --cached --stat
+  674  git commit -m "lab50: evidence gitops checks + netcheck + session command exports"
+  676  git push -u origin HEAD
+  682  (   echo "=== DATE ==="; date; echo;    echo "=== CREATE PROJECTS (myapp-dev / myapp-prod) ===";   oc new-project myapp-dev  || true;   oc new-project myapp-prod || true;   echo;    echo "=== LABEL managed-by (recommended) ===";   oc label ns myapp-dev  argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   oc label ns myapp-prod argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   echo;    echo "=== VERIFY ===";   oc get ns myapp-dev myapp-prod --show-labels; ) 2>&1 | tee "$OUT"
+  687  (   echo "=== DATE ==="; date; echo;    echo "=== APPLY APPLICATIONS (Argo CD) ===";   oc apply -f gitops/argocd-apps/application-myapp-dev.yaml  -n openshift-gitops;   oc apply -f gitops/argocd-apps/application-myapp-prod.yaml -n openshift-gitops;   echo;    echo "=== CHECK APPLICATIONS ===";   oc get applications.argoproj.io -n openshift-gitops; ) 2>&1 | tee "$OUT"
+  695  (   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-dev) ===";   oc -n myapp-dev get deploy myapp-dev-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_DEV"; echo;   echo "=== DESCRIBE POD (myapp-dev) ===";   oc -n myapp-dev describe "$POD_DEV" || true;   echo;   echo "=== EVENTS (myapp-dev) ===";   oc -n myapp-dev get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_DEV"
+  700  (   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-prod) ===";   oc -n myapp-prod get deploy myapp-prod-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_PROD"; echo;   echo "=== DESCRIBE POD (myapp-prod) ===";   oc -n myapp-prod describe "$POD_PROD" || true;   echo;   echo "=== EVENTS (myapp-prod) ===";   oc -n myapp-prod get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_PROD"
+  711  git status
+  714  GIT_PAGER=cat git status -sb
+  716  git status --porcelain=v1 -uall
+  721  GIT_PAGER=cat git status -sb
+  725  {   echo "DATE: $(date)";   echo "PWD : $(pwd)";   echo "BRANCH: $(git branch --show-current 2>/dev/null || echo '?')";   echo;    echo "== git --version ==";   git --version 2>&1;   echo;    echo "== git status -sb ==";   git --no-pager status -sb 2>&1;   echo;    echo "== git status --porcelain=v1 -uall ==";   git status --porcelain=v1 -uall 2>&1;   echo;    echo "== last commit ==";   git --no-pager log -1 --oneline --decorate 2>&1;   echo;    echo "== step05 files (existence + taille) ==";   ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true;   wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true; } > "$DBG"
+  730  git add labs/level-5-openshift-gitops-expert/evidence/lab50
+  732  # git add _debug
+  734  git status -sb
+  735  git diff --cached --stat
+  737  git commit -m "lab50: gitops operator + namespaces/projects + apps apply + imagepull debug"
+  739  git push
+  748  if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
 ```

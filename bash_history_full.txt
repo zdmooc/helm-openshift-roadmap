@@ -634,3 +634,224 @@ history -a
 echo "Wrote: $OUT"
 echo "HISTFILE=$HISTFILE"
 history -a
+cat "$HISTFILE" > "/c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt"
+git status
+sed -n '1,220p' /c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+wc -l /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '1,200p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+sed -n '201,400p' /c/workspaces/openshift2026/helm-openshift-roadmap/bash_history_full.txt
+history
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+echo "=== oc context ==="
+oc whoami
+oc project -q
+oc get clusterversion || true
+echo "=== openshift-gitops ==="
+oc get ns openshift-gitops
+oc get pods -n openshift-gitops -o wide
+oc get route -n openshift-gitops -l app.kubernetes.io/name=argocd-server || true
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+echo "=== namespaces gitops ==="
+oc get ns | egrep -i 'openshift-gitops|argocd' || true
+echo "=== subscriptions / CSV (gitops) ==="
+oc get subscription -A | egrep -i 'gitops|argo' || true
+oc get csv -A | egrep -i 'gitops|argo' || true
+echo "=== openshift-gitops objects ==="
+oc get all -n openshift-gitops || true
+oc get argocd -n openshift-gitops || true
+echo "=== routes (openshift-gitops) ==="
+oc get route -n openshift-gitops || true
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step00-gitops-check.txt"
+{   echo "=== DATE ===";   date;   echo;    echo "=== WHOAMI / PROJECT ===";   oc whoami || true;   oc project -q || true;   echo;    echo "=== NAMESPACES (gitops) ===";   oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true;   echo;    echo "=== CRDs (argoproj/argocd) ===";   oc get crd | egrep -i 'argoproj|argocd|applications\.argoproj|appprojects\.argoproj|applicationsets\.argoproj' || true;   echo;    echo "=== OLM: packagemanifests (gitops) ===";   oc get packagemanifests -n openshift-marketplace | egrep -i 'gitops|openshift-gitops|argo' || true;   echo;    echo "=== packagemanifest openshift-gitops-operator (channels) ===";   oc get packagemanifest openshift-gitops-operator -n openshift-marketplace     -o jsonpath='{range .status.channels[*]}{.name}{"\n"}{end}' 2>/dev/null || echo "NOT FOUND";   echo;    echo "=== openshift-gitops namespace content ===";   oc get all -n openshift-gitops 2>/dev/null || echo "ns openshift-gitops: not found or empty";   echo;    echo "=== argocd CRs (if CRD exists) ===";   oc get argocd -A 2>/dev/null || echo "argocd CRD missing or no instances";   echo;    echo "=== routes openshift-gitops ===";   oc get route -n openshift-gitops 2>/dev/null || echo "no routes"; } | tee "$OUT"
+echo "Wrote: $OUT"
+sed -n '1,200p' "$OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+cat > "$E/step00-gitops-check.sh" <<'EOF'
+#!/usr/bin/env bash
+set -u
+
+echo "=== DATE ==="
+date
+echo
+
+echo "=== WHOAMI / PROJECT ==="
+oc whoami || true
+oc project -q || true
+echo
+
+echo "=== NAMESPACES (gitops) ==="
+oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true
+echo
+
+echo "=== CRDs (argoproj/argocd) ==="
+oc get crd | egrep -i 'argoproj|argocd|applications\.argoproj|appprojects\.argoproj|applicationsets\.argoproj' || true
+echo
+
+echo "=== OLM: packagemanifests (gitops) ==="
+oc get packagemanifests -n openshift-marketplace | egrep -i 'gitops|openshift-gitops|argo' || true
+echo
+
+echo "=== packagemanifest openshift-gitops-operator (channels) ==="
+oc get packagemanifest openshift-gitops-operator -n openshift-marketplace \
+  -o jsonpath='{range .status.channels[*]}{.name}{"\n"}{end}' 2>/dev/null || echo "NOT FOUND"
+echo
+
+echo "=== openshift-gitops namespace content ==="
+oc get all -n openshift-gitops 2>/dev/null || echo "ns openshift-gitops: not found or empty"
+echo
+
+echo "=== argocd CRs (instances) ==="
+oc get argocd -A 2>/dev/null || echo "argocd CRD missing or no instances"
+echo
+
+echo "=== routes openshift-gitops ==="
+oc get route -n openshift-gitops 2>/dev/null || echo "no routes"
+EOF
+
+chmod +x "$E/step00-gitops-check.sh"
+OUT="$E/step00-gitops-check.txt"
+"$E/step00-gitops-check.sh" | tee "$OUT"
+echo "Wrote: $OUT"
+sed -n '1,200p' "$OUT"
+git status
+git
+git branch
+# Lab50 — netcheck node (step12/step13)
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# Export commandes (filtré) -> session-commands.md
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{ echo "# Commandes — export"; echo; echo "## Historique filtré"; echo; echo '```'; history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])'; echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# Export complet + filtré -> session-commands.md
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# Export HISTFILE -> bash_history_full.txt
+echo "HISTFILE=$HISTFILE"
+history -
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step00-gitops-state.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== WHOAMI / PROJECT ==="; oc whoami; oc project -q; echo;   echo "=== NAMESPACES (gitops) ==="; oc get ns | egrep -i 'openshift-gitops|openshift-gitops-operator|argocd' || true; echo;   echo "=== SUBSCRIPTIONS (gitops/argo) ==="; oc get subscription -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CSV (gitops/argo) ==="; oc get csv -A | egrep -i 'gitops|argo' || true; echo;   echo "=== CRDs (argoproj/argocd) ==="; oc get crd | egrep -i 'argoproj|argocd' || true; echo;   echo "=== ARGOCD INSTANCES ==="; oc get argocd -A 2>/dev/null || true; echo;   echo "=== openshift-gitops OBJECTS ==="; oc get all -n openshift-gitops 2>/dev/null || true; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# voir ce qui a changé
+git status
+git diff --stat
+# ajouter tout ce que tu viens de créer/modifier
+git add -A
+# vérif avant commit
+git status
+git diff --cached --stat
+# commit
+git commit -m "lab50: evidence gitops checks + netcheck + session command exports"
+# push (branche courante)
+git push -u origin HEAD
+sed -n '1,200p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step01-install-gitops-operator.txt"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+OUT="$E/step03-create-myapp-projects.txt"
+(   echo "=== DATE ==="; date; echo;    echo "=== CREATE PROJECTS (myapp-dev / myapp-prod) ===";   oc new-project myapp-dev  || true;   oc new-project myapp-prod || true;   echo;    echo "=== LABEL managed-by (recommended) ===";   oc label ns myapp-dev  argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   oc label ns myapp-prod argocd.argoproj.io/managed-by=openshift-gitops --overwrite;   echo;    echo "=== VERIFY ===";   oc get ns myapp-dev myapp-prod --show-labels; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+OUT="$E/step04-apply-argocd-apps.txt"
+(   echo "=== DATE ==="; date; echo;    echo "=== APPLY APPLICATIONS (Argo CD) ===";   oc apply -f gitops/argocd-apps/application-myapp-dev.yaml  -n openshift-gitops;   oc apply -f gitops/argocd-apps/application-myapp-prod.yaml -n openshift-gitops;   echo;    echo "=== CHECK APPLICATIONS ===";   oc get applications.argoproj.io -n openshift-gitops; ) 2>&1 | tee "$OUT"
+echo "Wrote: $OUT"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+mkdir -p "$E"
+# DEV
+POD_DEV="$(oc get pod -n myapp-dev -o name | head -n1)"
+OUT_DEV="$E/step05-imagepull-debug-myapp-dev.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-dev) ===";   oc -n myapp-dev get deploy myapp-dev-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_DEV"; echo;   echo "=== DESCRIBE POD (myapp-dev) ===";   oc -n myapp-dev describe "$POD_DEV" || true;   echo;   echo "=== EVENTS (myapp-dev) ===";   oc -n myapp-dev get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_DEV"
+echo "Wrote: $OUT_DEV"
+# PROD
+POD_PROD="$(oc get pod -n myapp-prod -o name | head -n1)"
+OUT_PROD="$E/step05-imagepull-debug-myapp-prod.txt"
+(   echo "=== DATE ==="; date; echo;   echo "=== DEPLOY IMAGE (myapp-prod) ===";   oc -n myapp-prod get deploy myapp-prod-myapp-ocp -o jsonpath='{range .spec.template.spec.containers[*]}{.name}{" => "}{.image}{"\n"}{end}' || true;   echo;   echo "=== POD ==="; echo "$POD_PROD"; echo;   echo "=== DESCRIBE POD (myapp-prod) ===";   oc -n myapp-prod describe "$POD_PROD" || true;   echo;   echo "=== EVENTS (myapp-prod) ===";   oc -n myapp-prod get events --sort-by=.lastTimestamp | tail -n 50 || true; ) 2>&1 | tee "$OUT_PROD"
+echo "Wrote: $OUT_PROD"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E="labs/level-5-openshift-gitops-expert/evidence/lab50"
+echo "===== DEV (image + erreurs) ====="
+grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-dev.txt" | tail -n 120
+echo
+echo "===== PROD (image + erreurs) ====="
+grep -nE '=> |Image:|ErrImagePull|ImagePullBackOff|Failed|Back-off|pull|unauthorized|authentication|denied|not found|manifest|x509|tls|timeout|i/o|proxy|dns|dial tcp'   "$E/step05-imagepull-debug-myapp-prod.txt" | tail -n 120
+sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-dev.txt"  | tail -n 220
+sed -n '/=== DEPLOY IMAGE/,/=== EVENTS/p' "labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-prod.txt" | tail -n 220
+git status
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# 1) Force l’affichage (pas de pager)
+GIT_PAGER=cat git status -sb
+# 2) Montre TOUT (même untracked), en format machine
+git status --porcelain=v1 -uall
+# 3) Vérifie que tes fichiers step05 existent et ont du contenu
+ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+GIT_PAGER=cat git status -sb
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+DBG="_debug/git-debug-$(date +%Y%m%d-%H%M%S).txt"
+mkdir -p _debug
+{   echo "DATE: $(date)";   echo "PWD : $(pwd)";   echo "BRANCH: $(git branch --show-current 2>/dev/null || echo '?')";   echo;    echo "== git --version ==";   git --version 2>&1;   echo;    echo "== git status -sb ==";   git --no-pager status -sb 2>&1;   echo;    echo "== git status --porcelain=v1 -uall ==";   git status --porcelain=v1 -uall 2>&1;   echo;    echo "== last commit ==";   git --no-pager log -1 --oneline --decorate 2>&1;   echo;    echo "== step05 files (existence + taille) ==";   ls -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true;   wc -l labs/level-5-openshift-gitops-expert/evidence/lab50/step05-imagepull-debug-myapp-*.txt 2>&1 || true; } > "$DBG"
+echo "WROTE: $DBG"
+notepad.exe "$(cygpath -w "$DBG")"
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+# 1) Ajoute uniquement l'evidence lab50 (et optionnellement le debug)
+git add labs/level-5-openshift-gitops-expert/evidence/lab50
+# Optionnel: garder le debug (sinon ne pas l'ajouter)
+# git add _debug
+# 2) Vérifie
+git status -sb
+git diff --cached --stat
+# 3) Commit
+git commit -m "lab50: gitops operator + namespaces/projects + apps apply + imagepull debug"
+# 4) Push
+git push
+# --- Lab50 : netcheck node (step12/step13) ---
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+E=labs/level-5-openshift-gitops-expert/evidence/lab50
+NODE="$(oc get nodes -o jsonpath='{.items[0].metadata.name}')"
+F="$E/step12-node-netcheck.txt"
+echo "=== step12 lines ==="
+wc -l "$F" 2>/dev/null || true
+tail -n 20 "$F" 2>/dev/null || true
+if [[ "$(wc -l < "$F" 2>/dev/null)" -le 3 ]]; then   echo "=== step13 rerun with winpty ===";   winpty oc debug node/"$NODE" -- bash -lc '
+    echo "--- DATE"; date
+    echo "--- PROXY ENV"; env | egrep -i "http_proxy|https_proxy|no_proxy" || true
+    echo "--- DNS"; getent hosts registry.redhat.io || true
+  '; fi
+# --- Export commandes de session (filtré) ---
+OUT=/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md
+{   echo "# Commandes — export";   echo;   echo "## Historique filtré";   echo;   echo '```';   history | grep -Ei '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# --- Export commandes de session (complet + filtré) ---
+cd /c/workspaces/openshift2026/helm-openshift-roadmap
+OUT="/c/workspaces/openshift2026/helm-openshift-roadmap/session-commands.md"
+history -a
+{   echo "# Commandes — export";   echo;   echo "## Historique complet (history)";   echo;   echo '```bash';   history;   echo '```';   echo;   echo "## Historique filtré (oc/kubectl/helm/argocd/git)";   echo;   echo '```bash';   history | grep -E '(^|[[:space:]])(oc|kubectl|helm|argocd|git)($|[[:space:]])';   echo '```'; } > "$OUT"
+echo "Wrote: $OUT"
+# --- Dump HISTFILE complet ---
+echo "HISTFILE=$HISTFILE"
+history -a
